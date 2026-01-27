@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb232ff5b98b94f48948efe3c71a63d3, type: 3}
+  m_Name: GuestsSettings
+  m_EditorClassIdentifier: Assembly-CSharp::GuestsSettings
+  GuestSpawnRange: {x: 1, y: 4}
+  ObstacleLayer:
+    serializedVersion: 2
+    m_Bits: 72
+  MaxAttemptsPerPawn: 10
+  Radius: 2
+  SecurityRadiusCheck: 1
+  GuestsPool:
+  - {fileID: 824400903376900153, guid: 267b4a731af29644a9df5566b4a2dfd8, type: 3}
+  - {fileID: 824400903376900153, guid: 267b4a731af29644a9df5566b4a2dfd8, type: 3}
+  - {fileID: 824400903376900153, guid: 267b4a731af29644a9df5566b4a2dfd8, type: 3}
+  - {fileID: 824400903376900153, guid: 267b4a731af29644a9df5566b4a2dfd8, type: 3}
+  - {fileID: 97266854541878832, guid: c9cd6ce35cb82634092cc6f297b27620, type: 3}
+  - {fileID: 97266854541878832, guid: c9cd6ce35cb82634092cc6f297b27620, type: 3}
+  - {fileID: 6027401718457927909, guid: 94e1263c11a632d4995a68244d0f232a, type: 3}
+  - {fileID: 6027401718457927909, guid: 94e1263c11a632d4995a68244d0f232a, type: 3}
+  GuestsColors:
+  - {r: 1, g: 0, b: 0, a: 1}
+  - {r: 0, g: 1, b: 0.05740881, a: 1}
+  - {r: 0, g: 0.0184803, b: 1, a: 1}
+  - {r: 1, g: 0.7466958, b: 0, a: 1}

@@ -13,7 +13,7 @@ public class MessageController : MonoBehaviour
     [SerializeField] private MessageSettings _settings;
 
     //=== Crowd References ===//
-    private List<CrowdLink> _crowdLinks = new();
+    private Dictionary<Color, CrowdLink> _crowdLinks = new();
     private List<Crowd> _availableCrowds = new();
 
     //=== Color References ===//
@@ -38,7 +38,7 @@ public class MessageController : MonoBehaviour
             return;
         }
 
-        _availableColors = _settings.CircleColor;
+        _availableColors = new List<Color>(_settings.CircleColor);
     }
 
     public void GetCrowds(List<Crowd> crowds)
@@ -67,11 +67,39 @@ public class MessageController : MonoBehaviour
         sender.EnableSender(circleColor);
         receiver.EnableReciver(circleColor);
 
-        _crowdLinks.Add(new CrowdLink
+        _crowdLinks.Add(circleColor, new CrowdLink
         {
             Sender = sender,
             Receiver = receiver,
             CircleColor = circleColor
         });
+
+        receiver.OnInteracionComplete += (color) => { HandleMessageTaskCompleted(color); };
+
+    }
+
+    private void HandleMessageTaskCompleted(Color color)
+    {
+        if (_crowdLinks.ContainsKey(color))
+        {
+            var tmpSender = _crowdLinks[color].Sender;
+            tmpSender.ResetCrowd();
+
+
+            var tmpReciver = _crowdLinks[color].Receiver;
+            tmpReciver.ResetCrowd();
+
+            var tmpColor = _crowdLinks[color].CircleColor;
+
+            if (_availableCrowds.Contains(tmpReciver) == false)
+                _availableCrowds.Add(tmpReciver);
+            if (_availableCrowds.Contains(tmpSender) == false)
+                _availableCrowds.Add(tmpSender);
+            if(_availableColors.Contains(tmpColor) == false)
+                _availableColors.Add(tmpColor);
+
+            _crowdLinks.Remove(color);
+        }
+
     }
 }

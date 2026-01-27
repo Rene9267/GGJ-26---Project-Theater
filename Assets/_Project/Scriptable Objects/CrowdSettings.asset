@@ -19,5 +19,7 @@ MonoBehaviour:
   CrowdSize: {x: 2, y: 4}
   ObstacleLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 128
   MaxAttemptsPerPawn: 10
+  RotationSpeed: 100
+  Clockwise: 1

@@ -41,7 +41,7 @@ public class CrowdSpawner : MonoBehaviour
 
             GameObject crowd = Instantiate(_crowdObject, spawnPoint, Quaternion.identity, _crowdFather);
 
-            crowd.TryGetComponent<Crowd>(out Crowd crowdComponent);
+            crowd.TryGetComponent(out Crowd crowdComponent);
             if (crowdComponent != null)
             {
                 crowdComponent.SpawnGuests();

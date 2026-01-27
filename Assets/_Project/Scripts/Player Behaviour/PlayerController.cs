@@ -1,44 +1,82 @@
 using System.Collections;
 using UnityEngine;
 
+public struct Message
+{
+    public Color MessageColor;
+}
+
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private PlayerSettings _playerSettings;
-    
+
     private CharacterController _controller;
     private Vector3 _moveDirection;
     private bool _isStunned;
     private bool isSprinting => Input.GetKey(KeyCode.LeftShift);
     private bool _isInvulnerable;
+    private bool _canInteract;
 
+    public Message ActualMessage;
+
+    public Color GuestFamilyColor = Color.clear;
+    private IInteractable _currentInteractable;
 
     private void OnValidate()
     {
         if (_playerSettings == null)
         {
 #if UNITY_EDITOR
-            Debug.LogWarning("PlayerSettings ScriptableObject is not assigned in PlayerMovement.");
+            Debug.LogWarning("[Player]: PlayerSettings ScriptableObject is not assigned in PlayerMovement.");
 #endif
         }
     }
 
     private void Awake()
     {
-        if(TryGetComponent<CharacterController>(out _controller) == false)
+        if (TryGetComponent<CharacterController>(out _controller) == false)
         {
 #if UNITY_EDITOR
-            Debug.LogError("PlayerInput component missing from the player object.");
+            Debug.LogError("[Player]: PlayerInput component missing from the player object.");
 #endif
         }
+
+        ActualMessage = new Message();
+        ActualMessage.MessageColor = Color.clear;
     }
 
-    private void Update() 
+    private void Update()
     {
         if (_isStunned) return;
 
+        if (_canInteract && _currentInteractable != null && Input.GetKeyDown(KeyCode.E))
+        {
+            Debug.Log("[Player]: Voglio Interagire");
+
+            switch (_currentInteractable.InteactableType)
+            {
+                case InteractType.MessageReciver:
+                    ActualMessage.MessageColor = Color.clear;
+                    break;
+                case InteractType.MessageSender:
+                    ActualMessage.MessageColor = _currentInteractable.MyInteractionColor;
+                    break;
+                case InteractType.TakeGuest:
+                    GuestFamilyColor = _currentInteractable.MyInteractionColor;
+                    break;
+                case InteractType.DrobGuest:
+                    GuestFamilyColor = Color.clear;
+                    break;
+
+            }
+
+            Debug.Log("[Player]: Ho Interatto");
+            _currentInteractable.Interact();
+        }
+
         float x = Input.GetAxisRaw("Horizontal");
         float z = Input.GetAxisRaw("Vertical");
-        Vector3 input = new Vector3(x, 0, z).normalized;
+        Vector3 input = new Vector3(-x, 0, -z).normalized;
 
         if (input.magnitude >= 0.1f)
         {
@@ -66,12 +104,25 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void OnInteractionAreaEnter(IInteractable area)
+    {
+        _canInteract = true;
+        _currentInteractable = area;
+    }
+
+    public void OnInteractionAreaExit()
+    {
+        _canInteract = false;
+        _currentInteractable = null;
+    }
+
+
     private IEnumerator StunRoutine()
     {
         _isStunned = true;
 
 #if UNITY_EDITOR
-        Debug.Log("Sbattuto contro uno spettatore");
+        Debug.Log("[Player]: Sbattuto contro uno spettatore");
 #endif
         yield return new WaitForSeconds(2f);
 
@@ -84,13 +135,10 @@ public class PlayerController : MonoBehaviour
         _isInvulnerable = true;
 
 #if UNITY_EDITOR
-        Debug.Log("Sono Invulnerabile");
+        Debug.Log("[Player]: Sono Invulnerabile");
 #endif
         yield return new WaitForSeconds(2f);
 
         _isInvulnerable = false;
     }
-
-
-
 }

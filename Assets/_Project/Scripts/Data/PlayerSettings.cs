@@ -14,4 +14,6 @@ public class PlayerSettings : ScriptableObject
 
     [Header("Interaction Settings")]
     public string StunGuestTag = "Guest";
+    public LayerMask _InteractionLayer;
+
 }
