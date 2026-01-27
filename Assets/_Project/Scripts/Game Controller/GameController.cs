@@ -5,6 +5,7 @@ public class GameController : MonoBehaviour
   [SerializeField] private GuestController _guestController;
   [SerializeField] private LightController _lightController;
   [SerializeField] private MessageController _messageController;
+    [SerializeField] private CrowdSpawner _crowdSpawner;
 
     private void OnValidate()
     {
@@ -21,4 +22,13 @@ public class GameController : MonoBehaviour
             Debug.LogWarning("MessageController is not assigned in GameController.");
         }
     }
+
+    private void Start()
+    {
+        var crowds = _crowdSpawner.InitializeCrowds();
+        _messageController.GetCrowds(crowds);
+    }
+
+
+
 }

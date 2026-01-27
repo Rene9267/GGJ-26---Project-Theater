@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4db76a5249c57e54cab6a098b4fb3c00, type: 3}
+  m_Name: CrowdSettings
+  m_EditorClassIdentifier: Assembly-CSharp::CrowdSettings
+  SpawnableGuest:
+  - {fileID: 7266559379325583081, guid: f129ca6200a50284faeea45e74df11d9, type: 3}
+  Radius: 2
+  SecurityRadiusCheck: 1
+  CrowdSize: {x: 2, y: 4}
+  ObstacleLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  MaxAttemptsPerPawn: 10

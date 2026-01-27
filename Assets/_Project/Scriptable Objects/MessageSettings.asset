@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e56fc682ba1b4444b5973ac3b665947, type: 3}
+  m_Name: MessageSettings
+  m_EditorClassIdentifier: Assembly-CSharp::MessageSettings
+  CircleColor:
+  - {r: 0, g: 0.5169811, b: 0.0052754385, a: 1}
+  - {r: 0.6603774, g: 0.5181141, b: 0, a: 1}
+  - {r: 0.4641509, g: 0, b: 0, a: 1}
+  - {r: 0.554717, g: 0, b: 0.42859483, a: 1}
+  - {r: 0.022007134, g: 0, b: 0.5773585, a: 1}
+  - {r: 0, g: 0.62224144, b: 0.6301887, a: 1}
+  - {r: 0.6150943, g: 0.319695, b: 0, a: 1}
+  - {r: 0.5622641, g: 0.48310682, b: 0, a: 1}
+  - {r: 0.31221274, g: 0, b: 0.6603774, a: 1}

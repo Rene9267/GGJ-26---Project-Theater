@@ -1,50 +1,96 @@
+using System.Collections;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private PlayerSettings _playerSettings;
     
-    private PlayerInput _playerInput;
-    private Rigidbody _rb;
-    private Vector2 moveInput;
-    private bool isSprinting => _playerInput.actions["Run"].IsPressed();
+    private CharacterController _controller;
+    private Vector3 _moveDirection;
+    private bool _isStunned;
+    private bool isSprinting => Input.GetKey(KeyCode.LeftShift);
+    private bool _isInvulnerable;
+
 
     private void OnValidate()
     {
         if (_playerSettings == null)
         {
+#if UNITY_EDITOR
             Debug.LogWarning("PlayerSettings ScriptableObject is not assigned in PlayerMovement.");
+#endif
         }
     }
 
     private void Awake()
     {
-        if (TryGetComponent<Rigidbody>(out _rb) == false)
+        if(TryGetComponent<CharacterController>(out _controller) == false)
         {
-            Debug.LogError("Rigidbody component missing from the player object.");
-        }
-        if(TryGetComponent<PlayerInput>(out var _playerInput) == false)
-        {
+#if UNITY_EDITOR
             Debug.LogError("PlayerInput component missing from the player object.");
+#endif
         }
     }
 
     private void Update() 
     {
-        moveInput = _playerInput.actions["Move"].ReadValue<Vector2>();
+        if (_isStunned) return;
+
+        float x = Input.GetAxisRaw("Horizontal");
+        float z = Input.GetAxisRaw("Vertical");
+        Vector3 input = new Vector3(x, 0, z).normalized;
+
+        if (input.magnitude >= 0.1f)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(input);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, _playerSettings.RotationSpeed * Time.deltaTime);
+
+            float currentSpeed = _playerSettings.MoveSpeed * (isSprinting ? _playerSettings.SprintMultiplier : 1f);
+            _moveDirection = input * currentSpeed;
+        }
+        else
+        {
+            _moveDirection = Vector3.zero;
+        }
+
+        Vector3 finalVelocity = _moveDirection + (Physics.gravity * 0.5f);
+        _controller.Move(finalVelocity * Time.deltaTime);
     }
 
-    void FixedUpdate()
-    {
-        // Movimento basato sulla fisica
-        Vector3 movement = new Vector3(moveInput.x, 0, moveInput.y);
-        _rb.MovePosition(_rb.position + movement * _playerSettings.MoveSpeed * Time.fixedDeltaTime * (isSprinting ? _playerSettings.SprintMultiplier : 1f));
 
-        if (movement != Vector3.zero)
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        if (hit.gameObject.CompareTag(_playerSettings.StunGuestTag) && !_isStunned && !_isInvulnerable)
         {
-            transform.forward = movement;
+            StartCoroutine(StunRoutine());
         }
     }
+
+    private IEnumerator StunRoutine()
+    {
+        _isStunned = true;
+
+#if UNITY_EDITOR
+        Debug.Log("Sbattuto contro uno spettatore");
+#endif
+        yield return new WaitForSeconds(2f);
+
+        StartCoroutine(Invulnerableroutine());
+        _isStunned = false;
+    }
+
+    private IEnumerator Invulnerableroutine()
+    {
+        _isInvulnerable = true;
+
+#if UNITY_EDITOR
+        Debug.Log("Sono Invulnerabile");
+#endif
+        yield return new WaitForSeconds(2f);
+
+        _isInvulnerable = false;
+    }
+
+
 
 }
