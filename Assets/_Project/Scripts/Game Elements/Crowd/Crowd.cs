@@ -159,7 +159,7 @@ public class Crowd : MonoBehaviour
             await UniTask.Delay(halfTime, cancellationToken: cts);
             TaskFailed();
         }
-        catch (System.OperationCanceledException)
+        catch (OperationCanceledException)
         {
 
         }
@@ -170,10 +170,20 @@ public class Crowd : MonoBehaviour
         OnTaskFailed?.Invoke(_myColor);
         StopInteraction();
     }
+    
     private void CompleteMessageTask()
     {
-        _cts?.Cancel();
-        _cts?.Dispose();
+        if (_cts == null) return;
+
+        try
+        {
+            _cts.Cancel();
+        }
+        finally
+        {
+            _cts.Dispose();
+            _cts = null;
+        }
     }
 
     public void StopInteraction()

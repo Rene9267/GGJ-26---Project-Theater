@@ -10,9 +10,13 @@ public class GameController : MonoBehaviour
 
     [Header("Core References")]
     [SerializeField] private GuestController _guestController;
-    [SerializeField] private LightController _lightController;
+    [SerializeField] private CandleController _candleController;
     [SerializeField] private MessageController _messageController;
     [SerializeField] private CrowdSpawner _crowdSpawner;
+    [SerializeField] private GlobalUIController _uiController;
+
+
+    [Header("UI References")]
 
     private int _remainingGuests;
     private float _elapsedTime;
@@ -29,29 +33,34 @@ public class GameController : MonoBehaviour
             Debug.LogWarning("Opera Settings is not assigned in GameController.");
         if (_guestController == null)
             Debug.LogWarning("GuestController is not assigned in GameController.");
-        if (_lightController == null)
+        if (_candleController == null)
             Debug.LogWarning("LightController is not assigned in GameController.");
         if (_messageController == null)
             Debug.LogWarning("MessageController is not assigned in GameController.");
         if (_crowdSpawner == null)
             Debug.LogWarning("CrowdSpawner is not assigned in GameController.");
+        if (_uiController == null)
+            DevLog.LogWarning($"[{this.gameObject}]: GlobalUIController is not assigned");
     }
 
     private void OnEnable()
     {
         _guestController.OnGuestDropped += HandleGuestDrop;
         _messageController.OnTaskFailed += HandleMessageFail;
+        _candleController.OnDarkRise += HandleDarkRise;
     }
 
     private void OnDisable()
     {
         _guestController.OnGuestDropped -= HandleGuestDrop;
         _messageController.OnTaskFailed -= HandleMessageFail;
+        _candleController.OnDarkRise += HandleDarkRise;
     }
 
     private void Awake()
     {
         _remainingGuests = _settings.InitialPublic;
+        _uiController.SetPeopleNumber(_remainingGuests);
     }
 
     private void Start()
@@ -107,7 +116,7 @@ public class GameController : MonoBehaviour
     }
     private void SpawnGuest() => _guestController.CreateGuestDirection();
     private void SpawnMessage() => _messageController.CreateCrowdLink();
-    private void SpawnLight() => Debug.Log("Spawning Light...");
+    private void SpawnLight() => _candleController.TurnOffACandle();
     private void StartOpera() => _isOperaRunning = true;
     private void EndOpera()
     {
@@ -117,29 +126,35 @@ public class GameController : MonoBehaviour
 
     private void HandleGuestDrop(int guestDroppedDount)
     {
-        if(guestDroppedDount>0)
+        if (guestDroppedDount > 0)
         {
-            _remainingGuests += guestDroppedDount;
+            ChangeTotlaGuest(guestDroppedDount);
         }
     }
 
     private void HandleMessageFail()
     {
-        DecreaseTotalGuest(5);
+        ChangeTotlaGuest(_settings.MessageFailTask);
     }
 
-    private void DecreaseTotalGuest(int decreaseValue)
+    private void ChangeTotlaGuest(int value)
     {
-        if(decreaseValue > 0)
+        if (value != 0)
         {
-            _remainingGuests -= decreaseValue;
-            if(_remainingGuests<= 0)
+            _remainingGuests += value;
+            _uiController.SetPeopleNumber(_remainingGuests);
+            if (_remainingGuests <= 0)
             {
                 EndOpera();
             }
         }
     }
 
-    #endregion
+    void HandleDarkRise()
+    {
+        ChangeTotlaGuest(_settings.DarkIsRising);
+        DevLog.Log($"[{this.gameObject}]: Sto decrementando il valore degli spettatori di {1}, rimanenti: {_remainingGuests}");
+    }
 
+    #endregion
 }

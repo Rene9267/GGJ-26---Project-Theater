@@ -12,16 +12,22 @@ public class GuestsSettings : ScriptableObject
     public float Radius = 1f;
     public float SecurityRadiusCheck = 1f;
 
-
     [Header("Visual Settings")]
     [Tooltip("Quali Guest Sono messi nella Pool")]
     public List<GameObject> GuestsPool = new();
-
     [Tooltip("Elenco di colori delle famiglie dei Guests")]
     public List<Color> GuestsColors = new();
+
+    public List<Sprite> ExitAreaDirectionImages;
+    public List<Sprite> ExitAreaBaseImages;
 
 
     [Header("Message Area Settings")]
     public float RotationSpeed = 100f;
     public bool Clockwise = true;
+
+    [Header("Guest Task Settings")]
+    public int TimeToExit;
+    public int GuestRunAwayTimer;
+
 }

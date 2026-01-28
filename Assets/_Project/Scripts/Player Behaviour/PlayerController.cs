@@ -51,7 +51,7 @@ public class PlayerController : MonoBehaviour
 
         if (_canInteract && _currentInteractable != null && Input.GetKeyDown(KeyCode.E))
         {
-            Debug.Log("[Player]: Voglio Interagire");
+            DevLog.Log($"[{ this.gameObject}]: Sto interagendo con {_currentInteractable}");
 
             switch (_currentInteractable.InteactableType)
             {
@@ -67,10 +67,12 @@ public class PlayerController : MonoBehaviour
                 case InteractType.DrobGuest:
                     GuestFamilyColor = Color.clear;
                     break;
-
+                case InteractType.Candle:
+                //Animation
+                break;
             }
 
-            Debug.Log("[Player]: Ho Interatto");
+            DevLog.Log($"[{this.gameObject}]: Ho interagito con {_currentInteractable}");
             _currentInteractable.Interact();
         }
 

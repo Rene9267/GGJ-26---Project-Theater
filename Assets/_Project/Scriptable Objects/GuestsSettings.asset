@@ -29,7 +29,21 @@ MonoBehaviour:
   - {fileID: 6027401718457927909, guid: 94e1263c11a632d4995a68244d0f232a, type: 3}
   - {fileID: 6027401718457927909, guid: 94e1263c11a632d4995a68244d0f232a, type: 3}
   GuestsColors:
+  - {r: 0.8078432, g: 0.31764707, b: 0.03529412, a: 1}
   - {r: 1, g: 0, b: 0, a: 1}
+  - {r: 0.078431375, g: 0.18039216, b: 0.37647063, a: 1}
   - {r: 0, g: 1, b: 0.05740881, a: 1}
-  - {r: 0, g: 0.0184803, b: 1, a: 1}
-  - {r: 1, g: 0.7466958, b: 0, a: 1}
+  ExitAreaDirectionImages:
+  - {fileID: 21300000, guid: 4251080a0f6cfb24b80d501799ffd7b9, type: 3}
+  - {fileID: 21300000, guid: b51873d57160f2f468c32166074fdd9d, type: 3}
+  - {fileID: 21300000, guid: 4ab87debd3a511b479a061710cef69e7, type: 3}
+  - {fileID: 21300000, guid: a1e2406f0d0841446aa387e131065c66, type: 3}
+  ExitAreaBaseImages:
+  - {fileID: 21300000, guid: 2bc2ea15af5ac674caa88c87b8837b11, type: 3}
+  - {fileID: 21300000, guid: aafb24ecd241311478b7cefaca2db44a, type: 3}
+  - {fileID: 21300000, guid: aa1c3f1b9f3eb6f439ef38dbd53b2dbe, type: 3}
+  - {fileID: 21300000, guid: c400d085ac0fa7d4e854c15775283af3, type: 3}
+  RotationSpeed: 100
+  Clockwise: 1
+  TimeToExit: 10000
+  GuestRunAwayTimer: 15000

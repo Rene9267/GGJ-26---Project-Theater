@@ -9,12 +9,15 @@ public class FollowerGuestInteractionArea : MonoBehaviour, IInteractable
     [SerializeField] private GameObject _directionIcon;
     [SerializeField] private GameObject _interactionIcon;
     [SerializeField] private Image _areaImage;
+    [SerializeField] private GameObject _HurryUpIcon;
 
     public InteractType InteactableType { get; set; }
     public Color MyInteractionColor { get; private set; }
     public event Action OnPlayerEntered;
     public event Action OnPlayerExited;
-    public event Action<PlayerController> OnInteract;
+    public event Action<PlayerController> OnAreaExit;
+    public event Action OnInteract;
+
     private PlayerController _playerElement;
     private Coroutine _rotationCoroutine;
     private bool isGrabbed = false;
@@ -34,8 +37,7 @@ public class FollowerGuestInteractionArea : MonoBehaviour, IInteractable
         _areaImage.color = MyInteractionColor;
         _areaImage.gameObject.SetActive(true);
 
-        if (_rotationCoroutine == null)
-            _rotationCoroutine = StartCoroutine(AreaImageRotate(rotationSpeed, clockwise));
+        _rotationCoroutine ??= StartCoroutine(AreaImageRotate(rotationSpeed, clockwise));
 
         _directionIcon.SetActive(true);
         //DEBUG
@@ -54,6 +56,7 @@ public class FollowerGuestInteractionArea : MonoBehaviour, IInteractable
         _areaImage.color = MyInteractionColor;
         _areaImage.gameObject.SetActive(false);
         _directionIcon.SetActive(false);
+        _HurryUpIcon.SetActive(false);
     }
 
 
@@ -110,12 +113,25 @@ public class FollowerGuestInteractionArea : MonoBehaviour, IInteractable
         }
 
         isGrabbed = true;
+        _areaImage.gameObject.SetActive(false);
+        if (_rotationCoroutine != null)
+        {
+            StopCoroutine(_rotationCoroutine);
+            _rotationCoroutine = null;
+        }
+        
+        OnInteract?.Invoke();
+    }
+
+
+    public void HurryUp()
+    {
+        _HurryUpIcon.SetActive(true);
     }
 
     private void AreaExitAndFollow()
     {
-        OnInteract?.Invoke(_playerElement);
-        _areaImage.gameObject.SetActive(false);
+        OnAreaExit?.Invoke(_playerElement);
         _directionIcon.SetActive(false);
     }
 }

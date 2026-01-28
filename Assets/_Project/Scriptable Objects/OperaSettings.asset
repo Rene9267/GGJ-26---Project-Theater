@@ -15,7 +15,7 @@ MonoBehaviour:
   InitialPublic: 200
   OperaDurationSeconds: 120
   GuestActivationThreshold: 0
-  MessageActivationThreshold: 0.36
+  MessageActivationThreshold: 0.4
   CandleActivationThreshold: 0.6
   guestSpawnInterval:
     serializedVersion: 2
@@ -88,7 +88,7 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 2
+      value: 15
       inSlope: 0
       outSlope: 0
       tangentMode: 136
@@ -98,6 +98,15 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0.6
       value: 10
+      inSlope: -10
+      outSlope: -10
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 5
       inSlope: 0
       outSlope: 0
       tangentMode: 136
@@ -107,3 +116,5 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  MessageFailTask: -10
+  DarkIsRising: -7

@@ -11,15 +11,15 @@ public class CrowdInteractionArea : MonoBehaviour, IInteractable
 {
 
     [Header("UI Icon")]
-    [SerializeField] private List<GameObject> _messageIcons;
-    private GameObject _actualMessageIcon;
-
-
-    [SerializeField] private GameObject _reciverIcon;
-    [SerializeField] private GameObject _interactionIcon;
+    [SerializeField] private List<Sprite> _messageIcons;
+    [SerializeField] private InteractionDynamicIcon interactionDynamicIcon;
+    [SerializeField] private DirectionIcon _hurryUpIcon;
+    [SerializeField] private Sprite _reciverIcon;
+    [SerializeField] private Sprite _reciverIconBackground;
+    [SerializeField] private Sprite _sanderIconBackground;
     [SerializeField] private Image _areaImage;
 
-    public InteractType InteactableType { get; set; }
+    public InteractType InteactableType { get; private set; }
 
     public event Action OnPlayerEntered;
     public event Action OnPlayerExited;
@@ -36,21 +36,22 @@ public class CrowdInteractionArea : MonoBehaviour, IInteractable
             Debug.LogWarning("Area Image ref is missing");
         }
     }
-    
+
+    void Awake()
+    {
+        _areaImage.gameObject.SetActive(false);
+        interactionDynamicIcon.gameObject.SetActive(false);
+        if (_hurryUpIcon != null)
+            _hurryUpIcon.gameObject.SetActive(false);
+    }
+
     public void ResetArea()
     {
         InteactableType = InteractType.None;
         MyInteractionColor = Color.clear;
 
-        foreach (var icon in _messageIcons)
-        {
-            if (icon != null) icon.SetActive(false);
-        }
-
-        if (_reciverIcon != null)
-        {
-            _reciverIcon.SetActive(false);
-        }
+        interactionDynamicIcon.SetActiveInteractionIcon(false);
+        interactionDynamicIcon.gameObject.SetActive(false);
 
         if (_areaImage != null)
         {
@@ -63,21 +64,22 @@ public class CrowdInteractionArea : MonoBehaviour, IInteractable
         InteactableType = type;
         _areaImage.color = color;
         MyInteractionColor = color;
-
+        _areaImage.gameObject.SetActive(true);
         if (InteactableType == InteractType.MessageSender)
         {
             int randomIconIndex = Random.Range(0, _messageIcons.Count);
-            _actualMessageIcon = _messageIcons[randomIconIndex];
-            _actualMessageIcon.SetActive(true);
+            interactionDynamicIcon.ChangableImage.sprite = _messageIcons[randomIconIndex];
+            interactionDynamicIcon.BackgroundImage.sprite = _sanderIconBackground;
+            interactionDynamicIcon.gameObject.SetActive(true);
+            interactionDynamicIcon.SetActiveInteractionIcon(false);
         }
         else if (InteactableType == InteractType.MessageReciver)
         {
-            _reciverIcon.SetActive(true);
-            _actualMessageIcon = _reciverIcon;
+            interactionDynamicIcon.ChangableImage.sprite = _reciverIcon;
+            interactionDynamicIcon.BackgroundImage.sprite = _reciverIconBackground;
+            interactionDynamicIcon.gameObject.SetActive(true);
+            interactionDynamicIcon.SetActiveInteractionIcon(false);
         }
-
-        //DEBUG
-        _actualMessageIcon.GetComponent<MeshRenderer>().material.color = color;
     }
 
     public IEnumerator AreaImageRotate(float rotationSpeed, bool clockwise = true)
@@ -90,24 +92,25 @@ public class CrowdInteractionArea : MonoBehaviour, IInteractable
             yield return null;
         }
     }
-   
+
     public void HurryUp()
     {
-        //Temporaneo
-        _actualMessageIcon.GetComponent<MeshRenderer>().material.color = Color.bisque;
+        if (_hurryUpIcon != null)
+            _hurryUpIcon.gameObject.SetActive(true);
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.TryGetComponent<PlayerController>(out var player))
         {
-            Debug.Log($"[Crowd Interaction Area]: Qualcuno è entrato{other.name}");
+            DevLog.Log($"[Crowd Interaction Area]: Qualcuno è entrato{other.name}");
             if (InteactableType == InteractType.MessageReciver && player.ActualMessage.MessageColor == MyInteractionColor
             || InteactableType == InteractType.MessageSender && player.ActualMessage.MessageColor == Color.clear)
             {
                 OnPlayerEntered?.Invoke();
                 player.OnInteractionAreaEnter(this);
-                Debug.Log("[Crowd Interaction Area]: Player Entrato in me");
+                interactionDynamicIcon.SetActiveInteractionIcon(true);
+                DevLog.Log("[Crowd Interaction Area]: Player Entrato in me");
             }
         }
     }
@@ -118,7 +121,8 @@ public class CrowdInteractionArea : MonoBehaviour, IInteractable
         {
             player.OnInteractionAreaExit();
             OnPlayerExited?.Invoke();
-            Debug.Log("[Crowd Interaction Area]: Player Uscito da me");
+            interactionDynamicIcon.SetActiveInteractionIcon(false);
+            DevLog.Log("[Crowd Interaction Area]: Player Uscito da me");
         }
     }
 
@@ -128,12 +132,16 @@ public class CrowdInteractionArea : MonoBehaviour, IInteractable
 
         if (InteactableType == InteractType.MessageSender)
         {
-            _actualMessageIcon.SetActive(false);
+            if(_hurryUpIcon!= null)
+            _hurryUpIcon.gameObject.SetActive(false);
             OnMessageTake?.Invoke();
         }
         else if (InteactableType == InteractType.MessageReciver)
         {
             OnInteract?.Invoke();
         }
+
+        interactionDynamicIcon.SetActiveInteractionIcon(false);
+        interactionDynamicIcon.gameObject.SetActive(false);
     }
 }

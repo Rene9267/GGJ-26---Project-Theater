@@ -3,7 +3,32 @@ guid: bf1b935c4e71a174b9ba8b441e9eb07a
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: colonne arco facciata divisore
+    second: {fileID: 2100000, guid: e0695eb89c5add94990cb605ab78d067, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: corona re
+    second: {fileID: 2100000, guid: da22ef6e07e4f7c48933024daf37f0c3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: divisori loggette e sedie
+    second: {fileID: 2100000, guid: b488bbb4181894f468eb0f339fb984c9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: pavimento e palco
+    second: {fileID: 2100000, guid: 0fc38cf6bd9b8b04d9b403f8da4f92ae, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: piani loggette
+    second: {fileID: 2100000, guid: b4f8080b430356e42b8898894afd7b97, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

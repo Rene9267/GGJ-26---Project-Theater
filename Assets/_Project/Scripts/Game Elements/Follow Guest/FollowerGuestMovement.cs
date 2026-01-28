@@ -29,7 +29,8 @@ public class FollowerGuestMovement : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody>();
 
-        _rb.useGravity = false; 
+        _rb.useGravity = false;
+        _rb.isKinematic = true;
         _rb.linearDamping = 0;  
         _rb.interpolation = RigidbodyInterpolation.Interpolate;
     }
@@ -98,6 +99,7 @@ public class FollowerGuestMovement : MonoBehaviour
     public void SetUpTarget(Transform target)
     {
         _target = target;
+        _rb.isKinematic = false;
     }
 
 

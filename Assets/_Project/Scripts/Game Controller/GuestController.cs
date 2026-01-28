@@ -1,9 +1,17 @@
 using System;
 using System.Collections.Generic;
-using UnityEditor;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
+
+struct ExitInfo
+{
+    public Color color;
+    public Sprite direction;
+    public Sprite background;
+}
 
 public class GuestController : MonoBehaviour
 {
@@ -11,6 +19,7 @@ public class GuestController : MonoBehaviour
     [SerializeField] private FollowerGuestInteractionArea _guestInteractionArea;
     [SerializeField] private List<FollowerGuestExitArea> _guestInteractionExitAreas = new();
     [SerializeField] private Transform _guestSpwanTransform;
+
 
     private Dictionary<Color, List<FollowerGuest>> _activeGuests = new Dictionary<Color, List<FollowerGuest>>();
     private Dictionary<Color, FollowerGuestExitArea> _guestInteractionExitAreasDic = new Dictionary<Color, FollowerGuestExitArea>();
@@ -20,6 +29,9 @@ public class GuestController : MonoBehaviour
     private bool _isSpawnAreaFree = true;
     private List<FollowerGuest> _lastSpawnedGuests;
     public event Action<int> OnGuestDropped;
+    private CancellationTokenSource _cts;
+    public event Action OnTaskFailed;
+
 
     void OnValidate()
     {
@@ -33,7 +45,8 @@ public class GuestController : MonoBehaviour
     {
         if (_guestInteractionArea != null)
         {
-            _guestInteractionArea.OnInteract -= HandlePlayerGrabGuest;
+            _guestInteractionArea.OnAreaExit -= HandlePlayerExitGrabArea;
+            _guestInteractionArea.OnInteract -= HandlePlayerGrabGuests;
         }
         foreach (FollowerGuestExitArea exitArea in _guestInteractionExitAreas)
         {
@@ -54,28 +67,37 @@ public class GuestController : MonoBehaviour
             tmpGuest.SetActive(false);
             _guestPool.Add(tmpGuest);
         }
-       
+
         _guestInteractionExitAreasDic ??= new();
-        
+
         _availableGuestsColor = new List<Color>(_settings.GuestsColors);
     }
 
     void Start()
     {
-        Queue<Color> shuffledQueue = new();
-        ShuffleAndEnqueue(_availableGuestsColor, shuffledQueue);
-        
+        Queue<ExitInfo> shuffledQueue = new();
+        List<ExitInfo> tmpList = new();
+        for(int i = 0; i< _availableGuestsColor.Count; i++)
+        {
+            tmpList.Add(new ExitInfo
+            {
+                color = _availableGuestsColor[i],
+                background = _settings.ExitAreaBaseImages[i],
+                direction = _settings.ExitAreaDirectionImages[i]
+            });
+        }
+        ShuffleAndEnqueue(tmpList, shuffledQueue);
+
         foreach (FollowerGuestExitArea exitArea in _guestInteractionExitAreas)
         {
-            Color tmpColor = shuffledQueue.Dequeue();
-            exitArea.SetUpInteractionArea(tmpColor);
+            var ExitInfo = shuffledQueue.Dequeue();
+            exitArea.SetUpInteractionArea(ExitInfo.color, ExitInfo.direction, ExitInfo.background);
             exitArea.OnInteract += HandlePlayerDropGuest;
-            Debug.Log($"Creato elemento del dictionary: {tmpColor}, {exitArea}");
-            _guestInteractionExitAreasDic.Add(tmpColor, exitArea);
+            _guestInteractionExitAreasDic.Add(ExitInfo.color, exitArea);
         }
     }
 
-    public void ShuffleAndEnqueue(List<Color> list, Queue<Color> queue)
+    private void ShuffleAndEnqueue(List<ExitInfo> list, Queue<ExitInfo> queue)
     {
         System.Random rng = new();
         int n = list.Count;
@@ -89,7 +111,7 @@ public class GuestController : MonoBehaviour
         }
 
         queue.Clear();
-        foreach (Color item in list)
+        foreach (var item in list)
         {
             queue.Enqueue(item);
         }
@@ -100,13 +122,15 @@ public class GuestController : MonoBehaviour
     {
         if (_guestInteractionArea == null || _availableGuestsColor == null || _availableGuestsColor.Count == 0)
         {
-            Debug.LogError("[Guest Controller]: Impossibile generare. Area mancante o Colori terminati.");
+            DevLog.LogError("[Guest Controller]: Impossibile generare. Area mancante o Colori terminati.");
             return;
         }
 
         if (_isSpawnAreaFree == false) return;
 
-        _guestInteractionArea.OnInteract -= HandlePlayerGrabGuest;
+        _cts = new CancellationTokenSource();
+        _guestInteractionArea.OnAreaExit -= HandlePlayerExitGrabArea;
+        _guestInteractionArea.OnInteract -= HandlePlayerGrabGuests;
 
         int randomGuestFamilyColor = Random.Range(0, _availableGuestsColor.Count);
         var tmpColor = _availableGuestsColor[randomGuestFamilyColor];
@@ -120,7 +144,9 @@ public class GuestController : MonoBehaviour
             _availableGuestsColor.RemoveAt(randomGuestFamilyColor);
         }
 
-        _guestInteractionArea.OnInteract += HandlePlayerGrabGuest;
+        _guestInteractionArea.OnAreaExit += HandlePlayerExitGrabArea;
+        _guestInteractionArea.OnInteract += HandlePlayerGrabGuests;
+        GuestArriveTimerStart(_settings.TimeToExit, _cts.Token);
     }
 
     private void SpawnGuests(Color color)
@@ -181,6 +207,17 @@ public class GuestController : MonoBehaviour
         }
     }
 
+    private void HandlePlayerGrabGuests()
+    {
+        if (_guestInteractionExitAreasDic.ContainsKey(_guestInteractionArea.MyInteractionColor))
+        {
+            DevLog.Log("Il mio colore è attivo");
+            _guestInteractionExitAreasDic[_guestInteractionArea.MyInteractionColor].EnableDirectionIcon();
+        }
+
+        CompleteGuestTask();
+    }
+
     private void HandlePlayerDropGuest(Color colorID)
     {
         if (colorID == null)
@@ -210,29 +247,105 @@ public class GuestController : MonoBehaviour
         OnGuestDropped?.Invoke(guestDroppedCount);
     }
 
-    private void HandlePlayerGrabGuest(PlayerController player)
+    private void HandlePlayerExitGrabArea(PlayerController player)
     {
         if (player == null || _lastSpawnedGuests == null) return;
 
         var followTarget = player.gameObject.transform;
-        foreach (var guest in _lastSpawnedGuests)
-        {
-            if (guest == null) continue;
-            guest.SetUpTarget(followTarget);
-            guest.SetPlayer(player);
-            followTarget = guest.transform;
-        }
 
-        if (_guestInteractionExitAreasDic.ContainsKey(_guestInteractionArea.MyInteractionColor))
+        int runAwayTimer = _settings.GuestRunAwayTimer;
+        for(int i = 0; i < _lastSpawnedGuests.Count; i++)
         {
-            Debug.Log("Il mio colore è attivo");
-            _guestInteractionExitAreasDic[_guestInteractionArea.MyInteractionColor].EnableDirectionIcon();
+            if (_lastSpawnedGuests[i] == null) continue;
+            if(i != 0)
+                runAwayTimer = 0;
+            else
+            {
+                _lastSpawnedGuests[i].MyColor = _guestInteractionArea.MyInteractionColor;
+                _lastSpawnedGuests[i].OnRunAway -= HandleRunAway;
+                _lastSpawnedGuests[i].OnRunAway += HandleRunAway;
+            }
+
+            _lastSpawnedGuests[i].SetUpTarget(followTarget, runAwayTimer);
+            _lastSpawnedGuests[i].SetPlayer(player);
+            followTarget = _lastSpawnedGuests[i].transform;
         }
 
         _isSpawnAreaFree = true;
         _lastSpawnedGuests.Clear();
         _lastSpawnedGuests = null;
         _guestInteractionArea.ResetArea();
+    }
 
+    private async void GuestArriveTimerStart(int time, CancellationToken cts)
+    {
+        int halfTime = (int)(time * 0.5);
+        try
+        {
+            await UniTask.Delay(halfTime, cancellationToken: cts);
+            _guestInteractionArea.HurryUp();
+
+            await UniTask.Delay(halfTime, cancellationToken: cts);
+            TaskFailed();
+        }
+        catch (OperationCanceledException)
+        {
+
+        }
+    }
+
+
+    private void CompleteGuestTask()
+    {
+        if (_cts == null) return;
+
+        try
+        {
+            _cts.Cancel();
+        }
+        finally
+        {
+            _cts.Dispose();
+            _cts = null;
+        }
+    }
+
+    private void HandleRunAway(Color colorID)
+    {
+        if (_activeGuests.ContainsKey(colorID))
+        {
+            foreach (FollowerGuest guest in _activeGuests[colorID])
+            {
+                guest.SetUpTarget(null);
+                guest.gameObject.SetActive(false);
+                _guestPool.Add(guest.gameObject);
+            }
+            _availableGuestsColor.Add(colorID);
+            _activeGuests[colorID].Clear();
+            _activeGuests.Remove(colorID);
+        }
+    }
+
+
+    private void TaskFailed()
+    {
+        OnTaskFailed?.Invoke();
+        //ANIMAZIONE DI USCITA PERSONAGGI
+
+        foreach (FollowerGuest guest in _lastSpawnedGuests)
+        {
+            guest.SetUpTarget(null);
+            guest.gameObject.SetActive(false);
+            _guestPool.Add(guest.gameObject);
+        }
+
+        _isSpawnAreaFree = true;
+        var tmpColor = _guestInteractionArea.MyInteractionColor;
+        _lastSpawnedGuests.Clear();
+        _lastSpawnedGuests = null;
+        _availableGuestsColor.Add(tmpColor);
+        _activeGuests[tmpColor].Clear();
+        _guestInteractionArea.ResetArea();
+        _activeGuests.Remove(tmpColor);
     }
 }

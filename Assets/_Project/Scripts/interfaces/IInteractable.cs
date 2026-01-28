@@ -6,7 +6,7 @@ public enum InteractType
 {
     MessageSender,
     MessageReciver,
-    Light,
+    Candle,
     TakeGuest,
     DrobGuest,
     None

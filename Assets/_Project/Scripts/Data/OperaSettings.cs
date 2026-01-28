@@ -18,4 +18,8 @@ public class OperaSettings : ScriptableObject
     public AnimationCurve guestSpawnInterval;
     public AnimationCurve messageSpawnInterval;
     public AnimationCurve lightSpawnInterval;
+
+    [Header("Game Stats")]
+    public int MessageFailTask = 5;
+    public int DarkIsRising = 3;
 }
