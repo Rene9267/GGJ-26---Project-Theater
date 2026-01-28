@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3418008201914985591}
   m_Layer: 7
   m_Name: Guest
-  m_TagString: Guest
+  m_TagString: StunGuest
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

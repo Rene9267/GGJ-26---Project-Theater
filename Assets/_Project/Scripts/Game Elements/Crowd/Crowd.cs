@@ -2,11 +2,12 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using Cysharp.Threading.Tasks.Internal;
+using Cysharp.Threading.Tasks;
+using System.Threading;
 
 public class Crowd : MonoBehaviour
 {
-
-
     [Header("Interaction")]
     [SerializeField] private CrowdInteractionArea _crowdInteractionArea;
 
@@ -18,28 +19,34 @@ public class Crowd : MonoBehaviour
     private Coroutine _uiRotationCoroutine;
     private Vector2 _crowdMiddlePoint;
     public event Action<Color> OnInteracionComplete;
+    public event Action<Color> OnTaskFailed;
 
     private Color _myColor;
+    private CancellationTokenSource _cts;
 
     void OnDisable()
     {
         if (_crowdInteractionArea != null)
         {
             _crowdInteractionArea.OnInteract -= HandleInteraction;
+            _crowdInteractionArea.OnMessageTake -= CompleteMessageTask;
         }
     }
-    private void HandleInteraction() => OnInteracionComplete?.Invoke(_myColor);
+
+    private void HandleInteraction()
+    {
+        OnInteracionComplete?.Invoke(_myColor);
+    }
 
     public void ResetCrowd()
     {
+        _crowdInteractionArea.OnInteract -= HandleInteraction;
+        _crowdInteractionArea.OnMessageTake -= CompleteMessageTask;
         if (_uiRotationCoroutine != null)
         {
             StopCoroutine(_uiRotationCoroutine);
             _uiRotationCoroutine = null;
         }
-
-        _crowdInteractionArea.OnInteract -= HandleInteraction;
-
 
         _myColor = Color.clear;
         IsReciverOrSender = false;
@@ -50,7 +57,6 @@ public class Crowd : MonoBehaviour
             _crowdInteractionArea.gameObject.SetActive(false); // Spegne l'oggetto
         }
     }
-
 
     public void SpawnGuests()
     {
@@ -103,9 +109,10 @@ public class Crowd : MonoBehaviour
         _crowdInteractionArea.transform.position = new Vector3(_crowdMiddlePoint.x, _crowdInteractionArea.transform.position.y, _crowdMiddlePoint.y);
     }
 
-
     public void EnableSender(Color CircleColor)
     {
+        _cts = new CancellationTokenSource();
+
         _crowdInteractionArea.gameObject.SetActive(true);
         _crowdInteractionArea.SetUPInteractionArea(CircleColor, InteractType.MessageSender);
         _myColor = CircleColor;
@@ -118,7 +125,11 @@ public class Crowd : MonoBehaviour
 
         _uiRotationCoroutine = StartCoroutine(_crowdInteractionArea.AreaImageRotate(_crowdSettings.RotationSpeed, _crowdSettings.Clockwise));
         _crowdInteractionArea.OnInteract -= HandleInteraction;
+        _crowdInteractionArea.OnMessageTake -= CompleteMessageTask;
         _crowdInteractionArea.OnInteract += HandleInteraction;
+        _crowdInteractionArea.OnMessageTake += CompleteMessageTask;
+
+        MessageTimeStart(5000, _cts.Token);
     }
 
     public void EnableReciver(Color CircleColor)
@@ -135,6 +146,34 @@ public class Crowd : MonoBehaviour
         _uiRotationCoroutine = StartCoroutine(_crowdInteractionArea.AreaImageRotate(_crowdSettings.RotationSpeed, _crowdSettings.Clockwise));
         _crowdInteractionArea.OnInteract -= HandleInteraction;
         _crowdInteractionArea.OnInteract += HandleInteraction;
+    }
+
+    private async void MessageTimeStart(int time, CancellationToken cts)
+    {
+        int halfTime = (int)(time * 0.5);
+        try
+        {
+            await UniTask.Delay(halfTime, cancellationToken: cts);
+            _crowdInteractionArea.HurryUp();
+
+            await UniTask.Delay(halfTime, cancellationToken: cts);
+            TaskFailed();
+        }
+        catch (System.OperationCanceledException)
+        {
+
+        }
+    }
+
+    private void TaskFailed()
+    {
+        OnTaskFailed?.Invoke(_myColor);
+        StopInteraction();
+    }
+    private void CompleteMessageTask()
+    {
+        _cts?.Cancel();
+        _cts?.Dispose();
     }
 
     public void StopInteraction()

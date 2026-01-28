@@ -1953,6 +1953,7 @@ GameObject:
   - component: {fileID: 1552444627}
   - component: {fileID: 1552444626}
   - component: {fileID: 1552444625}
+  - component: {fileID: 1552444628}
   m_Layer: 0
   m_Name: PlayerCamera
   m_TagString: Untagged
@@ -2001,7 +2002,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 45
+  field of view: 40
   orthographic: 0
   orthographic size: 5
   m_Depth: 0
@@ -2027,13 +2028,31 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1552444624}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.92220104, z: -0.38671097, w: 0}
-  m_LocalPosition: {x: -0.08, y: 30.8, z: 41.88}
+  m_LocalRotation: {x: 5.560011e-10, y: 0.8829453, z: -0.46947592, w: 0.0000000010456735}
+  m_LocalPosition: {x: 0.05, y: 46.57, z: 38.83}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 45.5, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: 45, y: 178.935, z: -0.001}
+--- !u!114 &1552444628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1552444624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc51cfddc669b954c82ef00d78cdf943, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DynamicCamera
+  player: {fileID: 2066213260}
+  smoothSpeed: 2
+  minX: -15
+  maxX: 15
+  maxExtraTilt: 2
+  tiltSensitivity: 10
 --- !u!1 &1556480905
 GameObject:
   m_ObjectHideFlags: 0
@@ -3230,7 +3249,7 @@ Transform:
   m_GameObject: {fileID: 2066213259}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.78, y: -3.57, z: 26.34}
+  m_LocalPosition: {x: 0.05, y: -3.57, z: 15.03}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

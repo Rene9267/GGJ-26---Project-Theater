@@ -14,3 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerSettings
   MoveSpeed: 5
   SprintMultiplier: 5
+  RotationSpeed: 10
+  StunGuestTag: StunGuest
+  _InteractionLayer:
+    serializedVersion: 2
+    m_Bits: 0

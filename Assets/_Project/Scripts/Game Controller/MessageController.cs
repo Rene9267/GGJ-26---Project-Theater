@@ -1,5 +1,9 @@
+using System;
 using System.Collections.Generic;
+using Unity.Android.Gradle.Manifest;
 using UnityEngine;
+using Action = System.Action;
+using Random = UnityEngine.Random;
 
 struct CrowdLink
 {
@@ -18,6 +22,9 @@ public class MessageController : MonoBehaviour
 
     //=== Color References ===//
     private List<Color> _availableColors = new();
+
+    //Ascoltato da GameContrller
+    public event Action OnTaskFailed;
 
     private void OnValidate()
     {
@@ -74,8 +81,8 @@ public class MessageController : MonoBehaviour
             CircleColor = circleColor
         });
 
-        receiver.OnInteracionComplete += (color) => { HandleMessageTaskCompleted(color); };
-
+        receiver.OnInteracionComplete += HandleMessageTaskCompleted;
+        sender.OnTaskFailed += HandleMessageTaskFailed;
     }
 
     private void HandleMessageTaskCompleted(Color color)
@@ -89,17 +96,27 @@ public class MessageController : MonoBehaviour
             var tmpReciver = _crowdLinks[color].Receiver;
             tmpReciver.ResetCrowd();
 
+            tmpReciver.OnInteracionComplete -= HandleMessageTaskCompleted;
+            tmpSender.OnTaskFailed -= HandleMessageTaskFailed;
+
             var tmpColor = _crowdLinks[color].CircleColor;
 
             if (_availableCrowds.Contains(tmpReciver) == false)
                 _availableCrowds.Add(tmpReciver);
             if (_availableCrowds.Contains(tmpSender) == false)
                 _availableCrowds.Add(tmpSender);
-            if(_availableColors.Contains(tmpColor) == false)
+            if (_availableColors.Contains(tmpColor) == false)
                 _availableColors.Add(tmpColor);
 
             _crowdLinks.Remove(color);
         }
-
     }
+
+    public void HandleMessageTaskFailed(Color color)
+    {
+        HandleMessageTaskCompleted(color);
+
+        OnTaskFailed?.Invoke();
+    }
+
 }

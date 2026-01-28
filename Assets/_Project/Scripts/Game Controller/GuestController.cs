@@ -1,5 +1,8 @@
+using System;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 
 public class GuestController : MonoBehaviour
@@ -16,6 +19,7 @@ public class GuestController : MonoBehaviour
     private Vector2 _crowdMiddlePoint;
     private bool _isSpawnAreaFree = true;
     private List<FollowerGuest> _lastSpawnedGuests;
+    public event Action<int> OnGuestDropped;
 
     void OnValidate()
     {
@@ -187,8 +191,11 @@ public class GuestController : MonoBehaviour
             return;
         }
 
+        int guestDroppedCount = 0;
+
         if (_activeGuests.ContainsKey(colorID))
         {
+            guestDroppedCount = _activeGuests[colorID].Count;
             foreach (FollowerGuest guest in _activeGuests[colorID])
             {
                 guest.SetUpTarget(null);
@@ -199,17 +206,20 @@ public class GuestController : MonoBehaviour
             _activeGuests[colorID].Clear();
             _activeGuests.Remove(colorID);
         }
+
+        OnGuestDropped?.Invoke(guestDroppedCount);
     }
 
-    private void HandlePlayerGrabGuest(Transform starterElement)
+    private void HandlePlayerGrabGuest(PlayerController player)
     {
-        if (starterElement == null || _lastSpawnedGuests == null) return;
+        if (player == null || _lastSpawnedGuests == null) return;
 
-        var followTarget = starterElement;
+        var followTarget = player.gameObject.transform;
         foreach (var guest in _lastSpawnedGuests)
         {
             if (guest == null) continue;
             guest.SetUpTarget(followTarget);
+            guest.SetPlayer(player);
             followTarget = guest.transform;
         }
 

@@ -14,6 +14,7 @@ public class GameController : MonoBehaviour
     [SerializeField] private MessageController _messageController;
     [SerializeField] private CrowdSpawner _crowdSpawner;
 
+    private int _remainingGuests;
     private float _elapsedTime;
     private bool _isOperaRunning;
     private float _guestTimer, _messageTimer, _lightTimer;
@@ -34,6 +35,23 @@ public class GameController : MonoBehaviour
             Debug.LogWarning("MessageController is not assigned in GameController.");
         if (_crowdSpawner == null)
             Debug.LogWarning("CrowdSpawner is not assigned in GameController.");
+    }
+
+    private void OnEnable()
+    {
+        _guestController.OnGuestDropped += HandleGuestDrop;
+        _messageController.OnTaskFailed += HandleMessageFail;
+    }
+
+    private void OnDisable()
+    {
+        _guestController.OnGuestDropped -= HandleGuestDrop;
+        _messageController.OnTaskFailed -= HandleMessageFail;
+    }
+
+    private void Awake()
+    {
+        _remainingGuests = _settings.InitialPublic;
     }
 
     private void Start()
@@ -60,6 +78,8 @@ public class GameController : MonoBehaviour
     #endregion
 
 
+    #region GameLoop
+    //======================= GameLoop ================================
     private void HandleSpawning(float progress)
     {
         if (progress >= _settings.GuestActivationThreshold)
@@ -94,4 +114,32 @@ public class GameController : MonoBehaviour
         _isOperaRunning = false;
         Debug.Log("Opera Finita!");
     }
+
+    private void HandleGuestDrop(int guestDroppedDount)
+    {
+        if(guestDroppedDount>0)
+        {
+            _remainingGuests += guestDroppedDount;
+        }
+    }
+
+    private void HandleMessageFail()
+    {
+        DecreaseTotalGuest(5);
+    }
+
+    private void DecreaseTotalGuest(int decreaseValue)
+    {
+        if(decreaseValue > 0)
+        {
+            _remainingGuests -= decreaseValue;
+            if(_remainingGuests<= 0)
+            {
+                EndOpera();
+            }
+        }
+    }
+
+    #endregion
+
 }

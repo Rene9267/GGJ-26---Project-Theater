@@ -14,10 +14,10 @@ public class FollowerGuestInteractionArea : MonoBehaviour, IInteractable
     public Color MyInteractionColor { get; private set; }
     public event Action OnPlayerEntered;
     public event Action OnPlayerExited;
-    public event Action<Transform> OnInteract;
-    private Transform _playerElement;
+    public event Action<PlayerController> OnInteract;
+    private PlayerController _playerElement;
     private Coroutine _rotationCoroutine;
-
+    private bool isGrabbed = false;
 
     private void OnValidate()
     {
@@ -37,7 +37,7 @@ public class FollowerGuestInteractionArea : MonoBehaviour, IInteractable
         if (_rotationCoroutine == null)
             _rotationCoroutine = StartCoroutine(AreaImageRotate(rotationSpeed, clockwise));
 
-            _directionIcon.SetActive(true);
+        _directionIcon.SetActive(true);
         //DEBUG
         _directionIcon.GetComponent<MeshRenderer>().material.color = color;
     }
@@ -67,7 +67,7 @@ public class FollowerGuestInteractionArea : MonoBehaviour, IInteractable
                 OnPlayerEntered?.Invoke();
                 player.OnInteractionAreaEnter(this);
                 Debug.Log("[FollowerGuestInteractionArea]: Player Entrato in me");
-                _playerElement = player.gameObject.transform;
+                _playerElement = player;
             }
         }
     }
@@ -76,6 +76,12 @@ public class FollowerGuestInteractionArea : MonoBehaviour, IInteractable
     {
         if (other.gameObject.TryGetComponent<PlayerController>(out var player))
         {
+            if (isGrabbed)
+            {
+                AreaExitAndFollow();
+                isGrabbed = false;
+            }
+
             player.OnInteractionAreaExit();
             OnPlayerExited?.Invoke();
             _playerElement = null;
@@ -103,8 +109,12 @@ public class FollowerGuestInteractionArea : MonoBehaviour, IInteractable
             return;
         }
 
-        OnInteract?.Invoke(_playerElement);
+        isGrabbed = true;
+    }
 
+    private void AreaExitAndFollow()
+    {
+        OnInteract?.Invoke(_playerElement);
         _areaImage.gameObject.SetActive(false);
         _directionIcon.SetActive(false);
     }

@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using UnityEngine;
 using UnityEngine.UI;
+using Color = UnityEngine.Color;
 using Random = UnityEngine.Random;
 
 public class CrowdInteractionArea : MonoBehaviour, IInteractable
@@ -22,9 +24,10 @@ public class CrowdInteractionArea : MonoBehaviour, IInteractable
     public event Action OnPlayerEntered;
     public event Action OnPlayerExited;
     public event Action OnInteract;
+    public event Action OnMessageTake;
+
 
     public Color MyInteractionColor { get; private set; }
-
 
     private void OnValidate()
     {
@@ -87,10 +90,15 @@ public class CrowdInteractionArea : MonoBehaviour, IInteractable
             yield return null;
         }
     }
+   
+    public void HurryUp()
+    {
+        //Temporaneo
+        _actualMessageIcon.GetComponent<MeshRenderer>().material.color = Color.bisque;
+    }
 
     private void OnTriggerEnter(Collider other)
     {
-
         if (other.gameObject.TryGetComponent<PlayerController>(out var player))
         {
             Debug.Log($"[Crowd Interaction Area]: Qualcuno è entrato{other.name}");
@@ -121,6 +129,7 @@ public class CrowdInteractionArea : MonoBehaviour, IInteractable
         if (InteactableType == InteractType.MessageSender)
         {
             _actualMessageIcon.SetActive(false);
+            OnMessageTake?.Invoke();
         }
         else if (InteactableType == InteractType.MessageReciver)
         {

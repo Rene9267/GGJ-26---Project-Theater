@@ -34,6 +34,12 @@ public class FollowerGuestMovement : MonoBehaviour
         _rb.interpolation = RigidbodyInterpolation.Interpolate;
     }
 
+    private void OnDisable()
+    {
+        _rb.linearVelocity = Vector3.zero;
+        _rb.angularVelocity = Vector3.zero;
+    }
+
     private void FixedUpdate()
     {
         if (_target == null) return;

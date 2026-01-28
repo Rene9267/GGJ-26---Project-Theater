@@ -98,9 +98,9 @@ public class PlayerController : MonoBehaviour
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
-        if (hit.gameObject.CompareTag(_playerSettings.StunGuestTag) && !_isStunned && !_isInvulnerable)
+        if (hit.gameObject.CompareTag(_playerSettings.StunGuestTag))
         {
-            StartCoroutine(StunRoutine());
+            SetStunState();
         }
     }
 
@@ -116,6 +116,18 @@ public class PlayerController : MonoBehaviour
         _currentInteractable = null;
     }
 
+    public void SetStunState()
+    {
+        if (!_isStunned && !_isInvulnerable)
+        {
+            StartCoroutine(StunRoutine());
+        }
+    }
+
+    public void ResetMessageColor()
+    {
+        ActualMessage.MessageColor = Color.clear;
+    }
 
     private IEnumerator StunRoutine()
     {
