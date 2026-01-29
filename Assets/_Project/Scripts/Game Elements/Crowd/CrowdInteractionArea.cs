@@ -23,6 +23,7 @@ public class CrowdInteractionArea : MonoBehaviour, IInteractable
 
     public event Action OnPlayerEntered;
     public event Action OnPlayerExited;
+    public event Action OnCompleteInteract;
     public event Action OnInteract;
     public event Action OnMessageTake;
 
@@ -128,20 +129,21 @@ public class CrowdInteractionArea : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        //animazioni varie
-
         if (InteactableType == InteractType.MessageSender)
         {
             if(_hurryUpIcon!= null)
             _hurryUpIcon.gameObject.SetActive(false);
             OnMessageTake?.Invoke();
         }
-        else if (InteactableType == InteractType.MessageReciver)
-        {
-            OnInteract?.Invoke();
-        }
+    }
 
+    public void CompleteInteraction()
+    {
         interactionDynamicIcon.SetActiveInteractionIcon(false);
         interactionDynamicIcon.gameObject.SetActive(false);
+        if (InteactableType == InteractType.MessageReciver)
+        {
+            OnCompleteInteract?.Invoke();
+        }
     }
 }

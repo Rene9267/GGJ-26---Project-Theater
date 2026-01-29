@@ -28,7 +28,7 @@ public class Crowd : MonoBehaviour
     {
         if (_crowdInteractionArea != null)
         {
-            _crowdInteractionArea.OnInteract -= HandleInteraction;
+            _crowdInteractionArea.OnCompleteInteract -= HandleInteraction;
             _crowdInteractionArea.OnMessageTake -= CompleteMessageTask;
         }
     }
@@ -40,7 +40,7 @@ public class Crowd : MonoBehaviour
 
     public void ResetCrowd()
     {
-        _crowdInteractionArea.OnInteract -= HandleInteraction;
+        _crowdInteractionArea.OnCompleteInteract -= HandleInteraction;
         _crowdInteractionArea.OnMessageTake -= CompleteMessageTask;
         if (_uiRotationCoroutine != null)
         {
@@ -124,9 +124,9 @@ public class Crowd : MonoBehaviour
         }
 
         _uiRotationCoroutine = StartCoroutine(_crowdInteractionArea.AreaImageRotate(_crowdSettings.RotationSpeed, _crowdSettings.Clockwise));
-        _crowdInteractionArea.OnInteract -= HandleInteraction;
+        _crowdInteractionArea.OnCompleteInteract -= HandleInteraction;
         _crowdInteractionArea.OnMessageTake -= CompleteMessageTask;
-        _crowdInteractionArea.OnInteract += HandleInteraction;
+        _crowdInteractionArea.OnCompleteInteract += HandleInteraction;
         _crowdInteractionArea.OnMessageTake += CompleteMessageTask;
 
         MessageTimeStart(5000, _cts.Token);
@@ -144,8 +144,8 @@ public class Crowd : MonoBehaviour
         }
 
         _uiRotationCoroutine = StartCoroutine(_crowdInteractionArea.AreaImageRotate(_crowdSettings.RotationSpeed, _crowdSettings.Clockwise));
-        _crowdInteractionArea.OnInteract -= HandleInteraction;
-        _crowdInteractionArea.OnInteract += HandleInteraction;
+        _crowdInteractionArea.OnCompleteInteract -= HandleInteraction;
+        _crowdInteractionArea.OnCompleteInteract += HandleInteraction;
     }
 
     private async void MessageTimeStart(int time, CancellationToken cts)

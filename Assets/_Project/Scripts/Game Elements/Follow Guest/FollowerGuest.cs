@@ -95,7 +95,7 @@ public class FollowerGuest : MonoBehaviour
         }
     }
 
-    private void CompleteMessageTask()
+    public void CompleteMessageTask()
     {
         if (_cts == null) return;
 

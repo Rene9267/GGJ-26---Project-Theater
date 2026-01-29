@@ -8,12 +8,13 @@ public class CandleInteractionArea : MonoBehaviour, IInteractable
     #region  Variables
     [Header("Interaction Area Warning UI")]
     [SerializeField] private Image _areaImage;
-    [SerializeField] private InteractionDynamicIcon _directionIcon;
+    //[SerializeField] private InteractionDynamicIcon _directionIcon;
     private Coroutine _rotationCoroutine;
 
     // ===== Event =====
     public event Action OnPlayerEntered;
     public event Action OnPlayerExited;
+    public event Action OnCompleteInteract;
     public event Action OnInteract;
 
     // ===== ==== =====
@@ -26,7 +27,7 @@ public class CandleInteractionArea : MonoBehaviour, IInteractable
     #region SetUp
     void OnEnable()
     {
-        _directionIcon.gameObject.SetActive(false);
+        //_directionIcon.gameObject.SetActive(false);
     }
 
     void OnValidate()
@@ -56,8 +57,8 @@ public class CandleInteractionArea : MonoBehaviour, IInteractable
         InteactableType = InteractType.Candle;
         _areaImage.gameObject.SetActive(true);
         _rotationCoroutine ??= StartCoroutine(AreaImageRotate(100, true));
-        _directionIcon.gameObject.SetActive(true);
-        _directionIcon.SetActiveInteractionIcon(false);
+        //_directionIcon.gameObject.SetActive(true);
+        //_directionIcon.SetActiveInteractionIcon(false);
     }
 
     #endregion
@@ -72,7 +73,7 @@ public class CandleInteractionArea : MonoBehaviour, IInteractable
             DevLog.Log($"[{this.gameObject}]: Player entrato nella mia Interaction Area");
 
             OnPlayerEntered?.Invoke();
-            _directionIcon.SetActiveInteractionIcon(true);
+            //_directionIcon.SetActiveInteractionIcon(true);
             player.OnInteractionAreaEnter(this);
         }
     }
@@ -83,7 +84,7 @@ public class CandleInteractionArea : MonoBehaviour, IInteractable
         {
             player.OnInteractionAreaExit();
             OnPlayerExited?.Invoke();
-            _directionIcon.SetActiveInteractionIcon(false);
+            //_directionIcon.SetActiveInteractionIcon(false);
             DevLog.Log($"[{this.gameObject}]: Player uscito dalla mia interaction Area");
         }
     }
@@ -101,10 +102,13 @@ public class CandleInteractionArea : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        _areaImage.gameObject.SetActive(false);
-        _directionIcon.SetActiveInteractionIcon(false);
-        _directionIcon.gameObject.SetActive(false);
         OnInteract?.Invoke();
+    }
+
+    public void CompleteInteraction()
+    {
+        _areaImage.gameObject.SetActive(false);
+        OnCompleteInteract?.Invoke();
     }
     #endregion
 

@@ -15,5 +15,10 @@ public class PlayerSettings : ScriptableObject
     [Header("Interaction Settings")]
     public string StunGuestTag = "Guest";
     public LayerMask _InteractionLayer;
-
+    public float InteractionTime = 2f;
+    public float Interaction_GetMessageDelay = 2f;
+    public float Interaction_ReleaseMessageDelat= 1f;
+    public float Interaction_GetGuest= 2f;
+    public float Interaction_Dropguest= 1f;
+    public float Interaction_TurnOnCandle= 2.5f;
 }

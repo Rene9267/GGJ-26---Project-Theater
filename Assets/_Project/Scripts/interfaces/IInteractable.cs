@@ -17,5 +17,7 @@ public interface IInteractable
 
     void Interact();
 
+    void CompleteInteraction();
+
     public Color MyInteractionColor { get;}
 }

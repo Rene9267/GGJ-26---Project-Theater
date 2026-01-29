@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public struct Message
 {
@@ -9,83 +10,133 @@ public struct Message
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private PlayerSettings _playerSettings;
+    [SerializeField] private Animator _animator;
+    [SerializeField] private PlayerInput _playerInput;
 
     private CharacterController _controller;
     private Vector3 _moveDirection;
+
+    // Variabili di stato
     private bool _isStunned;
-    private bool isSprinting => Input.GetKey(KeyCode.LeftShift);
+    private bool _isSprinting;
     private bool _isInvulnerable;
+    private bool _isInteracting;
     private bool _canInteract;
 
-    public Message ActualMessage;
+    // Variabile per memorizzare l'input di movimento ricevuto
+    private Vector2 _inputVector;
 
+    private int _animIDWalking;
+    private int _animIDRunning;
+    private int _animIDInteract;
+    private int _animIDSorry;
+
+    public Message ActualMessage;
     public Color GuestFamilyColor = Color.clear;
     private IInteractable _currentInteractable;
+    private InputAction _sprintAction;
 
     private void OnValidate()
     {
         if (_playerSettings == null)
         {
-#if UNITY_EDITOR
-            Debug.LogWarning("[Player]: PlayerSettings ScriptableObject is not assigned in PlayerMovement.");
-#endif
+            DevLog.LogWarning("[Player]: PlayerSettings ScriptableObject non assegnato.");
+        }
+        if (_animator == null)
+        {
+            DevLog.LogWarning("[Player]: animator non assegnato.");
         }
     }
 
     private void Awake()
     {
-        if (TryGetComponent<CharacterController>(out _controller) == false)
+        if (!TryGetComponent<CharacterController>(out _controller))
         {
-#if UNITY_EDITOR
-            Debug.LogError("[Player]: PlayerInput component missing from the player object.");
-#endif
+            DevLog.LogError("[Player]: CharacterController mancante.");
+        }
+
+        // Verifica che ci sia il componente PlayerInput (opzionale ma consigliato)
+        if (GetComponent<PlayerInput>() == null)
+        {
+            DevLog.LogError("[Player]: Manca il componente PlayerInput!");
         }
 
         ActualMessage = new Message();
         ActualMessage.MessageColor = Color.clear;
+
+        _animIDWalking = Animator.StringToHash("IsWalking");
+        _animIDRunning = Animator.StringToHash("IsRunning");
+        _animIDInteract = Animator.StringToHash("IsInteracting");
+        _animIDSorry = Animator.StringToHash("IsStun");
+
+        _sprintAction = _playerInput.actions["Sprint"];
+    }
+
+    public void OnMove(InputValue value)
+    {
+        _inputVector = value.Get<Vector2>();
+    }
+
+
+    public void OnInteract(InputValue value)
+    {
+        if (value.isPressed)
+        {
+            TryInteract();
+        }
+    }
+    // -------------------------------------------------------------------------
+
+    private void UpdateAnimator()
+    {
+        if (_animator == null) return;
+        bool walking;
+        if (_inputVector.magnitude > 0.01f && _isSprinting == false)
+        {
+            walking = true;
+        }
+        else
+            walking = false;
+        _animator.SetBool(_animIDWalking, walking);
+
+
+        bool sprinting;
+        if (_inputVector.magnitude > 0.01f && _isSprinting == true)
+        {
+            sprinting = true;
+        }
+        else sprinting = false;
+        _animator.SetBool(_animIDRunning, sprinting);
+
+
+        _animator.SetBool(_animIDInteract, _isInteracting);
+
+        _animator.SetBool(_animIDSorry, _isStunned);
     }
 
     private void Update()
     {
-        if (_isStunned) return;
+        UpdateAnimator();
 
-        if (_canInteract && _currentInteractable != null && Input.GetKeyDown(KeyCode.E))
+        if (_isStunned || _isInteracting) return;
+
+        if (_sprintAction != null)
         {
-            DevLog.Log($"[{ this.gameObject}]: Sto interagendo con {_currentInteractable}");
-
-            switch (_currentInteractable.InteactableType)
-            {
-                case InteractType.MessageReciver:
-                    ActualMessage.MessageColor = Color.clear;
-                    break;
-                case InteractType.MessageSender:
-                    ActualMessage.MessageColor = _currentInteractable.MyInteractionColor;
-                    break;
-                case InteractType.TakeGuest:
-                    GuestFamilyColor = _currentInteractable.MyInteractionColor;
-                    break;
-                case InteractType.DrobGuest:
-                    GuestFamilyColor = Color.clear;
-                    break;
-                case InteractType.Candle:
-                //Animation
-                break;
-            }
-
-            DevLog.Log($"[{this.gameObject}]: Ho interagito con {_currentInteractable}");
-            _currentInteractable.Interact();
+            _isSprinting = _sprintAction.IsPressed();
         }
+        HandleMovement();
+    }
 
-        float x = Input.GetAxisRaw("Horizontal");
-        float z = Input.GetAxisRaw("Vertical");
-        Vector3 input = new Vector3(-x, 0, -z).normalized;
+    private void HandleMovement()
+    {
+        Vector3 input = new Vector3(-_inputVector.x, 0, -_inputVector.y).normalized;
 
         if (input.magnitude >= 0.1f)
         {
             Quaternion targetRotation = Quaternion.LookRotation(input);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, _playerSettings.RotationSpeed * Time.deltaTime);
 
-            float currentSpeed = _playerSettings.MoveSpeed * (isSprinting ? _playerSettings.SprintMultiplier : 1f);
+            float currentSpeed = _playerSettings.MoveSpeed * (_isSprinting ? _playerSettings.SprintMultiplier : 1f);
             _moveDirection = input * currentSpeed;
         }
         else
@@ -97,6 +148,40 @@ public class PlayerController : MonoBehaviour
         _controller.Move(finalVelocity * Time.deltaTime);
     }
 
+    private void TryInteract()
+    {
+        if (_canInteract && _currentInteractable != null)
+        {
+            DevLog.Log($"[{this.gameObject}]: Sto interagendo con {_currentInteractable}");
+            float interactionDelay = 0;
+            switch (_currentInteractable.InteactableType)
+            {
+                case InteractType.MessageReciver:
+                    interactionDelay = _playerSettings.Interaction_ReleaseMessageDelat;
+                    ActualMessage.MessageColor = Color.clear;
+                    break;
+                case InteractType.MessageSender:
+                    interactionDelay = _playerSettings.Interaction_GetMessageDelay;
+                    ActualMessage.MessageColor = _currentInteractable.MyInteractionColor;
+                    break;
+                case InteractType.TakeGuest:
+                    interactionDelay = _playerSettings.Interaction_GetGuest;
+                    GuestFamilyColor = _currentInteractable.MyInteractionColor;
+                    break;
+                case InteractType.DrobGuest:
+                    interactionDelay = _playerSettings.Interaction_Dropguest;
+                    GuestFamilyColor = Color.clear;
+                    break;
+                case InteractType.Candle:
+                    interactionDelay = _playerSettings.Interaction_TurnOnCandle;
+                    break;
+            }
+
+            DevLog.Log($"[{this.gameObject}]: Ho interagito con {_currentInteractable}");
+            _currentInteractable.Interact();
+            StartCoroutine(Interaction(interactionDelay));
+        }
+    }
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
@@ -134,14 +219,26 @@ public class PlayerController : MonoBehaviour
     private IEnumerator StunRoutine()
     {
         _isStunned = true;
+        _inputVector = Vector2.zero;
+        _isSprinting = false;
 
-#if UNITY_EDITOR
-        Debug.Log("[Player]: Sbattuto contro uno spettatore");
-#endif
+        DevLog.Log("[Player]: Sbattuto contro uno spettatore");
+
         yield return new WaitForSeconds(2f);
 
         StartCoroutine(Invulnerableroutine());
         _isStunned = false;
+    }
+
+    private IEnumerator Interaction(float interactionDelay)
+    {
+        _isInteracting = true;
+        _inputVector = Vector2.zero;
+
+        yield return new WaitForSeconds(interactionDelay);
+
+        _currentInteractable.CompleteInteraction();
+        _isInteracting = false;
     }
 
     private IEnumerator Invulnerableroutine()

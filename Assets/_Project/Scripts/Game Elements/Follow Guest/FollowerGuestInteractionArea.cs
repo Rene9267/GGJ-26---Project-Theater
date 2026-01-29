@@ -17,6 +17,8 @@ public class FollowerGuestInteractionArea : MonoBehaviour, IInteractable
     public event Action OnPlayerExited;
     public event Action<PlayerController> OnAreaExit;
     public event Action OnInteract;
+    public event Action OnStartInteract;
+
 
     private PlayerController _playerElement;
     private Coroutine _rotationCoroutine;
@@ -105,24 +107,8 @@ public class FollowerGuestInteractionArea : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        //animazioni varie
-        if (_playerElement == null)
-        {
-            Debug.LogError("[FollowerGuestInteractionArea]: La posizione del player è assente");
-            return;
-        }
-
-        isGrabbed = true;
-        _areaImage.gameObject.SetActive(false);
-        if (_rotationCoroutine != null)
-        {
-            StopCoroutine(_rotationCoroutine);
-            _rotationCoroutine = null;
-        }
-        
-        OnInteract?.Invoke();
+       OnInteract?.Invoke();
     }
-
 
     public void HurryUp()
     {
@@ -133,5 +119,25 @@ public class FollowerGuestInteractionArea : MonoBehaviour, IInteractable
     {
         OnAreaExit?.Invoke(_playerElement);
         _directionIcon.SetActive(false);
+    }
+
+    public void CompleteInteraction()
+    {
+        //animazioni varie
+        if (_playerElement == null)
+        {
+            DevLog.LogError("[FollowerGuestInteractionArea]: La posizione del player è assente");
+            return;
+        }
+
+        isGrabbed = true;
+        _areaImage.gameObject.SetActive(false);
+        if (_rotationCoroutine != null)
+        {
+            StopCoroutine(_rotationCoroutine);
+            _rotationCoroutine = null;
+        }
+
+        OnStartInteract?.Invoke();
     }
 }

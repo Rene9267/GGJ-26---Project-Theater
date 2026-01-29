@@ -12,10 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cd222b63153cc246bb5c3e178c6765b, type: 3}
   m_Name: PlayerSettings
   m_EditorClassIdentifier: Assembly-CSharp::PlayerSettings
-  MoveSpeed: 5
-  SprintMultiplier: 5
+  MoveSpeed: 6.5
+  SprintMultiplier: 1.5
   RotationSpeed: 10
   StunGuestTag: StunGuest
   _InteractionLayer:
     serializedVersion: 2
     m_Bits: 0
+  InteractionTime: 2
+  Interaction_GetMessageDelay: 2
+  Interaction_ReleaseMessageDelat: 1
+  Interaction_GetGuest: 2
+  Interaction_Dropguest: 1
+  Interaction_TurnOnCandle: 2.5

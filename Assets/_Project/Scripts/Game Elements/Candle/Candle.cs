@@ -13,7 +13,6 @@ public class Candle : MonoBehaviour
 
     [Header("GamePlay")]
     [SerializeField] private GameObject _candleFire;
-    [SerializeField] private GameObject _candleFireUI;
     
     private bool _isDark = false;
     private float _darkGuestRunTimer;
@@ -32,13 +31,15 @@ public class Candle : MonoBehaviour
     void OnDisable()
     {
         if (_interactionArea != null)
-            _interactionArea.OnInteract -= HandleInteraction;
+        {
+            _interactionArea.OnCompleteInteract -= HandleCompleteInteraction;
+            _interactionArea.OnInteract -= HandleStartInteraction;
+        }
     }
 
     public void TurnOff(float timeToRaiseTheDarkness)
     {
         _candleFire.SetActive(false);
-        _candleFireUI.SetActive(false);
         _isDark = true;
 
         _darkGuestRunTimer = timeToRaiseTheDarkness;
@@ -50,19 +51,28 @@ public class Candle : MonoBehaviour
 
         _interactionArea.SetUpInteractionArea();
 
-        _interactionArea.OnInteract -= HandleInteraction;
-        _interactionArea.OnInteract += HandleInteraction;
+        _interactionArea.OnCompleteInteract -= HandleCompleteInteraction;
+        _interactionArea.OnCompleteInteract += HandleCompleteInteraction;
+
+        _interactionArea.OnInteract -= HandleStartInteraction;
+        _interactionArea.OnInteract += HandleStartInteraction;
+
     }
 
-    private void HandleInteraction()
+
+    private void HandleStartInteraction()
+    {
+        if (_darkCoroutine != null) StopCoroutine(_darkCoroutine);
+        _interactionArea.OnInteract -= HandleStartInteraction;
+    }
+
+    private void HandleCompleteInteraction()
     {
         _isDark = false;
 
-        if (_darkCoroutine != null) StopCoroutine(_darkCoroutine);
+        _interactionArea.OnCompleteInteract -= HandleCompleteInteraction;
 
-        _interactionArea.OnInteract -= HandleInteraction;
         _candleFire.SetActive(true);
-        _candleFireUI.SetActive(true);
     }
 
     private IEnumerator DarkIsComing()

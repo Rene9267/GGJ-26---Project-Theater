@@ -9,7 +9,8 @@ public class FollowerGuestExitArea : MonoBehaviour, IInteractable
 
     public event Action OnPlayerEntered;
     public event Action OnPlayerExited;
-    public event Action<Color> OnInteract;
+    public event Action<Color> OnCompleteInteract;
+    public event Action<Color> OnStartInteract;
 
     public InteractType InteactableType { get; set; }
 
@@ -61,7 +62,12 @@ public class FollowerGuestExitArea : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        OnInteract?.Invoke(MyInteractionColor);
+        OnStartInteract?.Invoke(MyInteractionColor);
+    }
+
+    public void CompleteInteraction()
+    {
+        OnCompleteInteract?.Invoke(MyInteractionColor);
         _directionIcon.gameObject.SetActive(false);
     }
 }
