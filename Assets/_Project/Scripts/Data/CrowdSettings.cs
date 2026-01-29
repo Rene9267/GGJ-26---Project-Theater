@@ -21,4 +21,5 @@ public class CrowdSettings : ScriptableObject
     [Header("Message Area Settings")]
     public float RotationSpeed = 100f;
     public bool Clockwise = true;
+    public int MessageTimeSetting = 20000; 
 }

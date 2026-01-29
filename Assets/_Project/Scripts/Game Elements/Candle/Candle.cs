@@ -10,13 +10,15 @@ public class Candle : MonoBehaviour
 
     [Header("Interaction")]
     [SerializeField] private CandleInteractionArea _interactionArea;
+    [SerializeField] private Animation _animation;
 
-    [Header("GamePlay")]
-    [SerializeField] private GameObject _candleFire;
     
     private bool _isDark = false;
     private float _darkGuestRunTimer;
     private Coroutine _darkCoroutine;
+
+private readonly string _candleOff = "AC_FlameOff";
+    private readonly string _cancdleOn = "AC_FlameOn";
 
     #endregion
 
@@ -39,7 +41,7 @@ public class Candle : MonoBehaviour
 
     public void TurnOff(float timeToRaiseTheDarkness)
     {
-        _candleFire.SetActive(false);
+        _animation.Play(_candleOff);
         _isDark = true;
 
         _darkGuestRunTimer = timeToRaiseTheDarkness;
@@ -69,10 +71,8 @@ public class Candle : MonoBehaviour
     private void HandleCompleteInteraction()
     {
         _isDark = false;
-
+        _animation.Play(_cancdleOn);
         _interactionArea.OnCompleteInteract -= HandleCompleteInteraction;
-
-        _candleFire.SetActive(true);
     }
 
     private IEnumerator DarkIsComing()

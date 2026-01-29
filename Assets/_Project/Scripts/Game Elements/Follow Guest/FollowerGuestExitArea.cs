@@ -70,4 +70,9 @@ public class FollowerGuestExitArea : MonoBehaviour, IInteractable
         OnCompleteInteract?.Invoke(MyInteractionColor);
         _directionIcon.gameObject.SetActive(false);
     }
+
+    public void DisableDirectionIcon()
+    {
+        _directionIcon.gameObject.SetActive(false);
+    }
 }

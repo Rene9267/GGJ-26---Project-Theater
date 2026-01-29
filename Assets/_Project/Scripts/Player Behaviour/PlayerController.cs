@@ -50,7 +50,7 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        if (!TryGetComponent<CharacterController>(out _controller))
+        if (!TryGetComponent(out _controller))
         {
             DevLog.LogError("[Player]: CharacterController mancante.");
         }
@@ -108,9 +108,6 @@ public class PlayerController : MonoBehaviour
         else sprinting = false;
         _animator.SetBool(_animIDRunning, sprinting);
 
-
-        _animator.SetBool(_animIDInteract, _isInteracting);
-
         _animator.SetBool(_animIDSorry, _isStunned);
     }
 
@@ -157,10 +154,12 @@ public class PlayerController : MonoBehaviour
             switch (_currentInteractable.InteactableType)
             {
                 case InteractType.MessageReciver:
+                    _animator.SetBool(_animIDInteract, true);
                     interactionDelay = _playerSettings.Interaction_ReleaseMessageDelat;
                     ActualMessage.MessageColor = Color.clear;
                     break;
                 case InteractType.MessageSender:
+                    _animator.SetBool(_animIDInteract, true);
                     interactionDelay = _playerSettings.Interaction_GetMessageDelay;
                     ActualMessage.MessageColor = _currentInteractable.MyInteractionColor;
                     break;
@@ -173,6 +172,7 @@ public class PlayerController : MonoBehaviour
                     GuestFamilyColor = Color.clear;
                     break;
                 case InteractType.Candle:
+                    _animator.SetBool(_animIDInteract, true);
                     interactionDelay = _playerSettings.Interaction_TurnOnCandle;
                     break;
             }
@@ -236,7 +236,7 @@ public class PlayerController : MonoBehaviour
         _inputVector = Vector2.zero;
 
         yield return new WaitForSeconds(interactionDelay);
-
+        _animator.SetBool(_animIDInteract, false);
         _currentInteractable.CompleteInteraction();
         _isInteracting = false;
     }

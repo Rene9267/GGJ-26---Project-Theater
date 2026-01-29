@@ -21,7 +21,8 @@ public class FollowerGuestMovement : MonoBehaviour
 
     [Header("Rotazione")]
     public float RotationSpeed = 10f;
-
+    public float CurrentSpeed => _rb != null ? _rb.linearVelocity.magnitude : 0f;
+    
     private Rigidbody _rb;
     private bool _isBouncing = false;
 
@@ -36,7 +37,10 @@ public class FollowerGuestMovement : MonoBehaviour
     }
 
     private void OnDisable()
+
     {
+        _rb.useGravity = false;
+        _rb.isKinematic = true;
         _rb.linearVelocity = Vector3.zero;
         _rb.angularVelocity = Vector3.zero;
     }

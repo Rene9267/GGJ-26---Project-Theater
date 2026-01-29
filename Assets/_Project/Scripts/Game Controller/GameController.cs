@@ -1,4 +1,6 @@
+using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class GameController : MonoBehaviour
 {
@@ -14,7 +16,10 @@ public class GameController : MonoBehaviour
     [SerializeField] private MessageController _messageController;
     [SerializeField] private CrowdSpawner _crowdSpawner;
     [SerializeField] private GlobalUIController _uiController;
-
+    [SerializeField] private Animation _myAnimation;
+    [SerializeField] private Camera _mainCamera;
+    [SerializeField] public PlayerInput playerInput;
+    [SerializeField] public MusiciansController MusiciansController;
 
     [Header("UI References")]
 
@@ -22,6 +27,7 @@ public class GameController : MonoBehaviour
     private float _elapsedTime;
     private bool _isOperaRunning;
     private float _guestTimer, _messageTimer, _lightTimer;
+    private readonly string _cameraAnimation = "AC_CameraStartMove";
     //=======================================================
     #endregion
 
@@ -59,17 +65,36 @@ public class GameController : MonoBehaviour
 
     private void Awake()
     {
+        playerInput.DeactivateInput();
         _remainingGuests = _settings.InitialPublic;
         _uiController.SetPeopleNumber(_remainingGuests);
     }
 
     private void Start()
     {
+        CutsceneStartOpera();
+    }
+
+
+    private async void CutsceneStartOpera()
+    {
         var crowds = _crowdSpawner.InitializeCrowds();
         _messageController.GetCrowds(crowds);
 
+        _myAnimation.Play(_cameraAnimation);
+        _uiController.StartUp();
+        await UniTask.Delay(2000);
+    }
+
+    public async void StartGameplay()
+    {
+        _mainCamera.gameObject.SetActive(true);
+        playerInput.ActivateInput();
+        await UniTask.Delay(1000);
         StartOpera();
     }
+
+
 
     void Update()
     {

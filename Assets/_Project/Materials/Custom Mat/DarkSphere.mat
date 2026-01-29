@@ -25,8 +25,8 @@ Material:
     m_TexEnvs: []
     m_Ints: []
     m_Floats:
-    - _Falloff: 10
-    - _Intensity: 7.71
+    - _Falloff: 1.28
+    - _Intensity: 3.95
     - _NoiseScale: 1
     - _PulseAmount: 0
     - _PulseSpeed: 9.2
@@ -34,8 +34,8 @@ Material:
     - _RimPower: 1.16
     - _TimeOffset: 33.1
     m_Colors:
-    - _CenterColor: {r: 0, g: 0, b: 0, a: 0.8627451}
+    - _CenterColor: {r: 0, g: 0, b: 0, a: 1}
     - _Color: {r: 1, g: 0.7127471, b: 0, a: 1}
-    - _EdgeColor: {r: 0, g: 0, b: 0, a: 0.2901961}
+    - _EdgeColor: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

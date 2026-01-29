@@ -20,8 +20,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   InteractionTime: 2
-  Interaction_GetMessageDelay: 2
-  Interaction_ReleaseMessageDelat: 1
-  Interaction_GetGuest: 2
-  Interaction_Dropguest: 1
-  Interaction_TurnOnCandle: 2.5
+  Interaction_GetMessageDelay: 1
+  Interaction_ReleaseMessageDelat: 0.5
+  Interaction_GetGuest: 0
+  Interaction_Dropguest: 0
+  Interaction_TurnOnCandle: 1.5

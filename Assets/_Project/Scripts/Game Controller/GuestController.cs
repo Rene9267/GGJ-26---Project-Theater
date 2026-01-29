@@ -49,6 +49,7 @@ public class GuestController : MonoBehaviour
             _guestInteractionArea.OnAreaExit -= HandlePlayerExitGrabArea;
             _guestInteractionArea.OnStartInteract -= HandlePlayerGrabGuests;
             _guestInteractionArea.OnInteract -= HandleplayerStartInteract;
+            _guestInteractionArea.OnHurryUP -= HandleHurryUP;
         }
 
         foreach (FollowerGuestExitArea exitArea in _guestInteractionExitAreas)
@@ -61,7 +62,7 @@ public class GuestController : MonoBehaviour
         }
     }
 
-        void Awake()
+    void Awake()
     {
         if (_settings == null) return;
 
@@ -79,11 +80,23 @@ public class GuestController : MonoBehaviour
         _availableGuestsColor = new List<Color>(_settings.GuestsColors);
     }
 
+    private async void HandleHurryUP()
+    {
+        if (_lastSpawnedGuests != null && _lastSpawnedGuests.Count > 0)
+        {
+            foreach (var obj in _lastSpawnedGuests)
+            {
+                obj.HurryUp();
+                await UniTask.Delay(200);
+            }
+        }
+    }
+
     void Start()
     {
         Queue<ExitInfo> shuffledQueue = new();
         List<ExitInfo> tmpList = new();
-        for(int i = 0; i< _availableGuestsColor.Count; i++)
+        for (int i = 0; i < _availableGuestsColor.Count; i++)
         {
             tmpList.Add(new ExitInfo
             {
@@ -104,7 +117,7 @@ public class GuestController : MonoBehaviour
 
             exitArea.OnCompleteInteract += HandlePlayerDropGuest;
             exitArea.OnStartInteract += HandlePlayerStartDroppingGuest;
-            
+
             _guestInteractionExitAreasDic.Add(ExitInfo.color, exitArea);
         }
     }
@@ -159,6 +172,8 @@ public class GuestController : MonoBehaviour
         _guestInteractionArea.OnAreaExit += HandlePlayerExitGrabArea;
         _guestInteractionArea.OnStartInteract += HandlePlayerGrabGuests;
         _guestInteractionArea.OnInteract += HandleplayerStartInteract;
+        _guestInteractionArea.OnHurryUP -= HandleHurryUP;
+        _guestInteractionArea.OnHurryUP += HandleHurryUP;
         GuestArriveTimerStart(_settings.TimeToExit, _cts.Token);
     }
 
@@ -200,6 +215,7 @@ public class GuestController : MonoBehaviour
                     if (followerComp != null)
                     {
                         _activeGuests[color].Add(followerComp);
+                        followerComp.SetMyColor(color);
                     }
 
                     _guestPool.RemoveAt(randomIndex);
@@ -286,18 +302,11 @@ public class GuestController : MonoBehaviour
         var followTarget = player.gameObject.transform;
 
         int runAwayTimer = _settings.GuestRunAwayTimer;
-        for(int i = 0; i < _lastSpawnedGuests.Count; i++)
+        for (int i = 0; i < _lastSpawnedGuests.Count; i++)
         {
             if (_lastSpawnedGuests[i] == null) continue;
-            if(i != 0)
-                runAwayTimer = 0;
-            else
-            {
-                _lastSpawnedGuests[i].MyColor = _guestInteractionArea.MyInteractionColor;
-                _lastSpawnedGuests[i].OnRunAway -= HandleRunAway;
-                _lastSpawnedGuests[i].OnRunAway += HandleRunAway;
-            }
-
+            _lastSpawnedGuests[i].OnRunAway -= HandleRunAway;
+            _lastSpawnedGuests[i].OnRunAway += HandleRunAway;
             _lastSpawnedGuests[i].SetUpTarget(followTarget, runAwayTimer);
             _lastSpawnedGuests[i].SetPlayer(player);
             followTarget = _lastSpawnedGuests[i].transform;
@@ -339,10 +348,22 @@ public class GuestController : MonoBehaviour
             _cts.Dispose();
             _cts = null;
         }
+
+        foreach (var obj in _lastSpawnedGuests)
+        {
+            obj.HurryUpEnd();
+        }
     }
 
     private void HandleRunAway(Color colorID)
     {
+        // 1. Spegniamo l'icona dell'Exit Area corrispondente
+        if (_guestInteractionExitAreasDic.ContainsKey(colorID))
+        {
+            _guestInteractionExitAreasDic[colorID].DisableDirectionIcon();
+        }
+
+        // 2. Logica esistente di pulizia
         if (_activeGuests.ContainsKey(colorID))
         {
             foreach (FollowerGuest guest in _activeGuests[colorID])
@@ -356,7 +377,6 @@ public class GuestController : MonoBehaviour
             _activeGuests.Remove(colorID);
         }
     }
-
 
     private void TaskFailed()
     {

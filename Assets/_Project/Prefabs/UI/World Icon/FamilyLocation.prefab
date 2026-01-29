@@ -78,6 +78,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DirectionIcon
   Canvas: {fileID: 4874914137482926266}
   ChangableImage: {fileID: 4932371282902181482}
+  BackgroundImage: {fileID: 0}
 --- !u!1 &6827342236188030725
 GameObject:
   m_ObjectHideFlags: 0
@@ -245,7 +246,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_TargetDisplay: 0
 --- !u!114 &9165582279425924757
 MonoBehaviour:
@@ -399,6 +400,10 @@ PrefabInstance:
     - target: {fileID: 4564774349216399054, guid: 740aa3fb2ebf3df46acbe2cdfd352ae6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8603640579429927412, guid: 740aa3fb2ebf3df46acbe2cdfd352ae6, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

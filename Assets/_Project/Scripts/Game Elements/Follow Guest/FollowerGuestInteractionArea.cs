@@ -17,8 +17,8 @@ public class FollowerGuestInteractionArea : MonoBehaviour, IInteractable
     public event Action OnPlayerExited;
     public event Action<PlayerController> OnAreaExit;
     public event Action OnInteract;
+    public event Action OnHurryUP;
     public event Action OnStartInteract;
-
 
     private PlayerController _playerElement;
     private Coroutine _rotationCoroutine;
@@ -112,7 +112,7 @@ public class FollowerGuestInteractionArea : MonoBehaviour, IInteractable
 
     public void HurryUp()
     {
-        _HurryUpIcon.SetActive(true);
+        OnHurryUP?.Invoke();
     }
 
     private void AreaExitAndFollow()

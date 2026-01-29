@@ -1,33 +1,23 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Drawing;
 using UnityEngine;
 using UnityEngine.UI;
 using Color = UnityEngine.Color;
-using Random = UnityEngine.Random;
 
 public class CrowdInteractionArea : MonoBehaviour, IInteractable
 {
 
     [Header("UI Icon")]
-    [SerializeField] private List<Sprite> _messageIcons;
-    [SerializeField] private InteractionDynamicIcon interactionDynamicIcon;
-    [SerializeField] private DirectionIcon _hurryUpIcon;
-    [SerializeField] private Sprite _reciverIcon;
-    [SerializeField] private Sprite _reciverIconBackground;
-    [SerializeField] private Sprite _sanderIconBackground;
     [SerializeField] private Image _areaImage;
+    [SerializeField] private LetterIcon_Controller _iconController; 
 
     public InteractType InteactableType { get; private set; }
-
+    public event Action OnHurryUp;
     public event Action OnPlayerEntered;
     public event Action OnPlayerExited;
     public event Action OnCompleteInteract;
     public event Action OnInteract;
     public event Action OnMessageTake;
-
-
     public Color MyInteractionColor { get; private set; }
 
     private void OnValidate()
@@ -41,19 +31,13 @@ public class CrowdInteractionArea : MonoBehaviour, IInteractable
     void Awake()
     {
         _areaImage.gameObject.SetActive(false);
-        interactionDynamicIcon.gameObject.SetActive(false);
-        if (_hurryUpIcon != null)
-            _hurryUpIcon.gameObject.SetActive(false);
     }
 
     public void ResetArea()
     {
         InteactableType = InteractType.None;
         MyInteractionColor = Color.clear;
-
-        interactionDynamicIcon.SetActiveInteractionIcon(false);
-        interactionDynamicIcon.gameObject.SetActive(false);
-
+        
         if (_areaImage != null)
         {
             _areaImage.color = Color.white;
@@ -66,21 +50,6 @@ public class CrowdInteractionArea : MonoBehaviour, IInteractable
         _areaImage.color = color;
         MyInteractionColor = color;
         _areaImage.gameObject.SetActive(true);
-        if (InteactableType == InteractType.MessageSender)
-        {
-            int randomIconIndex = Random.Range(0, _messageIcons.Count);
-            interactionDynamicIcon.ChangableImage.sprite = _messageIcons[randomIconIndex];
-            interactionDynamicIcon.BackgroundImage.sprite = _sanderIconBackground;
-            interactionDynamicIcon.gameObject.SetActive(true);
-            interactionDynamicIcon.SetActiveInteractionIcon(false);
-        }
-        else if (InteactableType == InteractType.MessageReciver)
-        {
-            interactionDynamicIcon.ChangableImage.sprite = _reciverIcon;
-            interactionDynamicIcon.BackgroundImage.sprite = _reciverIconBackground;
-            interactionDynamicIcon.gameObject.SetActive(true);
-            interactionDynamicIcon.SetActiveInteractionIcon(false);
-        }
     }
 
     public IEnumerator AreaImageRotate(float rotationSpeed, bool clockwise = true)
@@ -96,8 +65,7 @@ public class CrowdInteractionArea : MonoBehaviour, IInteractable
 
     public void HurryUp()
     {
-        if (_hurryUpIcon != null)
-            _hurryUpIcon.gameObject.SetActive(true);
+        OnHurryUp?.Invoke();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -110,7 +78,6 @@ public class CrowdInteractionArea : MonoBehaviour, IInteractable
             {
                 OnPlayerEntered?.Invoke();
                 player.OnInteractionAreaEnter(this);
-                interactionDynamicIcon.SetActiveInteractionIcon(true);
                 DevLog.Log("[Crowd Interaction Area]: Player Entrato in me");
             }
         }
@@ -122,7 +89,6 @@ public class CrowdInteractionArea : MonoBehaviour, IInteractable
         {
             player.OnInteractionAreaExit();
             OnPlayerExited?.Invoke();
-            interactionDynamicIcon.SetActiveInteractionIcon(false);
             DevLog.Log("[Crowd Interaction Area]: Player Uscito da me");
         }
     }
@@ -131,19 +97,19 @@ public class CrowdInteractionArea : MonoBehaviour, IInteractable
     {
         if (InteactableType == InteractType.MessageSender)
         {
-            if(_hurryUpIcon!= null)
-            _hurryUpIcon.gameObject.SetActive(false);
             OnMessageTake?.Invoke();
         }
     }
 
     public void CompleteInteraction()
     {
-        interactionDynamicIcon.SetActiveInteractionIcon(false);
-        interactionDynamicIcon.gameObject.SetActive(false);
         if (InteactableType == InteractType.MessageReciver)
         {
             OnCompleteInteract?.Invoke();
+        }
+        if(InteactableType == InteractType.MessageSender)
+        {
+            _iconController.gameObject.SetActive(false);
         }
     }
 }

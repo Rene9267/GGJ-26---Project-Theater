@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::OperaSettings
   InitialPublic: 200
   OperaDurationSeconds: 120
-  GuestActivationThreshold: 0
-  MessageActivationThreshold: 0.4
+  GuestActivationThreshold: 0.1
+  MessageActivationThreshold: 0
   CandleActivationThreshold: 0.7
   guestSpawnInterval:
     serializedVersion: 2
@@ -117,4 +117,4 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   MessageFailTask: -10
-  DarkIsRising: -7
+  DarkIsRising: -3

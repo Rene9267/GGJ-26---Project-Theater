@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
-using Cysharp.Threading.Tasks.Internal;
 using Cysharp.Threading.Tasks;
 using System.Threading;
 
@@ -14,8 +13,12 @@ public class Crowd : MonoBehaviour
     [Header("Core References")]
     [SerializeField] private CrowdSettings _crowdSettings;
     [SerializeField] private Transform _guestFather;
+    [SerializeField] private Animation _myAnimation;
+
+
+
     private bool IsReciverOrSender = false;
-    private readonly List<GameObject> _crowdMembers = new();
+    private readonly List<StaticGuest_Controller> _crowdMembers = new();
     private Coroutine _uiRotationCoroutine;
     private Vector2 _crowdMiddlePoint;
     public event Action<Color> OnInteracionComplete;
@@ -23,6 +26,9 @@ public class Crowd : MonoBehaviour
 
     private Color _myColor;
     private CancellationTokenSource _cts;
+    private readonly string _letterSpawnName = "AC_MessageSpawn";
+    private readonly string _letterTaskFail = "AC_MessageFail";
+    private readonly string _letterTaskGet = "AC_GetMessage";
 
     void OnDisable()
     {
@@ -30,6 +36,13 @@ public class Crowd : MonoBehaviour
         {
             _crowdInteractionArea.OnCompleteInteract -= HandleInteraction;
             _crowdInteractionArea.OnMessageTake -= CompleteMessageTask;
+        }
+        if (_crowdMembers != null)
+        {
+            foreach (var obj in _crowdMembers)
+            {
+                obj.StopHurry();
+            }
         }
     }
 
@@ -71,6 +84,8 @@ public class Crowd : MonoBehaviour
 
         int crowdSize = Random.Range((int)_crowdSettings.CrowdSize.x, (int)_crowdSettings.CrowdSize.y);
 
+        int actualCrowd = 0;
+
         for (int i = 0; i < crowdSize; i++)
         {
             bool foundValidSpot = false;
@@ -89,11 +104,12 @@ public class Crowd : MonoBehaviour
                     int randomIndex = Random.Range(0, _crowdSettings.SpawnableGuest.Count);
 
                     //Istanzia il guest
-                    GameObject guest = Instantiate(_crowdSettings.SpawnableGuest[randomIndex], spawnPosition, Quaternion.identity, _guestFather);
+                    Quaternion pawnRotation = Quaternion.Euler(0, Random.Range(0f, 360f), 0);
+                    GameObject guest = Instantiate(_crowdSettings.SpawnableGuest[randomIndex], spawnPosition, pawnRotation, _guestFather);
 
                     _crowdMiddlePoint += new Vector2(spawnPosition.x, spawnPosition.z);
-
-                    _crowdMembers.Add(guest);
+                    actualCrowd++;
+                    _crowdMembers.Add(guest.GetComponent<StaticGuest_Controller>());
                     foundValidSpot = true;
                 }
             }
@@ -105,13 +121,17 @@ public class Crowd : MonoBehaviour
             }
         }
 
-        _crowdMiddlePoint /= crowdSize;
+        _crowdMiddlePoint /= actualCrowd;
         _crowdInteractionArea.transform.position = new Vector3(_crowdMiddlePoint.x, _crowdInteractionArea.transform.position.y, _crowdMiddlePoint.y);
     }
 
-    public void EnableSender(Color CircleColor)
+    public async void EnableSender(Color CircleColor)
     {
         _cts = new CancellationTokenSource();
+
+        _myAnimation.Play(_letterSpawnName);
+        // float timer = _myAnimation.GetClip(_letterSpawnName).length;
+        // await UniTask.Delay((int)(_myAnimation.clip.length * 1000));
 
         _crowdInteractionArea.gameObject.SetActive(true);
         _crowdInteractionArea.SetUPInteractionArea(CircleColor, InteractType.MessageSender);
@@ -128,8 +148,18 @@ public class Crowd : MonoBehaviour
         _crowdInteractionArea.OnMessageTake -= CompleteMessageTask;
         _crowdInteractionArea.OnCompleteInteract += HandleInteraction;
         _crowdInteractionArea.OnMessageTake += CompleteMessageTask;
+        _crowdInteractionArea.OnHurryUp -= HandleHurryup;
+        _crowdInteractionArea.OnHurryUp += HandleHurryup;
 
-        MessageTimeStart(5000, _cts.Token);
+        MessageTimeStart(_crowdSettings.MessageTimeSetting, _cts.Token);
+    }
+
+    private void HandleHurryup()
+    {
+        foreach (var obj in _crowdMembers)
+        {
+            obj.HurryUp();
+        }
     }
 
     public void EnableReciver(Color CircleColor)
@@ -167,13 +197,21 @@ public class Crowd : MonoBehaviour
 
     private void TaskFailed()
     {
+        _myAnimation.Play(_letterTaskFail);
         OnTaskFailed?.Invoke(_myColor);
         StopInteraction();
     }
-    
+
     private void CompleteMessageTask()
     {
         if (_cts == null) return;
+
+        _myAnimation.Play(_letterTaskGet);
+
+        foreach (var obj in _crowdMembers)
+        {
+            obj.StopHurry();
+        }
 
         try
         {

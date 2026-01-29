@@ -10,13 +10,21 @@ public class FollowerGuest : MonoBehaviour
 
     [Header("UI Icon")]
     [SerializeField] private GameObject _hurryUpIcon;
+    [SerializeField] private Animation _animation;
+
+    [SerializeField] private StaticGuest_Controller _meshController;
+    [SerializeField] private Animator _animator;
 
     private FollowerGuestMovement _movement;
     private readonly string _stunGuestTag = "StunGuest";
     private PlayerController playerController;
     private CancellationTokenSource _cts;
     private int _runAwayTimer;
-    public Color MyColor;
+
+    private Color MyColor;
+
+    private readonly string _hurryUp = "AC_HurryUP";
+    private int _animIDWalking;
 
     void OnValidate()
     {
@@ -34,12 +42,32 @@ public class FollowerGuest : MonoBehaviour
             _cts.Dispose();
             _cts = null;
         }
-        _hurryUpIcon.SetActive(false);
+        HurryUpEnd();
     }
 
     void Awake()
     {
+        _meshController.SetRandomMaterialOnAwake = false;
         TryGetComponent(out _movement);
+        _animIDWalking = Animator.StringToHash("IsWalking");
+    }
+
+    public void SetMyColor(Color chosenColor)
+    {
+        MyColor = chosenColor;
+        _meshController.SetMaterialColor(MyColor);
+    }
+    void Update()
+    {
+        HandleAnimations();
+    }
+
+    private void HandleAnimations()
+    {
+        if (_animator == null || _movement == null) return;
+
+        bool isWalking = _movement.CurrentSpeed > 1f;
+        _animator.SetBool(_animIDWalking, isWalking);
     }
 
     public void SetUpTarget(Transform target, int runAwayTimer = 0)
@@ -79,10 +107,17 @@ public class FollowerGuest : MonoBehaviour
         }
     }
 
-    private void HurryUp()
+    public void HurryUp()
     {
-        _hurryUpIcon.SetActive(true);
+        _animation.Play(_hurryUp);
     }
+
+    public void HurryUpEnd()
+    {
+        _hurryUpIcon.SetActive(false);
+        _animation.Stop();
+    }
+
 
     void TaskFailed()
     {
