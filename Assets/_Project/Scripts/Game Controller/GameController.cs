@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
@@ -18,6 +19,7 @@ public class GameController : MonoBehaviour
     [SerializeField] private GlobalUIController _uiController;
     [SerializeField] private Animation _myAnimation;
     [SerializeField] private Camera _mainCamera;
+    [SerializeField] private Camera _cutSceneCamera;
     [SerializeField] public PlayerInput playerInput;
     [SerializeField] public MusiciansController MusiciansController;
     [SerializeField] public ActorController _actorController;
@@ -31,6 +33,12 @@ public class GameController : MonoBehaviour
     private bool _isOperaRunning;
     private float _guestTimer, _messageTimer, _lightTimer;
     private readonly string _cameraAnimation = "AC_CameraStartMove";
+    private readonly string _faceTheKing = "AC_faceTheKing";
+    private readonly string _HappyKing = "AC_HappyEnding";
+    private readonly string _SadKing = "AC_MidEndin";
+    private readonly string _BadEnding = "AC_BadEnding";
+    private readonly string _menuScene = "Scene_Menu";
+
     //=======================================================
     #endregion
 
@@ -98,8 +106,6 @@ public class GameController : MonoBehaviour
         StartOpera();
     }
 
-
-
     void Update()
     {
         if (!_isOperaRunning) return;
@@ -143,14 +149,39 @@ public class GameController : MonoBehaviour
             timer = interval;
         }
     }
+
     private void SpawnGuest() => _guestController.CreateGuestDirection();
     private void SpawnMessage() => _messageController.CreateCrowdLink();
     private void SpawnLight() => _candleController.TurnOffACandle();
     private void StartOpera() => _isOperaRunning = true;
-    private void EndOpera()
+
+    private async void EndOpera()
     {
         _isOperaRunning = false;
-        Debug.Log("Opera Finita!");
+        playerInput.DeactivateInput();
+        _uiController.EndGame();
+        await UniTask.Delay(1200);
+
+        _myAnimation.Play(_faceTheKing);
+        _uiController.gameObject.SetActive(false);
+        await UniTask.Delay(2000);
+
+        if (_remainingGuests > (int)(_settings.InitialPublic*0.5))
+        {
+            _myAnimation.Play(_HappyKing);
+        }
+        else if(_remainingGuests > (int)(_settings.InitialPublic * 0.5) && _remainingGuests >0)
+        {
+            _myAnimation.Play(_SadKing);
+        }
+        else if (_remainingGuests <= 0)
+        {
+            _myAnimation.Play(_BadEnding);
+        }
+
+        await UniTask.Delay(5000);
+
+        SceneManager.LoadScene(_menuScene);
     }
 
     private void HandleGuestDrop(int guestDroppedDount)

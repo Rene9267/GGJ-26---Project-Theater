@@ -5,7 +5,7 @@ public class Actor : MonoBehaviour
     [SerializeField] private AudioSource _speaker;
     [SerializeField] private Animation _myAnim;
     private AudioClip myAudio;
-    private readonly string _animAct = "Ac_Act";
+    private readonly string _animAct = "AC_Act";
 
     public void PrepareMySpeach(AudioClip randomAudio)
     {

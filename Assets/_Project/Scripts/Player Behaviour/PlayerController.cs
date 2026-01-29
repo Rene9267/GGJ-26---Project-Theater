@@ -108,7 +108,7 @@ public class PlayerController : MonoBehaviour
         else sprinting = false;
         _animator.SetBool(_animIDRunning, sprinting);
 
-        _animator.SetBool(_animIDSorry, _isStunned);
+        
     }
 
     private void Update()
@@ -219,6 +219,7 @@ public class PlayerController : MonoBehaviour
     private IEnumerator StunRoutine()
     {
         _isStunned = true;
+        _animator.SetBool(_animIDSorry, _isStunned);
         _inputVector = Vector2.zero;
         _isSprinting = false;
 
@@ -228,6 +229,7 @@ public class PlayerController : MonoBehaviour
 
         StartCoroutine(Invulnerableroutine());
         _isStunned = false;
+        _animator.SetBool(_animIDSorry, _isStunned);
     }
 
     private IEnumerator Interaction(float interactionDelay)

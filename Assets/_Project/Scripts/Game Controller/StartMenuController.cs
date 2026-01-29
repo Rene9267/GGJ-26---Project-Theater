@@ -9,10 +9,9 @@ public class StartMenuController : MonoBehaviour
 {
     private readonly string _gamePlayScene = "Scene_Main";
     [SerializeField] private CanvasGroup myCanvasGroup;
-    [SerializeField] private CanvasGroup myImage;
-
-[SerializeField] private Animation _animation;
-private readonly string FadeIn = "AC_FadeInCanvas";
+    [SerializeField] private AudioSource _audio;
+    [SerializeField] private Animation _animation;
+    private readonly string FadeIn = "AC_FadeInCanvas";
     private readonly string FadeOut = "AC_FadeOutCanvas";
 
 
@@ -25,6 +24,7 @@ private readonly string FadeIn = "AC_FadeInCanvas";
     {
         await UniTask.Delay(500);
         _animation.Play(FadeIn);
+        _audio.Play();
     }
 
     public async void OnStartClick()
