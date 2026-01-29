@@ -20,6 +20,9 @@ public class GameController : MonoBehaviour
     [SerializeField] private Camera _mainCamera;
     [SerializeField] public PlayerInput playerInput;
     [SerializeField] public MusiciansController MusiciansController;
+    [SerializeField] public ActorController _actorController;
+
+
 
     [Header("UI References")]
 
@@ -91,6 +94,7 @@ public class GameController : MonoBehaviour
         _mainCamera.gameObject.SetActive(true);
         playerInput.ActivateInput();
         await UniTask.Delay(1000);
+        _actorController.StartAct();
         StartOpera();
     }
 
