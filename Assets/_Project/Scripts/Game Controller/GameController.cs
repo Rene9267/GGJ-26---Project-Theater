@@ -34,8 +34,8 @@ public class GameController : MonoBehaviour
     private float _guestTimer, _messageTimer, _lightTimer;
     private readonly string _cameraAnimation = "AC_CameraStartMove";
     private readonly string _faceTheKing = "AC_faceTheKing";
-    private readonly string _HappyKing = "AC_HappyEnding";
-    private readonly string _SadKing = "AC_MidEndin";
+    private readonly string _HappyKing = "AC_HappyKing";
+    private readonly string _SadKing = "AC_SadKing";
     private readonly string _BadEnding = "AC_BadEnding";
     private readonly string _menuScene = "Scene_Menu";
 
@@ -163,6 +163,7 @@ public class GameController : MonoBehaviour
         await UniTask.Delay(1200);
 
         _myAnimation.Play(_faceTheKing);
+        await UniTask.Delay(1200);
         _uiController.gameObject.SetActive(false);
         await UniTask.Delay(2000);
 
