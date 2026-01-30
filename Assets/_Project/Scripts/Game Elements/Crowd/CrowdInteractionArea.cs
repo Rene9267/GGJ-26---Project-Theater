@@ -11,6 +11,12 @@ public class CrowdInteractionArea : MonoBehaviour, IInteractable
     [SerializeField] private Image _areaImage;
     public LetterIcon_Controller IconController;
 
+    public AudioClip HeartSpawn;
+    public AudioClip LetterSpawn;
+
+    public AudioSource MessageSource;
+
+
     public InteractType InteactableType { get; private set; }
     public event Action OnHurryUp;
     public event Action OnPlayerEntered;
@@ -55,9 +61,18 @@ public class CrowdInteractionArea : MonoBehaviour, IInteractable
         _areaImage.color = color;
         MyInteractionColor = color;
         _areaImage.gameObject.SetActive(true);
-
         if (type == InteractType.MessageSender)
+        {
             IconController.SetUpIcon(InteactableType);
+            if (IconController.iconIndex == 0)
+            {
+                MessageSource.PlayOneShot(LetterSpawn);
+            }
+            else
+            {
+                MessageSource.PlayOneShot(HeartSpawn);
+            }
+        }
     }
 
     public IEnumerator AreaImageRotate(float rotationSpeed, bool clockwise = true)
@@ -88,10 +103,10 @@ public class CrowdInteractionArea : MonoBehaviour, IInteractable
                 player.OnInteractionAreaEnter(this);
                 DevLog.Log("[Crowd Interaction Area]: Player Entrato in me");
 
-                if(InteactableType == InteractType.MessageSender)
+                if (InteactableType == InteractType.MessageSender)
                 {
                     bool isHeart = false;
-                    if(IconController.iconIndex == 1) isHeart = true;
+                    if (IconController.iconIndex == 1) isHeart = true;
                     player.SetHeadIcon(isHeart);
                 }
             }

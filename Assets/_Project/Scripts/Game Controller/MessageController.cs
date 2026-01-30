@@ -111,4 +111,17 @@ public class MessageController : MonoBehaviour
         OnTaskFailed?.Invoke();
     }
 
+    public void StopAllMessages()
+    {
+        foreach (var link in _crowdLinks.Values)
+        {
+            if (link.Receiver != null)
+                link.Receiver.OnInteracionComplete -= HandleMessageTaskCompleted;
+
+            if (link.Sender != null)
+                link.Sender.OnTaskFailed -= HandleMessageTaskFailed;
+
+        }
+        _crowdLinks.Clear();
+    }
 }

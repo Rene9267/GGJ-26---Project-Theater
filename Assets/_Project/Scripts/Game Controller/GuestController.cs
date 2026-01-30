@@ -1,8 +1,9 @@
+using Cysharp.Threading.Tasks;
 using System;
 using System.Collections.Generic;
 using System.Threading;
-using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
 
 
@@ -23,6 +24,12 @@ public class GuestController : MonoBehaviour
     [SerializeField] private AudioSource _source;
     [SerializeField] private AudioClip _spawnClip;
     [SerializeField] private AudioClip _arriveClip;
+
+    [Header("Exit Physics")]
+    [Tooltip("Il nome del layer creato per i guest che escono (es. 'ExitingGuest')")]
+    [SerializeField] private string _exitLayerName = "ExitingGuest";
+    private int _exitLayerIndex;
+    private int _defaultGuestLayer;
 
 
     private Dictionary<Color, List<FollowerGuest>> _activeGuests = new Dictionary<Color, List<FollowerGuest>>();
@@ -59,7 +66,7 @@ public class GuestController : MonoBehaviour
         {
             if (exitArea != null)
             {
-                exitArea.OnCompleteInteract -= HandlePlayerDropGuest;
+                exitArea.OnCompleteInteractWithExit -= HandlePlayerDropGuest;
                 exitArea.OnStartInteract -= HandlePlayerStartDroppingGuest;
             }
         }
@@ -81,18 +88,6 @@ public class GuestController : MonoBehaviour
         _guestInteractionExitAreasDic ??= new();
 
         _availableGuestsColor = new List<Color>(_settings.GuestsColors);
-    }
-
-    private async void HandleHurryUP()
-    {
-        if (_lastSpawnedGuests != null && _lastSpawnedGuests.Count > 0)
-        {
-            foreach (var obj in _lastSpawnedGuests)
-            {
-                obj.HurryUp();
-                await UniTask.Delay(200);
-            }
-        }
     }
 
     void Start()
@@ -118,10 +113,17 @@ public class GuestController : MonoBehaviour
             _guestInteractionArea.OnStartInteract -= HandlePlayerGrabGuests;
             _guestInteractionArea.OnInteract -= HandleplayerStartInteract;
 
-            exitArea.OnCompleteInteract += HandlePlayerDropGuest;
+            exitArea.OnCompleteInteractWithExit += HandlePlayerDropGuest;
             exitArea.OnStartInteract += HandlePlayerStartDroppingGuest;
 
             _guestInteractionExitAreasDic.Add(ExitInfo.color, exitArea);
+        }
+
+        _exitLayerIndex = LayerMask.NameToLayer(_exitLayerName);
+
+        if (_settings.GuestsPool.Count > 0 && _settings.GuestsPool[0] != null)
+        {
+            _defaultGuestLayer = _settings.GuestsPool[0].layer;
         }
     }
 
@@ -144,7 +146,17 @@ public class GuestController : MonoBehaviour
             queue.Enqueue(item);
         }
     }
-
+    private async void HandleHurryUP()
+    {
+        if (_lastSpawnedGuests != null && _lastSpawnedGuests.Count > 0)
+        {
+            foreach (var obj in _lastSpawnedGuests)
+            {
+                obj.HurryUp();
+                await UniTask.Delay(200);
+            }
+        }
+    }
     [ContextMenu("Genera Direction Manuale")]
     public void CreateGuestDirection()
     {
@@ -256,13 +268,11 @@ public class GuestController : MonoBehaviour
         CompleteGuestTask();
     }
 
-    private void HandlePlayerDropGuest(Color colorID)
+    private void HandlePlayerDropGuest(Color colorID, Transform alignPoint, Transform exitPoint)
     {
-        if (colorID == null)
+        if (colorID == Color.clear)
         {
-#if UNITY_EDITOR
             Debug.LogError("[Guest Controller]: Manca il Colore");
-#endif
             return;
         }
 
@@ -271,18 +281,99 @@ public class GuestController : MonoBehaviour
         if (_activeGuests.ContainsKey(colorID))
         {
             guestDroppedCount = _activeGuests[colorID].Count;
-            foreach (FollowerGuest guest in _activeGuests[colorID])
-            {
-                guest.SetUpTarget(null);
-                guest.gameObject.SetActive(false);
-                _guestPool.Add(guest.gameObject);
-            }
-            _availableGuestsColor.Add(colorID);
+
+            List<FollowerGuest> guestsToExit = new List<FollowerGuest>(_activeGuests[colorID]);
+
             _activeGuests[colorID].Clear();
             _activeGuests.Remove(colorID);
+            _availableGuestsColor.Add(colorID);
+
+            ExitSequenceRoutine(guestsToExit, alignPoint, exitPoint).Forget();
         }
+
         _source.PlayOneShot(_arriveClip);
         OnGuestDropped?.Invoke(guestDroppedCount);
+    }
+
+    void SetLayerRecursively(GameObject obj, int newLayer)
+    {
+        obj.layer = newLayer;
+        foreach (Transform child in obj.transform)
+        {
+            SetLayerRecursively(child.gameObject, newLayer);
+        }
+    }
+
+    private async UniTaskVoid ExitSequenceRoutine(List<FollowerGuest> guests, Transform alignPoint, Transform exitPoint)
+    {
+        if (guests == null || guests.Count == 0) return;
+
+        foreach (var guest in guests)
+        {
+            guest.SetPlayer(null);
+
+            if (_exitLayerIndex != -1)
+            {
+                SetLayerRecursively(guest.gameObject, _exitLayerIndex);
+            }
+
+            if (guest.TryGetComponent<FollowerGuestMovement>(out var movement))
+            {
+                movement.LocalOffset = Vector3.zero;
+            }
+
+            guest.SetUpTarget(alignPoint);
+        }
+
+        await WaitForGuestsToReachTarget(guests, alignPoint, 1.5f);
+
+        foreach (var guest in guests)
+        {
+            guest.SetUpTarget(exitPoint);
+        }
+
+        await WaitForGuestsToReachTarget(guests, exitPoint, 1.0f);
+
+        foreach (FollowerGuest guest in guests)
+        {
+            if (guest.TryGetComponent<FollowerGuestMovement>(out var movement))
+            {
+                movement.LocalOffset = new Vector3(0, 1.2f, -1.8f);
+            }
+
+            guest.gameObject.layer = _defaultGuestLayer;
+
+            guest.SetUpTarget(null);
+            guest.gameObject.SetActive(false);
+            _guestPool.Add(guest.gameObject);
+        }
+    }
+
+    private async UniTask WaitForGuestsToReachTarget(List<FollowerGuest> guests, Transform target, float threshold)
+    {
+        bool allArrived = false;
+        // Timeout di sicurezza (es. 5 secondi) per evitare loop infiniti se si incastrano
+        float timeout = 5f;
+        float timer = 0f;
+
+        while (!allArrived && timer < timeout)
+        {
+            timer += Time.deltaTime;
+            allArrived = true;
+
+            foreach (var guest in guests)
+            {
+                if (guest == null || !guest.gameObject.activeSelf) continue;
+
+                float dist = Vector3.Distance(guest.transform.position, target.position);
+                if (dist > threshold)
+                {
+                    allArrived = false;
+                    break; // Basta che uno sia lontano per aspettare ancora
+                }
+            }
+            await UniTask.Yield(); // Aspetta un frame
+        }
     }
 
     private void HandlePlayerStartDroppingGuest(Color colorID)
@@ -403,5 +494,31 @@ public class GuestController : MonoBehaviour
         _activeGuests[tmpColor].Clear();
         _guestInteractionArea.ResetArea();
         _activeGuests.Remove(tmpColor);
+    }
+
+    public void StopAllGuests()
+    {
+        if (_cts != null)
+        {
+            _cts.Cancel();
+            _cts.Dispose();
+            _cts = null;
+        }
+
+        if (_guestInteractionArea != null)
+        {
+            _guestInteractionArea.OnAreaExit -= HandlePlayerExitGrabArea;
+            _guestInteractionArea.OnStartInteract -= HandlePlayerGrabGuests;
+            _guestInteractionArea.OnInteract -= HandleplayerStartInteract;
+            _guestInteractionArea.OnHurryUP -= HandleHurryUP;
+        }
+
+        foreach (var exitArea in _guestInteractionExitAreas)
+        {
+            exitArea.OnCompleteInteractWithExit -= HandlePlayerDropGuest;
+            exitArea.OnStartInteract -= HandlePlayerStartDroppingGuest;
+        }
+
+        _lastSpawnedGuests?.Clear();
     }
 }

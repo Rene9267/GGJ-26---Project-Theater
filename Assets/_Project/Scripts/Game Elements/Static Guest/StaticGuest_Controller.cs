@@ -25,7 +25,7 @@ public class StaticGuest_Controller : MonoBehaviour
         }
     }
 
-    void Start()
+    void Awake()
     {
         if (SetRandomMaterialOnAwake)
         {

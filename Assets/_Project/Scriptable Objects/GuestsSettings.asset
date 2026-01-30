@@ -39,10 +39,10 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 4ab87debd3a511b479a061710cef69e7, type: 3}
   - {fileID: 21300000, guid: a1e2406f0d0841446aa387e131065c66, type: 3}
   ExitAreaBaseImages:
-  - {fileID: 21300000, guid: 2bc2ea15af5ac674caa88c87b8837b11, type: 3}
-  - {fileID: 21300000, guid: aafb24ecd241311478b7cefaca2db44a, type: 3}
-  - {fileID: 21300000, guid: aa1c3f1b9f3eb6f439ef38dbd53b2dbe, type: 3}
-  - {fileID: 21300000, guid: c400d085ac0fa7d4e854c15775283af3, type: 3}
+  - {fileID: 21300000, guid: a1ed621b98e794249a824df426232f9e, type: 3}
+  - {fileID: 21300000, guid: cbf694602872d80429597aa934d3cd1a, type: 3}
+  - {fileID: 21300000, guid: fa47b72b0bb937a49a29c137c032a7eb, type: 3}
+  - {fileID: 21300000, guid: e969f5cbeb2ab794ab0461b78467f5ad, type: 3}
   RotationSpeed: 100
   Clockwise: 1
   TimeToExit: 10000

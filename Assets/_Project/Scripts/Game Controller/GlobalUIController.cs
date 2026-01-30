@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class GlobalUIController : MonoBehaviour
 {
+    public GameObject GamePlayUI;
     [SerializeField] private TextMeshProUGUI _peopleNumber;
     [SerializeField] private CanvasGroup _fadeScreen;
     [SerializeField] private Animation _anim;

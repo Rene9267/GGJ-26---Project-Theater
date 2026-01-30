@@ -11044,4 +11044,116 @@ AnimationClip:
     flags: 0
   m_HasGenericRootTransform: 1
   m_HasMotionFloatCurves: 0
-  m_Events: []
+  m_Events:
+  - time: 1.75
+    functionName: PlayStep
+    data: 
+    objectReferenceParameter: {fileID: 8300000, guid: a5f501f63f74aa64c993e88264df5aea, type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 1.9166666
+    functionName: PlayStep
+    data: 
+    objectReferenceParameter: {fileID: 8300000, guid: a5f501f63f74aa64c993e88264df5aea, type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 2.0833333
+    functionName: PlayStep
+    data: 
+    objectReferenceParameter: {fileID: 8300000, guid: a5f501f63f74aa64c993e88264df5aea, type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 2.25
+    functionName: PlayStep
+    data: 
+    objectReferenceParameter: {fileID: 8300000, guid: a5f501f63f74aa64c993e88264df5aea, type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 2.4166667
+    functionName: PlayStep
+    data: 
+    objectReferenceParameter: {fileID: 8300000, guid: a5f501f63f74aa64c993e88264df5aea, type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 2.5833333
+    functionName: PlayStep
+    data: 
+    objectReferenceParameter: {fileID: 8300000, guid: a5f501f63f74aa64c993e88264df5aea, type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 2.75
+    functionName: PlayStep
+    data: 
+    objectReferenceParameter: {fileID: 8300000, guid: a5f501f63f74aa64c993e88264df5aea, type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 2.9166667
+    functionName: PlayStep
+    data: 
+    objectReferenceParameter: {fileID: 8300000, guid: a5f501f63f74aa64c993e88264df5aea, type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 3.0833333
+    functionName: PlayStep
+    data: 
+    objectReferenceParameter: {fileID: 8300000, guid: a5f501f63f74aa64c993e88264df5aea, type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 3.25
+    functionName: PlayStep
+    data: 
+    objectReferenceParameter: {fileID: 8300000, guid: a5f501f63f74aa64c993e88264df5aea, type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 3.4166667
+    functionName: PlayStep
+    data: 
+    objectReferenceParameter: {fileID: 8300000, guid: a5f501f63f74aa64c993e88264df5aea, type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 3.5833333
+    functionName: PlayStep
+    data: 
+    objectReferenceParameter: {fileID: 8300000, guid: a5f501f63f74aa64c993e88264df5aea, type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 3.75
+    functionName: PlayStep
+    data: 
+    objectReferenceParameter: {fileID: 8300000, guid: a5f501f63f74aa64c993e88264df5aea, type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 3.9166667
+    functionName: PlayStep
+    data: 
+    objectReferenceParameter: {fileID: 8300000, guid: a5f501f63f74aa64c993e88264df5aea, type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 4.0833335
+    functionName: PlayStep
+    data: 
+    objectReferenceParameter: {fileID: 8300000, guid: a5f501f63f74aa64c993e88264df5aea, type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 4.25
+    functionName: PlayStep
+    data: 
+    objectReferenceParameter: {fileID: 8300000, guid: a5f501f63f74aa64c993e88264df5aea, type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0

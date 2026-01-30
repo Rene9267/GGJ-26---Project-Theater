@@ -192,6 +192,7 @@ public class PlayerController : MonoBehaviour
                     interactionDelay = _playerSettings.Interaction_TurnOnCandle;
                     break;
             }
+            _audioController.PlayOneShot(_audioController.MmhmmhSound, 1.2f,1);
 
             DevLog.Log($"[{this.gameObject}]: Ho interagito con {_currentInteractable}");
             _currentInteractable.Interact();

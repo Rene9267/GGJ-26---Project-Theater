@@ -6,7 +6,7 @@ public class ActorController : MonoBehaviour
     [SerializeField] List<Actor> _myActor;
     [SerializeField] List<AudioClip> _mySpeach = new();
 
-    private float _actTime = 7;
+    private float _actTime = 2;
     private float _tmpTime;
     private bool _isActStarted = false;
 
@@ -30,5 +30,10 @@ public class ActorController : MonoBehaviour
                 _tmpTime = _actTime;
             }
         }
+    }
+
+    public void StopAct()
+    {
+        _isActStarted = false;
     }
 }

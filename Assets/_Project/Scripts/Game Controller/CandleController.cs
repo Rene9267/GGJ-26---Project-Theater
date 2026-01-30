@@ -73,4 +73,23 @@ public class CandleController : MonoBehaviour
     {
         OnDarkRise?.Invoke();
     }
+
+    public void StopAllCandles()
+    {
+        if (_availableCandle != null)
+        {
+            foreach (var candle in _availableCandle)
+            {
+                candle.OnDarkEffect -= HandleDarkRaise;
+            }
+        }
+
+        if (_darkCandle != null)
+        {
+            foreach (var candle in _darkCandle)
+            {
+                candle.OnDarkEffect -= HandleDarkRaise;
+            }
+        }
+    }
 }

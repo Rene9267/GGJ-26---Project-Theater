@@ -34,6 +34,9 @@ public class GameController : MonoBehaviour
     [Header("Audio Clip")]
     [SerializeField] private AudioClip _kingTromb;
     [SerializeField] private AudioClip _rulloDiTamburi;
+    [SerializeField] private AudioClip _kingApplause;
+    [SerializeField] private AudioClip _kingBuu;
+    [SerializeField] private AudioClip _preShow;
 
     [SerializeField] private AudioClip _act1;
 
@@ -99,6 +102,10 @@ public class GameController : MonoBehaviour
     {
         var crowds = _crowdSpawner.InitializeCrowds();
         _messageController.GetCrowds(crowds);
+        
+        _ = FadeAudio(_theaterBackground, false, 0, 0);
+        _theaterBackground.clip = _preShow;
+        await FadeAudio(_theaterBackground,true,1, 0.3f);
 
         _myAnimation.Play(_cameraAnimation);
         _uiController.StartUp();
@@ -107,7 +114,7 @@ public class GameController : MonoBehaviour
 
     public async void StartGameplay()
     {
-        _ = FadeAudio(_theaterBackground, false, 0, 0);
+        await FadeAudio(_theaterBackground, false, 0.5f, 0);
         _mainCamera.gameObject.SetActive(true);
         playerInput.ActivateInput();
         await UniTask.Delay(1000);
@@ -198,9 +205,15 @@ public class GameController : MonoBehaviour
 
     private async void EndOpera()
     {
-        _isOperaRunning = false;
-        playerInput.DeactivateInput();
+        StopAllGameplay();
+
+        await FadeAudio(_theaterBackground,false,1,0);
+        _theaterBackground.gameObject.SetActive(false);
+
+        //Schermata fine gioco
+
         await _uiController.FadeCanvas(true, 1);
+        _uiController.GamePlayUI.SetActive(false);
         _mainCamera.gameObject.SetActive(false);
 
         await UniTask.Delay(500);
@@ -210,24 +223,27 @@ public class GameController : MonoBehaviour
         await _uiController.FadeCanvas(false, 1);
 
         _audioSource.PlayOneShot(_kingTromb);
-        await UniTask.Delay(5000);
+        await UniTask.Delay(3500);
 
-        if (_rulloDiTamburi != null)
         _audioSource.clip = _rulloDiTamburi;
         _audioSource.Play();
 
         await UniTask.Delay(2000);
 
-        if (_remainingGuests > (int)(_settings.InitialPublic * 0.5))
+        if (_remainingGuests > 20)
         {
             _king.EndRate(KingState.Happy);
+            await UniTask.Delay(2000);
+            _audioSource.PlayOneShot(_kingApplause);
         }
         else
         {
             _king.EndRate(KingState.Ok);
+            await UniTask.Delay(2000);
+            _audioSource.PlayOneShot(_kingBuu);
         }
 
-        await UniTask.Delay(3000);
+        await UniTask.Delay(2000);
         await _uiController.FadeCanvas(true, 1);
 
         await UniTask.Delay(500);
@@ -292,6 +308,18 @@ public class GameController : MonoBehaviour
         ChangeTotlaGuest(_settings.DarkIsRising);
         DevLog.Log($"[{this.gameObject}]: Sto decrementando il valore degli spettatori di {1}, rimanenti: {_remainingGuests}");
     }
+    private void StopAllGameplay()
+    {
+        _isOperaRunning = false;
+
+        playerInput.DeactivateInput();
+
+        if (_guestController != null) _guestController.StopAllGuests();
+        if (_messageController != null) _messageController.StopAllMessages();
+        if (_candleController != null) _candleController.StopAllCandles();
+        if (_actorController != null) _actorController.StopAct();
+    }
+
 
     #endregion
 }

@@ -3,6 +3,7 @@ using UnityEngine;
 public class PlayerAudio_Controller : MonoBehaviour
 {
     [SerializeField] private AudioSource _audioSource;
+    public AudioClip MmhmmhSound;
 
     public void PlayAudio(AudioClip newAudio)
     {
@@ -11,6 +12,14 @@ public class PlayerAudio_Controller : MonoBehaviour
 
         _audioSource.clip = newAudio;
         _audioSource.Play();
+    }
+
+    public void PlayOneShot(AudioClip newAudio, float volume, float pitch)
+    {
+        _audioSource.pitch = pitch;
+        _audioSource.volume = volume;
+
+        _audioSource.PlayOneShot(newAudio);
     }
 
     public void PlayStep(AudioClip newAudio)

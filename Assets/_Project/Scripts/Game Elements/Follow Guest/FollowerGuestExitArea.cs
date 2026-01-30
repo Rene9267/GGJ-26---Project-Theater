@@ -7,9 +7,16 @@ public class FollowerGuestExitArea : MonoBehaviour, IInteractable
     [SerializeField] private InteractionDynamicIcon _directionIcon;
     [SerializeField] private DirectionIcon _areaIcon;
 
+    [Header("Exit Sequence")]
+    [Tooltip("Il punto dove i guest si allineano prima di uscire (davanti alla porta)")]
+    [SerializeField] private Transform _alignWayPoint;
+    [Tooltip("Il punto finale fuori dalla mappa dove i guest spariscono")]
+    [SerializeField] private Transform _finalExitPoint;
+
+    public event Action<Color, Transform, Transform> OnCompleteInteractWithExit;
+
     public event Action OnPlayerEntered;
     public event Action OnPlayerExited;
-    public event Action<Color> OnCompleteInteract;
     public event Action<Color> OnStartInteract;
 
     public InteractType InteactableType { get; set; }
@@ -67,7 +74,7 @@ public class FollowerGuestExitArea : MonoBehaviour, IInteractable
 
     public void CompleteInteraction()
     {
-        OnCompleteInteract?.Invoke(MyInteractionColor);
+        OnCompleteInteractWithExit?.Invoke(MyInteractionColor, _alignWayPoint, _finalExitPoint);
         _directionIcon.gameObject.SetActive(false);
     }
 

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: OperaSettings
   m_EditorClassIdentifier: Assembly-CSharp::OperaSettings
   InitialPublic: 200
-  OperaDurationSeconds: 120
+  OperaDurationSeconds: 10
   GuestActivationThreshold: 0.1
   MessageActivationThreshold: 0.345
   CandleActivationThreshold: 0.66

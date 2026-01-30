@@ -15,6 +15,10 @@ public class Crowd : MonoBehaviour
     [SerializeField] private Transform _guestFather;
     [SerializeField] private Animation _myAnimation;
 
+    public AudioClip TaskFailedClip;
+    public AudioClip TaskSuccessClip;
+    public AudioSource MessageSource;
+
     private bool IsReciverOrSender = false;
     private readonly List<StaticGuest_Controller> _crowdMembers = new();
     private Coroutine _uiRotationCoroutine;
@@ -47,7 +51,8 @@ public class Crowd : MonoBehaviour
 
     private void HandleInteraction()
     {
-        _myAnimation.Play(_letterTaskFail);
+        _myAnimation.Play(_letterTaskGet);
+        MessageSource.PlayOneShot(TaskSuccessClip);
         _crowdInteractionArea.gameObject.SetActive(false);
         _crowdInteractionArea.IconController.gameObject.SetActive(false);
 
@@ -220,7 +225,9 @@ public class Crowd : MonoBehaviour
 
     private void TaskFailed()
     {
+        MessageSource.PlayOneShot(TaskFailedClip);
         _myAnimation.Play(_letterTaskFail);
+
         OnTaskFailed?.Invoke(_myColor);
         _myReciver = null;
         StopInteraction();
