@@ -64,7 +64,7 @@ public class GlobalUIController : MonoBehaviour
     {
         if (_timerBarImage != null)
         {
-            _timerBarImage.fillAmount = 1f - progress;
+            _timerBarImage.fillAmount = progress;
         }
     }
 }

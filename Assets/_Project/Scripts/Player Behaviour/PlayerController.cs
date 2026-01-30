@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
+using System;
 using System.Collections;
-using System.Drawing;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Color = UnityEngine.Color;
@@ -48,7 +49,7 @@ public class PlayerController : MonoBehaviour
     private readonly string _getMessage = "AC_Player_GetMessage";
 
     private bool _isHeart;
-
+    private CancellationTokenSource _iconCts;
     private void OnValidate()
     {
         if (_playerSettings == null)
@@ -280,25 +281,43 @@ public class PlayerController : MonoBehaviour
 
     public void HandleIconHEadInteraction(Color color)
     {
+        if (_iconCts != null) { _iconCts.Cancel(); _iconCts.Dispose(); _iconCts = null; }
+
         if (_isHeart)
         {
             _heart.gameObject.SetActive(true);
             _heart.GetComponent<Renderer>().material.color = color;
+            _letter.gameObject.SetActive(false);
         }
         else
         {
             _letter.gameObject.SetActive(true);
             _letter.GetComponent<Renderer>().material.color = color;
+            _heart.gameObject.SetActive(false);
         }
         _animation.Play(_messageSpawn);
     }
 
     public async void DisableHeadIcon()
     {
-        _animation.Play(_getMessage);
-        await UniTask.Delay(1000);
+        _iconCts = new CancellationTokenSource();
+        var token = _iconCts.Token;
 
-        _letter.gameObject.SetActive(false);
-        _heart.gameObject.SetActive(false);
+        _animation.Play(_getMessage);
+
+        try
+        {
+            await UniTask.Delay(1000, cancellationToken: token);
+
+            _letter.gameObject.SetActive(false);
+            _heart.gameObject.SetActive(false);
+        }
+        catch (OperationCanceledException)
+        {
+        }
+        finally
+        {
+            if (_iconCts != null) { _iconCts.Dispose(); _iconCts = null; }
+        }
     }
 }

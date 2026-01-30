@@ -22,20 +22,25 @@ public class LookAtDirection : MonoBehaviour
         }
         else
         {
-            if (Camera.main != null)
-            {
-                _currentTarget = Camera.main.transform;
-            }
-            else
-            {
-                Debug.LogWarning($"[LookAtObject] Attenzione: {name} non ha un target e non trova la Main Camera!");
-            }
+            TryFindCamera();
+        }
+    }
+    private void TryFindCamera()
+    {
+        if (Camera.main != null)
+        {
+            _currentTarget = Camera.main.transform;
         }
     }
 
     void Update()
     {
-        if (_currentTarget == null) return;
+        if (_currentTarget == null)
+        {
+            TryFindCamera();
+
+            if (_currentTarget == null) return;
+        }
 
         Vector3 direction = _currentTarget.position - transform.position;
 

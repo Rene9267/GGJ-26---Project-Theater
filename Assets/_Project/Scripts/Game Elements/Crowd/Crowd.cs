@@ -56,8 +56,20 @@ public class Crowd : MonoBehaviour
 
     public void ResetCrowd()
     {
-        _crowdInteractionArea.OnCompleteInteract -= HandleInteraction;
-        _crowdInteractionArea.OnMessageTake -= CompleteMessageTask;
+        if (_crowdInteractionArea != null)
+        {
+            _crowdInteractionArea.OnCompleteInteract -= HandleInteraction;
+            _crowdInteractionArea.OnMessageTake -= CompleteMessageTask;
+            _crowdInteractionArea.OnHurryUp -= HandleHurryup; 
+        }
+
+        if (_cts != null)
+        {
+            _cts.Cancel();
+            _cts.Dispose();
+            _cts = null;
+        }
+
         if (_uiRotationCoroutine != null)
         {
             StopCoroutine(_uiRotationCoroutine);
@@ -66,11 +78,17 @@ public class Crowd : MonoBehaviour
 
         _myColor = Color.clear;
         IsReciverOrSender = false;
+        _myReciver = null;
 
         if (_crowdInteractionArea != null)
         {
             _crowdInteractionArea.ResetArea(); 
             _crowdInteractionArea.gameObject.SetActive(false); 
+        }
+
+        foreach (var obj in _crowdMembers)
+        {
+            obj.StopHurry();
         }
     }
 

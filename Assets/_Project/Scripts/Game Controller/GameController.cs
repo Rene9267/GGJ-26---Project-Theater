@@ -36,8 +36,6 @@ public class GameController : MonoBehaviour
     [SerializeField] private AudioClip _rulloDiTamburi;
 
     [SerializeField] private AudioClip _act1;
-    [SerializeField] private AudioClip _act2;
-    [SerializeField] private AudioClip _act3;
 
     private bool _isAct1Notified, _isAct2Notified, _isAct3Notified;
 
@@ -109,13 +107,12 @@ public class GameController : MonoBehaviour
 
     public async void StartGameplay()
     {
-        _ = FadeAudio(_theaterBackground, false, 0);
+        _ = FadeAudio(_theaterBackground, false, 0, 0);
         _mainCamera.gameObject.SetActive(true);
         playerInput.ActivateInput();
         await UniTask.Delay(1000);
-        if (_act1 != null)
-            _theaterBackground.clip = _act1;
-        _ = FadeAudio(_theaterBackground, true, 3);
+        _theaterBackground.clip = _act1;
+        _ = FadeAudio(_theaterBackground, true, 3, 0.3f);
         _actorController.StartAct();
         StartOpera();
     }
@@ -139,19 +136,11 @@ public class GameController : MonoBehaviour
 
         if (progress >= _settings.MessageActivationThreshold && !_isAct2Notified)
         {
-            _ = FadeAudio(_theaterBackground, false, 1);
-            if (_act2 != null)
-                _theaterBackground.clip = _act2;
-            _ = FadeAudio(_theaterBackground, true, 1);
             _isAct2Notified = true;
         }
 
         if (progress >= _settings.CandleActivationThreshold && !_isAct3Notified)
         {
-            _ = FadeAudio(_theaterBackground, false, 1);
-            if (_act3 != null)
-                _theaterBackground.clip = _act3;
-            _ = FadeAudio(_theaterBackground, true, 1);
             _isAct3Notified = true;
         }
 
@@ -204,25 +193,26 @@ public class GameController : MonoBehaviour
     {
         _cutSceneCamera.transform.SetPositionAndRotation(_finalCameraPosition.position, _finalCameraPosition.rotation);
         _cutSceneCamera.fieldOfView = 45;
+        _cutSceneCamera.gameObject.SetActive(true);
     }
 
     private async void EndOpera()
     {
         _isOperaRunning = false;
         playerInput.DeactivateInput();
+        await _uiController.FadeCanvas(true, 1);
         _mainCamera.gameObject.SetActive(false);
-        await _uiController.FadeCanvas(false, 1);
 
         await UniTask.Delay(500);
 
         FaceTheKing();
         await UniTask.Delay(1200);
-        await _uiController.FadeCanvas(true, 1);
+        await _uiController.FadeCanvas(false, 1);
 
         _audioSource.PlayOneShot(_kingTromb);
         await UniTask.Delay(5000);
 
-        if (_rulloDiTamburi != null) ;
+        if (_rulloDiTamburi != null)
         _audioSource.clip = _rulloDiTamburi;
         _audioSource.Play();
 
@@ -238,7 +228,7 @@ public class GameController : MonoBehaviour
         }
 
         await UniTask.Delay(3000);
-        await _uiController.FadeCanvas(false, 1);
+        await _uiController.FadeCanvas(true, 1);
 
         await UniTask.Delay(500);
 
@@ -259,12 +249,12 @@ public class GameController : MonoBehaviour
     }
 
 
-    public async UniTask FadeAudio(AudioSource source, bool isFadeIn, float duration)
+    public async UniTask FadeAudio(AudioSource source, bool isFadeIn, float duration, float volume = 0)
     {
         if (source == null) return;
 
         float startVolume = isFadeIn ? 0f : source.volume;
-        float endVolume = isFadeIn ? 1f : 0f;
+        float endVolume = isFadeIn ? volume : 0f;
         float elapsed = 0f;
 
         if (isFadeIn && !source.isPlaying) source.Play();

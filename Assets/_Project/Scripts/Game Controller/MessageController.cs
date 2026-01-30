@@ -88,25 +88,18 @@ public class MessageController : MonoBehaviour
     {
         if (_crowdLinks.ContainsKey(color))
         {
-            var tmpSender = _crowdLinks[color].Sender;
-            tmpSender.ResetCrowd();
+            var link = _crowdLinks[color];
+            if (link.Receiver != null)
+                link.Receiver.OnInteracionComplete -= HandleMessageTaskCompleted;
+            if (link.Sender != null)
+                link.Sender.OnTaskFailed -= HandleMessageTaskFailed;
 
+            link.Sender.ResetCrowd();
+            link.Receiver.ResetCrowd();
 
-            var tmpReciver = _crowdLinks[color].Receiver;
-            tmpReciver.ResetCrowd();
-
-            tmpReciver.OnInteracionComplete -= HandleMessageTaskCompleted;
-            tmpSender.OnTaskFailed -= HandleMessageTaskFailed;
-
-            var tmpColor = _crowdLinks[color].CircleColor;
-
-            if (_availableCrowds.Contains(tmpReciver) == false)
-                _availableCrowds.Add(tmpReciver);
-            if (_availableCrowds.Contains(tmpSender) == false)
-                _availableCrowds.Add(tmpSender);
-            if (_availableColors.Contains(tmpColor) == false)
-                _availableColors.Add(tmpColor);
-
+            if (!_availableCrowds.Contains(link.Receiver)) _availableCrowds.Add(link.Receiver);
+            if (!_availableCrowds.Contains(link.Sender)) _availableCrowds.Add(link.Sender);
+            if (!_availableColors.Contains(link.CircleColor)) _availableColors.Add(link.CircleColor);
             _crowdLinks.Remove(color);
         }
     }

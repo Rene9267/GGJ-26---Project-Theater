@@ -20,6 +20,10 @@ public class GuestController : MonoBehaviour
     [SerializeField] private List<FollowerGuestExitArea> _guestInteractionExitAreas = new();
     [SerializeField] private Transform _guestSpwanTransform;
 
+    [SerializeField] private AudioSource _source;
+    [SerializeField] private AudioClip _spawnClip;
+    [SerializeField] private AudioClip _arriveClip;
+
 
     private Dictionary<Color, List<FollowerGuest>> _activeGuests = new Dictionary<Color, List<FollowerGuest>>();
     private Dictionary<Color, FollowerGuestExitArea> _guestInteractionExitAreasDic = new Dictionary<Color, FollowerGuestExitArea>();
@@ -43,7 +47,6 @@ public class GuestController : MonoBehaviour
 
     void OnDisable()
     {
-        // Disiscrizione corretta dall'area di presa
         if (_guestInteractionArea != null)
         {
             _guestInteractionArea.OnAreaExit -= HandlePlayerExitGrabArea;
@@ -181,7 +184,7 @@ public class GuestController : MonoBehaviour
     {
         if (_guestPool.Count == 0)
         {
-            Debug.LogWarning("[Guest Controller]: Pool vuoto, impossibile spawnare.");
+            DevLog.LogWarning("[Guest Controller]: Pool vuoto, impossibile spawnare.");
             return;
         }
 
@@ -225,6 +228,8 @@ public class GuestController : MonoBehaviour
                 }
             }
         }
+
+        _source.PlayOneShot(_spawnClip);
 
         if (actualSpawnedCount > 0)
         {
@@ -276,7 +281,7 @@ public class GuestController : MonoBehaviour
             _activeGuests[colorID].Clear();
             _activeGuests.Remove(colorID);
         }
-
+        _source.PlayOneShot(_arriveClip);
         OnGuestDropped?.Invoke(guestDroppedCount);
     }
 
