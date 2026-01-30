@@ -40,10 +40,10 @@ MonoBehaviour:
   - {fileID: 21300000, guid: a1e2406f0d0841446aa387e131065c66, type: 3}
   ExitAreaBaseImages:
   - {fileID: 21300000, guid: a1ed621b98e794249a824df426232f9e, type: 3}
-  - {fileID: 21300000, guid: cbf694602872d80429597aa934d3cd1a, type: 3}
   - {fileID: 21300000, guid: fa47b72b0bb937a49a29c137c032a7eb, type: 3}
+  - {fileID: 21300000, guid: cbf694602872d80429597aa934d3cd1a, type: 3}
   - {fileID: 21300000, guid: e969f5cbeb2ab794ab0461b78467f5ad, type: 3}
   RotationSpeed: 100
   Clockwise: 1
-  TimeToExit: 10000
-  GuestRunAwayTimer: 15000
+  TimeToExit: 15000
+  GuestRunAwayTimer: 7000

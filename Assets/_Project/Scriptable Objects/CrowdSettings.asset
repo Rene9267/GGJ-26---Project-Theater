@@ -25,3 +25,4 @@ MonoBehaviour:
   MaxAttemptsPerPawn: 10
   RotationSpeed: 100
   Clockwise: 1
+  MessageTimeSetting: 10000

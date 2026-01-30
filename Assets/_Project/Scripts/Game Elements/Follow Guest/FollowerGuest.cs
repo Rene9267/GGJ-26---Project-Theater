@@ -123,10 +123,10 @@ public class FollowerGuest : MonoBehaviour
     {
         if (playerController == null) return;
 
-        if (MyColor != null && MyColor != Color.clear)
+        if (MyColor != Color.clear)
         {
-            OnRunAway?.Invoke(MyColor);
             playerController.GuestFamilyColor = Color.clear;
+            OnRunAway?.Invoke(MyColor);
         }
     }
 

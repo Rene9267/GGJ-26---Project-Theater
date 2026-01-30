@@ -25,6 +25,13 @@ public class GuestController : MonoBehaviour
     [SerializeField] private AudioClip _spawnClip;
     [SerializeField] private AudioClip _arriveClip;
 
+    [Header("Run Away / Bad Exit Settings")]
+    [Tooltip("Il punto davanti alla porta generica/ingresso dove si allineano prima di sparire")]
+    [SerializeField] private Transform _runAwayAlignPoint;
+
+    [Tooltip("Il punto finale fuori scena (dietro la porta generica)")]
+    [SerializeField] private Transform _runAwayExitPoint;
+
     [Header("Exit Physics")]
     [Tooltip("Il nome del layer creato per i guest che escono (es. 'ExitingGuest')")]
     [SerializeField] private string _exitLayerName = "ExitingGuest";
@@ -41,8 +48,7 @@ public class GuestController : MonoBehaviour
     private List<FollowerGuest> _lastSpawnedGuests;
     public event Action<int> OnGuestDropped;
     private CancellationTokenSource _cts;
-    public event Action OnTaskFailed;
-
+    public event Action<int> OnTaskFailed;
 
     void OnValidate()
     {
@@ -319,6 +325,7 @@ public class GuestController : MonoBehaviour
 
             if (guest.TryGetComponent<FollowerGuestMovement>(out var movement))
             {
+                movement.SetExitMode(true);
                 movement.LocalOffset = Vector3.zero;
             }
 
@@ -338,6 +345,7 @@ public class GuestController : MonoBehaviour
         {
             if (guest.TryGetComponent<FollowerGuestMovement>(out var movement))
             {
+                movement.SetExitMode(false);
                 movement.LocalOffset = new Vector3(0, 1.2f, -1.8f);
             }
 
@@ -433,51 +441,61 @@ public class GuestController : MonoBehaviour
 
     private void CompleteGuestTask()
     {
-        if (_cts == null) return;
-
-        try
+        if (_cts != null)
         {
-            _cts.Cancel();
+            try
+            {
+                _cts.Cancel();
+            }
+            finally
+            {
+                _cts.Dispose();
+                _cts = null;
+            }
         }
-        finally
-        {
-            _cts.Dispose();
-            _cts = null;
-        }
 
-        foreach (var obj in _lastSpawnedGuests)
+        if (_lastSpawnedGuests != null)
         {
-            obj.HurryUpEnd();
+            foreach (var obj in _lastSpawnedGuests)
+            {
+                if (obj != null)
+                {
+                    obj.HurryUpEnd();
+                }
+            }
         }
     }
 
     private void HandleRunAway(Color colorID)
     {
-        // 1. Spegniamo l'icona dell'Exit Area corrispondente
         if (_guestInteractionExitAreasDic.ContainsKey(colorID))
         {
             _guestInteractionExitAreasDic[colorID].DisableDirectionIcon();
         }
 
-        // 2. Logica esistente di pulizia
+        if (_runAwayAlignPoint == null || _runAwayExitPoint == null)
+        {
+            Debug.LogError("[GuestController] Mancano i punti _runAwayAlignPoint o _runAwayExitPoint nell'inspector!");
+            return;
+        }
+
         if (_activeGuests.ContainsKey(colorID))
         {
-            foreach (FollowerGuest guest in _activeGuests[colorID])
-            {
-                guest.SetUpTarget(null);
-                guest.gameObject.SetActive(false);
-                _guestPool.Add(guest.gameObject);
-            }
-            _availableGuestsColor.Add(colorID);
+            List<FollowerGuest> guestsToExit = new List<FollowerGuest>(_activeGuests[colorID]);
+
             _activeGuests[colorID].Clear();
             _activeGuests.Remove(colorID);
+            _availableGuestsColor.Add(colorID);
+
+            ExitSequenceRoutine(guestsToExit, _runAwayAlignPoint, _runAwayExitPoint).Forget();
         }
     }
 
     private void TaskFailed()
     {
-        OnTaskFailed?.Invoke();
-        //ANIMAZIONE DI USCITA PERSONAGGI
+        int lostGuestsCount = _lastSpawnedGuests != null ? _lastSpawnedGuests.Count : 0;
+
+        OnTaskFailed?.Invoke(lostGuestsCount);
 
         foreach (FollowerGuest guest in _lastSpawnedGuests)
         {
@@ -503,6 +521,14 @@ public class GuestController : MonoBehaviour
             _cts.Cancel();
             _cts.Dispose();
             _cts = null;
+        }
+            
+        foreach(var obj in _activeGuests)
+        {
+            foreach(var ele in obj.Value)
+            {
+                ele.gameObject.SetActive(false);
+            }
         }
 
         if (_guestInteractionArea != null)

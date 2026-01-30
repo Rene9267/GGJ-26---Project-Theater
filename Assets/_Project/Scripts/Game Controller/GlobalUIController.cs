@@ -8,6 +8,8 @@ using UnityEngine.UI;
 public class GlobalUIController : MonoBehaviour
 {
     public GameObject GamePlayUI;
+    public CanvasGroup EndUI;
+
     [SerializeField] private TextMeshProUGUI _peopleNumber;
     [SerializeField] private CanvasGroup _fadeScreen;
     [SerializeField] private Animation _anim;
@@ -60,6 +62,35 @@ public class GlobalUIController : MonoBehaviour
         _fadeScreen.interactable = isFadeIn;
         _fadeScreen.blocksRaycasts = isFadeIn;
     }
+
+    public async UniTask FadeCanvas(bool isFadeIn, float duration, CanvasGroup _fadeScreen)
+    {
+        if (_fadeScreen == null) return;
+
+        var cts = this.GetCancellationTokenOnDestroy();
+
+        float startAlpha = _fadeScreen.alpha;
+        float endAlpha = isFadeIn ? 1f : 0f;
+        float elapsed = 0f;
+
+        if (isFadeIn) _fadeScreen.blocksRaycasts = true;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float progress = elapsed / duration;
+
+            _fadeScreen.alpha = Mathf.Lerp(startAlpha, endAlpha, progress);
+
+            await UniTask.Yield(PlayerLoopTiming.Update, cts);
+        }
+
+        _fadeScreen.alpha = endAlpha;
+
+        _fadeScreen.interactable = isFadeIn;
+        _fadeScreen.blocksRaycasts = isFadeIn;
+    }
+
 
     public void UpdateTimerBar(float progress)
     {

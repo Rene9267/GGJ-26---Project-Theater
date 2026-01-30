@@ -13,16 +13,16 @@ MonoBehaviour:
   m_Name: OperaSettings
   m_EditorClassIdentifier: Assembly-CSharp::OperaSettings
   InitialPublic: 200
-  OperaDurationSeconds: 10
-  GuestActivationThreshold: 0.1
-  MessageActivationThreshold: 0.345
-  CandleActivationThreshold: 0.66
+  OperaDurationSeconds: 240
+  GuestActivationThreshold: 0.15
+  MessageActivationThreshold: 0.02
+  CandleActivationThreshold: 0.5
   guestSpawnInterval:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 8
+      value: 12
       inSlope: 0
       outSlope: 0
       tangentMode: 136
@@ -31,16 +31,16 @@ MonoBehaviour:
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 0.6
-      value: 10
-      inSlope: 4
-      outSlope: 4
+      value: 8
+      inSlope: -6
+      outSlope: -6
       tangentMode: 136
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 1
-      value: 12
+      value: 6
       inSlope: 0
       outSlope: 0
       tangentMode: 136
@@ -55,7 +55,7 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 15
+      value: 12
       inSlope: 0
       outSlope: 0
       tangentMode: 136
@@ -64,9 +64,33 @@ MonoBehaviour:
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 0.6
-      value: 10
-      inSlope: -10
-      outSlope: -10
+      value: 8
+      inSlope: -6
+      outSlope: -6
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 6
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  lightSpawnInterval:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 12
+      inSlope: 0
+      outSlope: 0
       tangentMode: 136
       weightedMode: 0
       inWeight: 0.33333334
@@ -83,38 +107,5 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  lightSpawnInterval:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 15
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.6
-      value: 10
-      inSlope: -8
-      outSlope: -8
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 7
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  MessageFailTask: -10
-  DarkIsRising: -3
+  MessageFailTask: -15
+  DarkIsRising: -1

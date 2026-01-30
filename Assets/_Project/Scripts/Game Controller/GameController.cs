@@ -76,6 +76,7 @@ public class GameController : MonoBehaviour
         _guestController.OnGuestDropped += HandleGuestDrop;
         _messageController.OnTaskFailed += HandleMessageFail;
         _candleController.OnDarkRise += HandleDarkRise;
+        _guestController.OnTaskFailed += HandleGuestTaskFailed;
     }
 
     private void OnDisable()
@@ -83,6 +84,7 @@ public class GameController : MonoBehaviour
         _guestController.OnGuestDropped -= HandleGuestDrop;
         _messageController.OnTaskFailed -= HandleMessageFail;
         _candleController.OnDarkRise += HandleDarkRise;
+        _guestController.OnTaskFailed -= HandleGuestTaskFailed;
     }
 
     private void Awake()
@@ -122,6 +124,13 @@ public class GameController : MonoBehaviour
         _ = FadeAudio(_theaterBackground, true, 3, 0.3f);
         _actorController.StartAct();
         StartOpera();
+    }
+
+    private void HandleGuestTaskFailed(int lostCount)
+    {
+        ChangeTotlaGuest(-lostCount);
+
+        DevLog.Log($"Task Guest Fallita! Persi {lostCount} spettatori.");
     }
 
     void Update()
@@ -206,11 +215,14 @@ public class GameController : MonoBehaviour
     private async void EndOpera()
     {
         StopAllGameplay();
-
-        await FadeAudio(_theaterBackground,false,1,0);
+        
+        await FadeAudio(_theaterBackground,false,4,0);
         _theaterBackground.gameObject.SetActive(false);
 
         //Schermata fine gioco
+        //await _uiController.FadeCanvas(true, 1, _uiController.EndUI);
+        
+        //_ = _uiController.FadeCanvas(false, 1, _uiController.EndUI);
 
         await _uiController.FadeCanvas(true, 1);
         _uiController.GamePlayUI.SetActive(false);

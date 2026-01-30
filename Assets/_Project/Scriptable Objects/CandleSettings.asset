@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd18c3679c17d0f448b920f7f67297c0, type: 3}
   m_Name: CandleSettings
   m_EditorClassIdentifier: Assembly-CSharp::CandleSettings
-  TimeToRiseTheDarkness: 3
+  TimeToRiseTheDarkness: 2

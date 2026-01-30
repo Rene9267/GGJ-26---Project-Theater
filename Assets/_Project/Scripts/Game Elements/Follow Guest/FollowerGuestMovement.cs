@@ -18,6 +18,9 @@ public class FollowerGuestMovement : MonoBehaviour
     [Tooltip("Distanza minima dal centro del player per il Bump")]
     public float MinDistanceBump = 0.8f;
     public float BounceForce = 12f;
+    
+    [Header("Speed Limit")]
+    public float MaxSpeed = 20f;
 
     [Header("Rotazione")]
     public float RotationSpeed = 10f;
@@ -25,6 +28,10 @@ public class FollowerGuestMovement : MonoBehaviour
     
     private Rigidbody _rb;
     private bool _isBouncing = false;
+
+    private float _defaultStiffness;
+    private float _defaultLeash;
+    private float _defaultMaxSpeed;
 
     private void Awake()
     {
@@ -34,6 +41,11 @@ public class FollowerGuestMovement : MonoBehaviour
         _rb.isKinematic = true;
         _rb.linearDamping = 0;  
         _rb.interpolation = RigidbodyInterpolation.Interpolate;
+
+        _defaultStiffness = Stiffness;
+        _defaultLeash = MaxDistanceLeash;
+        MaxSpeed = Random.Range(20,100);
+        _defaultMaxSpeed = MaxSpeed;
     }
 
     private void OnDisable()
@@ -67,9 +79,30 @@ public class FollowerGuestMovement : MonoBehaviour
 
         _rb.AddForce(totalForce);
 
+        if (_rb.linearVelocity.magnitude > MaxSpeed)
+        {
+            _rb.linearVelocity = _rb.linearVelocity.normalized * MaxSpeed;
+        }
+
         RotateTowardsTarget();
 
         HandlePlayerBump();
+    }
+
+    public void SetExitMode(bool isExiting)
+    {
+        if (isExiting)
+        {
+            Stiffness = 30f;           
+            MaxDistanceLeash = 1000f;  
+            MaxSpeed = 4f;            
+        }
+        else
+        {
+            Stiffness = _defaultStiffness;
+            MaxDistanceLeash = _defaultLeash;
+            MaxSpeed = _defaultMaxSpeed;
+        }
     }
 
     private void RotateTowardsTarget()
