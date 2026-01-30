@@ -1,6 +1,9 @@
+using Cysharp.Threading.Tasks;
 using System.Collections;
+using System.Drawing;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Color = UnityEngine.Color;
 
 public struct Message
 {
@@ -11,7 +14,12 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private PlayerSettings _playerSettings;
     [SerializeField] private Animator _animator;
+    [SerializeField] private Animation _animation;
     [SerializeField] private PlayerInput _playerInput;
+    [SerializeField] private GameObject _letter;
+    [SerializeField] private GameObject _heart;
+    [SerializeField] private PlayerAudio_Controller _audioController;
+
 
     private CharacterController _controller;
     private Vector3 _moveDirection;
@@ -35,6 +43,11 @@ public class PlayerController : MonoBehaviour
     public Color GuestFamilyColor = Color.clear;
     private IInteractable _currentInteractable;
     private InputAction _sprintAction;
+
+    private readonly string _messageSpawn = "AC_MessageSpawn";
+    private readonly string _getMessage = "AC_Player_GetMessage";
+
+    private bool _isHeart;
 
     private void OnValidate()
     {
@@ -108,7 +121,7 @@ public class PlayerController : MonoBehaviour
         else sprinting = false;
         _animator.SetBool(_animIDRunning, sprinting);
 
-        
+
     }
 
     private void Update()
@@ -157,11 +170,13 @@ public class PlayerController : MonoBehaviour
                     _animator.SetBool(_animIDInteract, true);
                     interactionDelay = _playerSettings.Interaction_ReleaseMessageDelat;
                     ActualMessage.MessageColor = Color.clear;
+                    DisableHeadIcon();
                     break;
                 case InteractType.MessageSender:
                     _animator.SetBool(_animIDInteract, true);
                     interactionDelay = _playerSettings.Interaction_GetMessageDelay;
                     ActualMessage.MessageColor = _currentInteractable.MyInteractionColor;
+                    HandleIconHEadInteraction(ActualMessage.MessageColor);
                     break;
                 case InteractType.TakeGuest:
                     interactionDelay = _playerSettings.Interaction_GetGuest;
@@ -225,10 +240,11 @@ public class PlayerController : MonoBehaviour
 
         DevLog.Log("[Player]: Sbattuto contro uno spettatore");
 
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1.2f);
 
         StartCoroutine(Invulnerableroutine());
         _isStunned = false;
+        //_audioController.StopAudio();
         _animator.SetBool(_animIDSorry, _isStunned);
     }
 
@@ -253,5 +269,36 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(2f);
 
         _isInvulnerable = false;
+    }
+
+
+    public void SetHeadIcon(bool isHeart)
+    {
+        _isHeart = isHeart;
+       
+    }
+
+    public void HandleIconHEadInteraction(Color color)
+    {
+        if (_isHeart)
+        {
+            _heart.gameObject.SetActive(true);
+            _heart.GetComponent<Renderer>().material.color = color;
+        }
+        else
+        {
+            _letter.gameObject.SetActive(true);
+            _letter.GetComponent<Renderer>().material.color = color;
+        }
+        _animation.Play(_messageSpawn);
+    }
+
+    public async void DisableHeadIcon()
+    {
+        _animation.Play(_getMessage);
+        await UniTask.Delay(1000);
+
+        _letter.gameObject.SetActive(false);
+        _heart.gameObject.SetActive(false);
     }
 }

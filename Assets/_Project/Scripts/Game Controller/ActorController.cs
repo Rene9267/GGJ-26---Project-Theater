@@ -4,7 +4,7 @@ using UnityEngine;
 public class ActorController : MonoBehaviour
 {
     [SerializeField] List<Actor> _myActor;
-    [SerializeField] List<AudioClip> _mySpeach;
+    [SerializeField] List<AudioClip> _mySpeach = new();
 
     private float _actTime = 7;
     private float _tmpTime;

@@ -12,12 +12,17 @@ public class Candle : MonoBehaviour
     [SerializeField] private CandleInteractionArea _interactionArea;
     [SerializeField] private Animation _animation;
 
-    
+    [Header("Audio")]
+    [SerializeField] private AudioSource _source;
+    [SerializeField] private AudioClip _candleOn;
+    [SerializeField] private AudioClip _candleOffClip;
+
+
     private bool _isDark = false;
     private float _darkGuestRunTimer;
     private Coroutine _darkCoroutine;
 
-private readonly string _candleOff = "AC_FlameOff";
+    private readonly string _candleOff = "AC_FlameOff";
     private readonly string _cancdleOn = "AC_FlameOn";
 
     #endregion
@@ -42,6 +47,9 @@ private readonly string _candleOff = "AC_FlameOff";
     public void TurnOff(float timeToRaiseTheDarkness)
     {
         _animation.Play(_candleOff);
+
+        _source.PlayOneShot(_candleOffClip);
+        
         _isDark = true;
 
         _darkGuestRunTimer = timeToRaiseTheDarkness;
@@ -49,7 +57,7 @@ private readonly string _candleOff = "AC_FlameOff";
         _darkCoroutine ??= StartCoroutine(DarkIsComing());
 
         if (_interactionArea == null)
-            Debug.LogWarning($"[Candle - {this.gameObject}]: {_interactionArea} risulta null");
+            DevLog.LogWarning($"[Candle - {this.gameObject}]: {_interactionArea} risulta null");
 
         _interactionArea.SetUpInteractionArea();
 
@@ -72,6 +80,7 @@ private readonly string _candleOff = "AC_FlameOff";
     {
         _isDark = false;
         _animation.Play(_cancdleOn);
+        _source.PlayOneShot(_candleOn);
         _interactionArea.OnCompleteInteract -= HandleCompleteInteraction;
     }
 
@@ -86,7 +95,7 @@ private readonly string _candleOff = "AC_FlameOff";
                 tmpDarkTimer = _darkGuestRunTimer;
                 OnDarkEffect?.Invoke();
             }
-                yield return null;
+            yield return null;
         }
     }
 }

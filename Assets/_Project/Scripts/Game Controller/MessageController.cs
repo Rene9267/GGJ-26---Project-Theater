@@ -69,7 +69,8 @@ public class MessageController : MonoBehaviour
         Color circleColor = _availableColors[randomColorIndex];
         _availableColors.RemoveAt(randomColorIndex);
 
-        sender.EnableSender(circleColor);
+        sender.EnableSender(circleColor, receiver);
+
         receiver.EnableReciver(circleColor);
 
         _crowdLinks.Add(circleColor, new CrowdLink

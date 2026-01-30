@@ -15,8 +15,8 @@ MonoBehaviour:
   InitialPublic: 200
   OperaDurationSeconds: 120
   GuestActivationThreshold: 0.1
-  MessageActivationThreshold: 0.4
-  CandleActivationThreshold: 0.7
+  MessageActivationThreshold: 0.345
+  CandleActivationThreshold: 0.66
   guestSpawnInterval:
     serializedVersion: 2
     m_Curve:

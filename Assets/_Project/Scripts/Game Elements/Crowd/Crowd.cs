@@ -8,14 +8,12 @@ using System.Threading;
 public class Crowd : MonoBehaviour
 {
     [Header("Interaction")]
-    [SerializeField] private CrowdInteractionArea _crowdInteractionArea;
+    public CrowdInteractionArea _crowdInteractionArea;
 
     [Header("Core References")]
     [SerializeField] private CrowdSettings _crowdSettings;
     [SerializeField] private Transform _guestFather;
     [SerializeField] private Animation _myAnimation;
-
-
 
     private bool IsReciverOrSender = false;
     private readonly List<StaticGuest_Controller> _crowdMembers = new();
@@ -26,9 +24,10 @@ public class Crowd : MonoBehaviour
 
     private Color _myColor;
     private CancellationTokenSource _cts;
-    private readonly string _letterSpawnName = "AC_MessageSpawn";
+    private readonly string _letterSpawnName = "AC_LetterSpawn";
     private readonly string _letterTaskFail = "AC_MessageFail";
     private readonly string _letterTaskGet = "AC_GetMessage";
+    private Crowd _myReciver;
 
     void OnDisable()
     {
@@ -48,6 +47,10 @@ public class Crowd : MonoBehaviour
 
     private void HandleInteraction()
     {
+        _myAnimation.Play(_letterTaskFail);
+        _crowdInteractionArea.gameObject.SetActive(false);
+        _crowdInteractionArea.IconController.gameObject.SetActive(false);
+
         OnInteracionComplete?.Invoke(_myColor);
     }
 
@@ -66,8 +69,8 @@ public class Crowd : MonoBehaviour
 
         if (_crowdInteractionArea != null)
         {
-            _crowdInteractionArea.ResetArea(); // Reset interno dell'area
-            _crowdInteractionArea.gameObject.SetActive(false); // Spegne l'oggetto
+            _crowdInteractionArea.ResetArea(); 
+            _crowdInteractionArea.gameObject.SetActive(false); 
         }
     }
 
@@ -125,13 +128,12 @@ public class Crowd : MonoBehaviour
         _crowdInteractionArea.transform.position = new Vector3(_crowdMiddlePoint.x, _crowdInteractionArea.transform.position.y, _crowdMiddlePoint.y);
     }
 
-    public async void EnableSender(Color CircleColor)
+    public void EnableSender(Color CircleColor, Crowd myReciver)
     {
         _cts = new CancellationTokenSource();
+        _myReciver = myReciver;
 
         _myAnimation.Play(_letterSpawnName);
-        // float timer = _myAnimation.GetClip(_letterSpawnName).length;
-        // await UniTask.Delay((int)(_myAnimation.clip.length * 1000));
 
         _crowdInteractionArea.gameObject.SetActive(true);
         _crowdInteractionArea.SetUPInteractionArea(CircleColor, InteractType.MessageSender);
@@ -144,10 +146,13 @@ public class Crowd : MonoBehaviour
         }
 
         _uiRotationCoroutine = StartCoroutine(_crowdInteractionArea.AreaImageRotate(_crowdSettings.RotationSpeed, _crowdSettings.Clockwise));
+
         _crowdInteractionArea.OnCompleteInteract -= HandleInteraction;
-        _crowdInteractionArea.OnMessageTake -= CompleteMessageTask;
         _crowdInteractionArea.OnCompleteInteract += HandleInteraction;
+
+        _crowdInteractionArea.OnMessageTake -= CompleteMessageTask;
         _crowdInteractionArea.OnMessageTake += CompleteMessageTask;
+
         _crowdInteractionArea.OnHurryUp -= HandleHurryup;
         _crowdInteractionArea.OnHurryUp += HandleHurryup;
 
@@ -199,7 +204,14 @@ public class Crowd : MonoBehaviour
     {
         _myAnimation.Play(_letterTaskFail);
         OnTaskFailed?.Invoke(_myColor);
+        _myReciver = null;
         StopInteraction();
+    }
+
+    public void ActivateReciverIcon(Crowd Sender)
+    {
+        _crowdInteractionArea.IconController.SelectReciverIcon(Sender._crowdInteractionArea.IconController.iconIndex);
+        _myAnimation.Play(_letterSpawnName);
     }
 
     private void CompleteMessageTask()
@@ -208,6 +220,9 @@ public class Crowd : MonoBehaviour
 
         _myAnimation.Play(_letterTaskGet);
 
+        _crowdInteractionArea.gameObject.SetActive(false);
+
+        _myReciver.ActivateReciverIcon(this);
         foreach (var obj in _crowdMembers)
         {
             obj.StopHurry();
@@ -233,6 +248,7 @@ public class Crowd : MonoBehaviour
         }
 
         _crowdInteractionArea.gameObject.SetActive(false);
+        _crowdInteractionArea.IconController.gameObject.SetActive(false);
     }
 
 

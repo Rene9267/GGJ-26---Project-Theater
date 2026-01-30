@@ -9,7 +9,7 @@ public class CrowdInteractionArea : MonoBehaviour, IInteractable
 
     [Header("UI Icon")]
     [SerializeField] private Image _areaImage;
-    [SerializeField] private LetterIcon_Controller _iconController; 
+    public LetterIcon_Controller IconController;
 
     public InteractType InteactableType { get; private set; }
     public event Action OnHurryUp;
@@ -24,8 +24,13 @@ public class CrowdInteractionArea : MonoBehaviour, IInteractable
     {
         if (_areaImage == null)
         {
-            Debug.LogWarning("Area Image ref is missing");
+            DevLog.LogWarning("Area Image ref is missing");
         }
+    }
+
+    private void OnDisable()
+    {
+        IconController.HideAllIcons();
     }
 
     void Awake()
@@ -37,7 +42,7 @@ public class CrowdInteractionArea : MonoBehaviour, IInteractable
     {
         InteactableType = InteractType.None;
         MyInteractionColor = Color.clear;
-        
+
         if (_areaImage != null)
         {
             _areaImage.color = Color.white;
@@ -50,6 +55,9 @@ public class CrowdInteractionArea : MonoBehaviour, IInteractable
         _areaImage.color = color;
         MyInteractionColor = color;
         _areaImage.gameObject.SetActive(true);
+
+        if (type == InteractType.MessageSender)
+            IconController.SetUpIcon(InteactableType);
     }
 
     public IEnumerator AreaImageRotate(float rotationSpeed, bool clockwise = true)
@@ -79,6 +87,13 @@ public class CrowdInteractionArea : MonoBehaviour, IInteractable
                 OnPlayerEntered?.Invoke();
                 player.OnInteractionAreaEnter(this);
                 DevLog.Log("[Crowd Interaction Area]: Player Entrato in me");
+
+                if(InteactableType == InteractType.MessageSender)
+                {
+                    bool isHeart = false;
+                    if(IconController.iconIndex == 1) isHeart = true;
+                    player.SetHeadIcon(isHeart);
+                }
             }
         }
     }
@@ -107,9 +122,10 @@ public class CrowdInteractionArea : MonoBehaviour, IInteractable
         {
             OnCompleteInteract?.Invoke();
         }
-        if(InteactableType == InteractType.MessageSender)
+        if (InteactableType == InteractType.MessageSender)
         {
-            _iconController.gameObject.SetActive(false);
+            IconController.gameObject.SetActive(false);
+            this.gameObject.SetActive(false);
         }
     }
 }
