@@ -24,15 +24,13 @@ public class PlayerController : MonoBehaviour
 
     private CharacterController _controller;
     private Vector3 _moveDirection;
-
-    // Variabili di stato
+    
     private bool _isStunned;
     private bool _isSprinting;
     private bool _isInvulnerable;
     private bool _isInteracting;
     private bool _canInteract;
 
-    // Variabile per memorizzare l'input di movimento ricevuto
     private Vector2 _inputVector;
 
     private int _animIDWalking;
@@ -69,7 +67,6 @@ public class PlayerController : MonoBehaviour
             DevLog.LogError("[Player]: CharacterController mancante.");
         }
 
-        // Verifica che ci sia il componente PlayerInput (opzionale ma consigliato)
         if (GetComponent<PlayerInput>() == null)
         {
             DevLog.LogError("[Player]: Manca il componente PlayerInput!");

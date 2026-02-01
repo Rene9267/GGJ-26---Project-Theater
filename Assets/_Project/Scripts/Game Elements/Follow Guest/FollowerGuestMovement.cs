@@ -123,13 +123,10 @@ public class FollowerGuestMovement : MonoBehaviour
         {
             Vector3 bounceDir = (transform.position - _target.position).normalized;
 
-            // Applichiamo un impulso istantaneo
             _rb.AddForce(bounceDir * BounceForce, ForceMode.Impulse);
 
             _isBouncing = true;
             Invoke(nameof(ResetBounce), 0.2f); 
-
-            Debug.Log("[Follower]: BOING! Sbattuto contro il target.");
         }
     }
 

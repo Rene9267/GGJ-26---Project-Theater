@@ -360,7 +360,6 @@ public class GuestController : MonoBehaviour
     private async UniTask WaitForGuestsToReachTarget(List<FollowerGuest> guests, Transform target, float threshold)
     {
         bool allArrived = false;
-        // Timeout di sicurezza (es. 5 secondi) per evitare loop infiniti se si incastrano
         float timeout = 5f;
         float timer = 0f;
 
@@ -377,10 +376,10 @@ public class GuestController : MonoBehaviour
                 if (dist > threshold)
                 {
                     allArrived = false;
-                    break; // Basta che uno sia lontano per aspettare ancora
+                    break;
                 }
             }
-            await UniTask.Yield(); // Aspetta un frame
+            await UniTask.Yield();
         }
     }
 
