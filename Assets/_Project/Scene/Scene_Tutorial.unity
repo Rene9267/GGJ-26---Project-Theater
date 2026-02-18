@@ -93,8 +93,8 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 112000000, guid: d11333951e315984db28d2d0d5d5675f, type: 2}
-  m_LightingSettings: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: 5d6642128bd51584ab8f132fdef391e5, type: 2}
+  m_LightingSettings: {fileID: 4890085278179872738, guid: 72885f374557ca54aad5f08e8ded9481, type: 2}
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -311,7 +311,7 @@ GameObject:
   m_Icon: {fileID: 5721338939258241955, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &52738459
 Transform:
   m_ObjectHideFlags: 0
@@ -571,6 +571,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 261691558}
     m_Modifications:
+    - target: {fileID: 252538946154143545, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 598288792556526491, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 1637798336949579146, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
       propertyPath: m_LocalPosition.x
       value: 19.85
@@ -614,6 +622,26 @@ PrefabInstance:
     - target: {fileID: 3250260285045007914, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
       propertyPath: m_Name
       value: Candle
+      objectReference: {fileID: 0}
+    - target: {fileID: 3250260285045007914, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433452387486028957, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433452387486028957, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 5757821482723001241, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5757821482723001241, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -899,6 +927,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 261691558}
     m_Modifications:
+    - target: {fileID: 252538946154143545, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 598288792556526491, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 1637798336949579146, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
       propertyPath: m_LocalPosition.x
       value: 30.619
@@ -942,6 +978,26 @@ PrefabInstance:
     - target: {fileID: 3250260285045007914, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
       propertyPath: m_Name
       value: Candle
+      objectReference: {fileID: 0}
+    - target: {fileID: 3250260285045007914, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433452387486028957, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433452387486028957, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 5757821482723001241, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5757821482723001241, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1377,7 +1433,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 18
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &261691558
 Transform:
@@ -1740,7 +1796,7 @@ Transform:
   m_GameObject: {fileID: 305681977}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -9.88501, y: 17.43, z: -25.9}
+  m_LocalPosition: {x: -9.88501, y: 5.94, z: -25.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1758,7 +1814,7 @@ Light:
   m_Type: 2
   m_Color: {r: 1, g: 0.95111126, b: 0.76792455, a: 1}
   m_Intensity: 25
-  m_Range: 25
+  m_Range: 17
   m_SpotAngle: 89.3
   m_InnerSpotAngle: 21.80208
   m_CookieSize2D: {x: 0.5, y: 0.5}
@@ -1796,7 +1852,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 4
+  m_Lightmapping: 2
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 0
@@ -1827,7 +1883,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &318073992
 Transform:
   m_ObjectHideFlags: 0
@@ -1837,7 +1893,7 @@ Transform:
   m_GameObject: {fileID: 318073991}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 9.4, y: 14.9, z: -32.07}
+  m_LocalPosition: {x: 9.4, y: 15.87, z: -8.73}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1854,17 +1910,17 @@ Light:
   serializedVersion: 12
   m_Type: 2
   m_Color: {r: 1, g: 0.95111126, b: 0.76792455, a: 1}
-  m_Intensity: 20
-  m_Range: 29.165432
+  m_Intensity: 2
+  m_Range: 72.7
   m_SpotAngle: 89.3
   m_InnerSpotAngle: 21.80208
   m_CookieSize2D: {x: 0.5, y: 0.5}
   m_Shadows:
     m_Type: 2
-    m_Resolution: -1
+    m_Resolution: 2
     m_CustomResolution: -1
     m_Strength: 1
-    m_Bias: 0.05
+    m_Bias: 0
     m_NormalBias: 0.4
     m_NearPlane: 0.2
     m_CullingMatrixOverride:
@@ -1888,12 +1944,12 @@ Light:
   m_Cookie: {fileID: 0}
   m_DrawHalo: 0
   m_Flare: {fileID: 0}
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 4
+  m_Lightmapping: 1
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 0
@@ -2268,7 +2324,7 @@ Transform:
   m_GameObject: {fileID: 564911230}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 26.11499, y: 17.460001, z: 5.799999}
+  m_LocalPosition: {x: 23.54, y: 7.3, z: 5.26}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2286,7 +2342,7 @@ Light:
   m_Type: 2
   m_Color: {r: 1, g: 0.95111126, b: 0.76792455, a: 1}
   m_Intensity: 25
-  m_Range: 25
+  m_Range: 17
   m_SpotAngle: 89.3
   m_InnerSpotAngle: 21.80208
   m_CookieSize2D: {x: 0.5, y: 0.5}
@@ -2324,7 +2380,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 4
+  m_Lightmapping: 2
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 0
@@ -2421,7 +2477,7 @@ Light:
   m_Type: 2
   m_Color: {r: 1, g: 0.95111126, b: 0.76792455, a: 1}
   m_Intensity: 25
-  m_Range: 25
+  m_Range: 17
   m_SpotAngle: 89.3
   m_InnerSpotAngle: 21.80208
   m_CookieSize2D: {x: 0.5, y: 0.5}
@@ -2459,7 +2515,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 4
+  m_Lightmapping: 2
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 0
@@ -2483,7 +2539,7 @@ Transform:
   m_GameObject: {fileID: 597305174}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 28.91499, y: 17.43, z: -25.9}
+  m_LocalPosition: {x: 31.83, y: 6.67, z: -22.66}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2497,6 +2553,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 261691558}
     m_Modifications:
+    - target: {fileID: 252538946154143545, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 598288792556526491, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 1637798336949579146, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
       propertyPath: m_LocalPosition.x
       value: -30.12
@@ -2540,6 +2604,26 @@ PrefabInstance:
     - target: {fileID: 3250260285045007914, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
       propertyPath: m_Name
       value: Candle
+      objectReference: {fileID: 0}
+    - target: {fileID: 3250260285045007914, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433452387486028957, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433452387486028957, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 5757821482723001241, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5757821482723001241, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2790,7 +2874,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &703509202
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3128,7 +3212,7 @@ GameObject:
   m_Icon: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &722211579
 Transform:
   m_ObjectHideFlags: 0
@@ -3328,7 +3412,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 18
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &860601806
 Transform:
@@ -3459,7 +3543,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &923535342
 Transform:
   m_ObjectHideFlags: 0
@@ -3520,6 +3604,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 261691558}
     m_Modifications:
+    - target: {fileID: 252538946154143545, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 598288792556526491, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 1637798336949579146, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
       propertyPath: m_LocalPosition.x
       value: -28.472
@@ -3563,6 +3655,26 @@ PrefabInstance:
     - target: {fileID: 3250260285045007914, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
       propertyPath: m_Name
       value: Candle
+      objectReference: {fileID: 0}
+    - target: {fileID: 3250260285045007914, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433452387486028957, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433452387486028957, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 5757821482723001241, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5757821482723001241, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3851,7 +3963,7 @@ Transform:
   m_GameObject: {fileID: 1130972022}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -7.0850105, y: 17.460001, z: 5.799999}
+  m_LocalPosition: {x: -5.59, y: 9.47, z: 4.83}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3869,7 +3981,7 @@ Light:
   m_Type: 2
   m_Color: {r: 1, g: 0.95111126, b: 0.76792455, a: 1}
   m_Intensity: 25
-  m_Range: 25
+  m_Range: 17
   m_SpotAngle: 89.3
   m_InnerSpotAngle: 21.80208
   m_CookieSize2D: {x: 0.5, y: 0.5}
@@ -3907,7 +4019,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 4
+  m_Lightmapping: 2
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 0
@@ -3930,6 +4042,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 261691558}
     m_Modifications:
+    - target: {fileID: 252538946154143545, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 598288792556526491, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 1637798336949579146, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
       propertyPath: m_LocalPosition.x
       value: -31.95
@@ -3974,6 +4094,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: Candle
       objectReference: {fileID: 0}
+    - target: {fileID: 3250260285045007914, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433452387486028957, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433452387486028957, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 5757821482723001241, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5757821482723001241, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3992,6 +4132,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 261691558}
     m_Modifications:
+    - target: {fileID: 252538946154143545, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 598288792556526491, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 1637798336949579146, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
       propertyPath: m_LocalPosition.x
       value: 18.36
@@ -4035,6 +4183,26 @@ PrefabInstance:
     - target: {fileID: 3250260285045007914, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
       propertyPath: m_Name
       value: Candle
+      objectReference: {fileID: 0}
+    - target: {fileID: 3250260285045007914, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433452387486028957, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433452387486028957, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 5757821482723001241, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5757821482723001241, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4389,6 +4557,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 261691558}
     m_Modifications:
+    - target: {fileID: 252538946154143545, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 598288792556526491, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 1637798336949579146, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
       propertyPath: m_LocalPosition.x
       value: -22.324
@@ -4433,6 +4609,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: Candle
       objectReference: {fileID: 0}
+    - target: {fileID: 3250260285045007914, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433452387486028957, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433452387486028957, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 5757821482723001241, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5757821482723001241, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4459,7 +4655,7 @@ GameObject:
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1279186953
 Transform:
   m_ObjectHideFlags: 0
@@ -4599,7 +4795,7 @@ GameObject:
   m_Icon: {fileID: 419385456094870383, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1365537277
 Transform:
   m_ObjectHideFlags: 0
@@ -4672,6 +4868,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 261691558}
     m_Modifications:
+    - target: {fileID: 252538946154143545, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 598288792556526491, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 1637798336949579146, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
       propertyPath: m_LocalPosition.x
       value: -20.724
@@ -4715,6 +4919,26 @@ PrefabInstance:
     - target: {fileID: 3250260285045007914, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
       propertyPath: m_Name
       value: Candle
+      objectReference: {fileID: 0}
+    - target: {fileID: 3250260285045007914, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433452387486028957, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433452387486028957, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 5757821482723001241, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5757821482723001241, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4818,6 +5042,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 261691558}
     m_Modifications:
+    - target: {fileID: 252538946154143545, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 598288792556526491, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 1637798336949579146, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
       propertyPath: m_LocalPosition.x
       value: 32.56
@@ -4862,6 +5094,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: Candle
       objectReference: {fileID: 0}
+    - target: {fileID: 3250260285045007914, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433452387486028957, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433452387486028957, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 5757821482723001241, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5757821482723001241, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4890,7 +5142,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!81 &1552444625
 AudioListener:
   m_ObjectHideFlags: 0
@@ -5238,7 +5490,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 4
+  m_Lightmapping: 2
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 0
@@ -5261,6 +5513,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 261691558}
     m_Modifications:
+    - target: {fileID: 124688665167621484, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: IsRandomBoolSpeed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 252538946154143545, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 598288792556526491, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 1637798336949579146, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
       propertyPath: m_LocalPosition.x
       value: 28.93
@@ -5304,6 +5568,26 @@ PrefabInstance:
     - target: {fileID: 3250260285045007914, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
       propertyPath: m_Name
       value: Candle
+      objectReference: {fileID: 0}
+    - target: {fileID: 3250260285045007914, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433452387486028957, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433452387486028957, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 5757821482723001241, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5757821482723001241, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5736,7 +6020,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1791548505
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6305,7 +6589,7 @@ GameObject:
   m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1910863096
 Transform:
   m_ObjectHideFlags: 0
@@ -6409,7 +6693,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2001082827
 Transform:
   m_ObjectHideFlags: 0
@@ -6665,6 +6949,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 261691558}
     m_Modifications:
+    - target: {fileID: 252538946154143545, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 598288792556526491, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 1637798336949579146, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
       propertyPath: m_LocalPosition.x
       value: 21.446
@@ -6709,6 +7001,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: Candle
       objectReference: {fileID: 0}
+    - target: {fileID: 3250260285045007914, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433452387486028957, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433452387486028957, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 5757821482723001241, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5757821482723001241, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6748,7 +7060,7 @@ Transform:
   m_GameObject: {fileID: 2066213259}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.05, y: -3.57, z: 15.03}
+  m_LocalPosition: {x: 1.61, y: -3.57, z: 15.74}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -7122,12 +7434,12 @@ GameObject:
   - component: {fileID: 8578458336775317398}
   - component: {fileID: 2246447524534264}
   - component: {fileID: 4422053053978239398}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: arco palco
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 18
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!1 &919132149132229803
 GameObject:
@@ -7595,12 +7907,12 @@ GameObject:
   - component: {fileID: 8379294831137087397}
   - component: {fileID: 2905191621811688411}
   - component: {fileID: 5684145859920535103}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: primo piano loggette
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 18
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!23 &3845040540642390913
 MeshRenderer:
@@ -7711,12 +8023,12 @@ GameObject:
   - component: {fileID: 449736887539301637}
   - component: {fileID: 1004294338790818182}
   - component: {fileID: 3953638518671869460}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: colonne
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 18
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!23 &4422053053978239398
 MeshRenderer:
@@ -7787,12 +8099,12 @@ GameObject:
   - component: {fileID: 2204712751514243147}
   - component: {fileID: 3585997493347291516}
   - component: {fileID: 4591279596076638533}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: barriera orchestra
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 18
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!64 &4591279596076638533
 MeshCollider:
@@ -7827,12 +8139,12 @@ GameObject:
   - component: {fileID: 40537523881272489}
   - component: {fileID: 2204712752396610037}
   - component: {fileID: 3585997494144755906}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: barriera orchestra
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 18
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &4607651015761021655
 Transform:
@@ -7989,12 +8301,12 @@ GameObject:
   - component: {fileID: 6981461501978513759}
   - component: {fileID: 5578077198028675702}
   - component: {fileID: 1137207986820999850}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: sipario aprerto
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 18
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &5577539898020859897
 Transform:
@@ -8094,12 +8406,12 @@ GameObject:
   - component: {fileID: 8519675411530478582}
   - component: {fileID: 2405133842488249095}
   - component: {fileID: 2340631709856880436}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: ultimo piano loggette
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 82
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!1001 &5993448777893722786
 PrefabInstance:
@@ -8209,12 +8521,12 @@ GameObject:
   - component: {fileID: 5745714072025094650}
   - component: {fileID: 2930589508612136576}
   - component: {fileID: 5288835607569333346}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: corona re
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 18
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!1001 &6049772163875119672
 PrefabInstance:
@@ -8294,11 +8606,11 @@ PrefabInstance:
       objectReference: {fileID: 8300000, guid: 5f50328ec8b988549a15b89a449daf6a, type: 3}
     - target: {fileID: 7917330310311123917, guid: 06af3121588de5d4cb4a985c2c1c8576, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.13
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7917330310311123917, guid: 06af3121588de5d4cb4a985c2c1c8576, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.07
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7917330310311123917, guid: 06af3121588de5d4cb4a985c2c1c8576, type: 3}
       propertyPath: m_LocalPosition.z
@@ -8491,12 +8803,12 @@ GameObject:
   - component: {fileID: 7047031961236624542}
   - component: {fileID: 3533898865678179694}
   - component: {fileID: 8018493529160670144}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: divisori loggette
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 18
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!1 &6576807261490693938
 GameObject:
@@ -8509,12 +8821,12 @@ GameObject:
   - component: {fileID: 301917893629888891}
   - component: {fileID: 4666711244994901111}
   - component: {fileID: 1156355238577716064}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Plane.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 18
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!33 &6620037290709557081
 MeshFilter:
@@ -8540,6 +8852,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 261691558}
     m_Modifications:
+    - target: {fileID: 252538946154143545, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 598288792556526491, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 1637798336949579146, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
       propertyPath: m_LocalPosition.x
       value: -19.26
@@ -8583,6 +8903,26 @@ PrefabInstance:
     - target: {fileID: 3250260285045007914, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
       propertyPath: m_Name
       value: Candle
+      objectReference: {fileID: 0}
+    - target: {fileID: 3250260285045007914, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433452387486028957, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433452387486028957, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 5757821482723001241, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5757821482723001241, guid: c928fa4672969604fab36b5e9ab81be5, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -8672,12 +9012,12 @@ GameObject:
   - component: {fileID: 9067477961581488856}
   - component: {fileID: 4780246555331894874}
   - component: {fileID: 234336199100751198}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: facciata sipario
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 18
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &7047031961236624542
 Transform:
@@ -8705,12 +9045,12 @@ GameObject:
   - component: {fileID: 5577539898020859897}
   - component: {fileID: 8055155706948019986}
   - component: {fileID: 7929574257081996952}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: quarto piano loggette
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 18
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!1 &7231126511143234168
 GameObject:
@@ -8723,12 +9063,12 @@ GameObject:
   - component: {fileID: 5296325216045174497}
   - component: {fileID: 3468104492240735097}
   - component: {fileID: 9136930109087622592}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: terzo piano loggette
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 82
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!23 &7749840649357256871
 MeshRenderer:
@@ -8897,12 +9237,12 @@ GameObject:
   - component: {fileID: 4438629930670097443}
   - component: {fileID: 5261738323930238433}
   - component: {fileID: 8100878891485617309}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: SEDIE
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 18
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!64 &8100878891485617309
 MeshCollider:
@@ -8938,12 +9278,12 @@ GameObject:
   - component: {fileID: 2219311839570005118}
   - component: {fileID: 595117896236546597}
   - component: {fileID: 8171994211154991642}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: pavimento e palco
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 82
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!65 &8171994211154991642
 BoxCollider:
@@ -8992,12 +9332,12 @@ GameObject:
   - component: {fileID: 4607651015761021655}
   - component: {fileID: 6620037290709557081}
   - component: {fileID: 8378296768394509925}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: porte famiglie
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 18
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!23 &8378296768394509925
 MeshRenderer:
@@ -9074,12 +9414,12 @@ GameObject:
   - component: {fileID: 3633228926814528653}
   - component: {fileID: 482260334474344467}
   - component: {fileID: 6935715697620279796}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: secondo piano loggette
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 18
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &8519675411530478582
 Transform:

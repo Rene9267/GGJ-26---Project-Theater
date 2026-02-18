@@ -122,6 +122,14 @@ MonoBehaviour:
     m_Localized: Movimento
     m_Metadata:
       m_Items: []
+  - m_Id: 3301211970031616
+    m_Localized: Grafica.................................
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3301540425977856
+    m_Localized: Programmazione....................
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

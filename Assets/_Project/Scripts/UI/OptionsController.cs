@@ -1,8 +1,13 @@
 using UnityEngine;
+using System;
 
 public class OptionsController : MonoBehaviour
 {
     #region Variables
+
+    //Ascoltati da START MENU CONTROLLER
+    public event Action OnFXVolumeChange;
+    public event Action OnMusicVolumeChange;
 
     [SerializeField] private SelectionButton _languageSelector;
     [SerializeField] private SelectionButton _windowModeSelector;
@@ -65,11 +70,13 @@ public class OptionsController : MonoBehaviour
     public void OnMusicSliderChange()
     {
         GameSettings.Instance.MusicVolume = _mainVolumeSlider.SliderValue;
+        OnMusicVolumeChange?.Invoke();
     }
 
     public void OnFXSliderChange()
     {
         GameSettings.Instance.FXVolume = _fxVolumeSlider.SliderValue;
+        OnFXVolumeChange?.Invoke();
     }
 
 

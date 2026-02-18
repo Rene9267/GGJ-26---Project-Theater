@@ -172,6 +172,7 @@ MonoBehaviour:
   IsRandomBoolSpeed: 1
   PulseSpeedRange: {x: 2, y: 5}
   _renderer: {fileID: 5065117988786124919}
+  _flameModel: {fileID: 5433452387486028957}
 --- !u!1 &5433452387486028957
 GameObject:
   m_ObjectHideFlags: 0

@@ -127,6 +127,14 @@ MonoBehaviour:
     m_Key: Movement
     m_Metadata:
       m_Items: []
+  - m_Id: 3301211970031616
+    m_Key: Graphics
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3301540425977856
+    m_Key: Programming
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

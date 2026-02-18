@@ -23,6 +23,8 @@ public class StartMenuController : MonoBehaviour
     [SerializeField] private AudioSource _audio;
     [SerializeField] private Animator _animator;
 
+    private OptionsController _optionsController;
+
     private int _animFadeInMainStart;
     private int _animFadeOutStart;
     private int _animFadeInSettings;
@@ -84,12 +86,35 @@ public class StartMenuController : MonoBehaviour
         _animFOCredits = Animator.StringToHash("FadeOutCredits");
         _animFICommands = Animator.StringToHash("FICommands");
         _animFOCommands = Animator.StringToHash("FOCommands");
+
+        _settingsCanvasGroup.gameObject.TryGetComponent(out _optionsController);
+        if(_optionsController == null)
+            DevLog.LogError($"[{this}] Options controller non trovato nel canvas delle opzioni", this);
     }
 
     void Start()
     {
         StartGame();
     }
+
+    void OnEnable()
+    {
+        if(_optionsController != null)
+        {
+            _optionsController.OnFXVolumeChange += ApplySettings;
+            _optionsController.OnMusicVolumeChange += ApplySettings;
+        }
+    }
+
+    void OnDisable()
+    {
+        if(_optionsController != null)
+        {
+            _optionsController.OnFXVolumeChange -= ApplySettings;
+            _optionsController.OnMusicVolumeChange -= ApplySettings;
+        }
+    }
+
     #endregion
 
     #region Class Methods
@@ -179,7 +204,6 @@ public class StartMenuController : MonoBehaviour
 
         if (!isFadeIn) source.Stop();
     }
-
 
     private void ApplySettings()
     {
