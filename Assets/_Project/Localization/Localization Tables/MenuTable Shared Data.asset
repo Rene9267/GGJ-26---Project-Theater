@@ -1,0 +1,140 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: MenuTable Shared Data
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.SharedTableData
+  m_TableCollectionName: MenuTable
+  m_TableCollectionNameGuidString: fa77a4d6bd02d0841896abe9c1d77543
+  m_Entries:
+  - m_Id: 129311264768
+    m_Key: Start
+    m_Metadata:
+      m_Items: []
+  - m_Id: 179202510848
+    m_Key: Option
+    m_Metadata:
+      m_Items: []
+  - m_Id: 233476804608
+    m_Key: Exit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59277017174016
+    m_Key: Presents
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59790676807680
+    m_Key: This Night
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60946949951488
+    m_Key: Real Theater
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62243002470400
+    m_Key: Time
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62335881138176
+    m_Key: Ticket
+    m_Metadata:
+      m_Items: []
+  - m_Id: 73464137207808
+    m_Key: New Entry
+    m_Metadata:
+      m_Items: []
+  - m_Id: 74558762471424
+    m_Key: Language
+    m_Metadata:
+      m_Items: []
+  - m_Id: 74727734202368
+    m_Key: Window
+    m_Metadata:
+      m_Items: []
+  - m_Id: 75292358823936
+    m_Key: Audio Effect
+    m_Metadata:
+      m_Items: []
+  - m_Id: 75398172725248
+    m_Key: Music
+    m_Metadata:
+      m_Items: []
+  - m_Id: 370851481210880
+    m_Key: Eng_Selection
+    m_Metadata:
+      m_Items: []
+  - m_Id: 370985367588864
+    m_Key: Ita_Selecion
+    m_Metadata:
+      m_Items: []
+  - m_Id: 401032707133440
+    m_Key: Commands
+    m_Metadata:
+      m_Items: []
+  - m_Id: 401108733087744
+    m_Key: Credits
+    m_Metadata:
+      m_Items: []
+  - m_Id: 471406555779072
+    m_Key: Back
+    m_Metadata:
+      m_Items: []
+  - m_Id: 712444302151680
+    m_Key: New Entry 1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 717642718334976
+    m_Key: Full screen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 718048286560256
+    m_Key: Borderless
+    m_Metadata:
+      m_Items: []
+  - m_Id: 718507898392576
+    m_Key: Windowed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 718615461318656
+    m_Key: Max Window
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2976556096770048
+    m_Key: KeyBoard
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2977742019448832
+    m_Key: Controller
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2977988170567680
+    m_Key: Run
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2978136749592576
+    m_Key: Action
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2978332539703296
+    m_Key: Movement
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 3836485454091780282
+  references:
+    version: 2
+    RefIds:
+    - rid: 3836485454091780282
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1770631425334

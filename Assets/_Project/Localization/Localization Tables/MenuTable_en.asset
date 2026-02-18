@@ -1,0 +1,127 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: MenuTable_en
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.StringTable
+  m_LocaleId:
+    m_Code: en
+  m_SharedData: {fileID: 11400000, guid: fa77a4d6bd02d0841896abe9c1d77543, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 129311264768
+    m_Localized: Play
+    m_Metadata:
+      m_Items: []
+  - m_Id: 179202510848
+    m_Localized: Options
+    m_Metadata:
+      m_Items: []
+  - m_Id: 233476804608
+    m_Localized: Exit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59277017174016
+    m_Localized: presents
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59790676807680
+    m_Localized: Tonight at the
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60946949951488
+    m_Localized: Real Theater S.C.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62243002470400
+    m_Localized: 7:00 PM, be on time!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62335881138176
+    m_Localized: Tickets for a few coins
+    m_Metadata:
+      m_Items: []
+  - m_Id: 74558762471424
+    m_Localized: Language
+    m_Metadata:
+      m_Items: []
+  - m_Id: 74727734202368
+    m_Localized: Window
+    m_Metadata:
+      m_Items: []
+  - m_Id: 75292358823936
+    m_Localized: Audio Effects
+    m_Metadata:
+      m_Items: []
+  - m_Id: 75398172725248
+    m_Localized: Music
+    m_Metadata:
+      m_Items: []
+  - m_Id: 370851481210880
+    m_Localized: English
+    m_Metadata:
+      m_Items: []
+  - m_Id: 370985367588864
+    m_Localized: Italian
+    m_Metadata:
+      m_Items: []
+  - m_Id: 401032707133440
+    m_Localized: Commands
+    m_Metadata:
+      m_Items: []
+  - m_Id: 401108733087744
+    m_Localized: Credits
+    m_Metadata:
+      m_Items: []
+  - m_Id: 471406555779072
+    m_Localized: Back
+    m_Metadata:
+      m_Items: []
+  - m_Id: 717642718334976
+    m_Localized: 'Full screen '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 718048286560256
+    m_Localized: Borderless
+    m_Metadata:
+      m_Items: []
+  - m_Id: 718507898392576
+    m_Localized: Windowed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 718615461318656
+    m_Localized: Max Window
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2976556096770048
+    m_Localized: Keyboard
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2977742019448832
+    m_Localized: Controller
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2977988170567680
+    m_Localized: Run
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2978136749592576
+    m_Localized: Action
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2978332539703296
+    m_Localized: Movement
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

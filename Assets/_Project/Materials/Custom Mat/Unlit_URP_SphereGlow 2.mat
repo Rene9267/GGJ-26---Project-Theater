@@ -29,7 +29,7 @@ Material:
     - _Intensity: 2.18
     - _NoiseScale: 1
     - _PulseAmount: 0.41
-    - _PulseSpeed: 2.3
+    - _PulseSpeed: 2
     - _RimIntensity: 3.45
     - _RimPower: 1.16
     - _TimeOffset: 33.1

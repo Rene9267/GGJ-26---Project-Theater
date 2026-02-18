@@ -1,50 +1,111 @@
-using System;
-using System.Collections;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class StartMenuController : MonoBehaviour
 {
-    private readonly string _gamePlayScene = "Scene_Main";
-    [SerializeField] private CanvasGroup myCanvasGroup;
+    #region Variables
+
+    [Header("Controller References")]
+    [SerializeField] private LanguageSelectorController _languageController;
+    [SerializeField] private WindowController _windowController;
+    [SerializeField] private AudioController _audioController;
+
+    [Header("Canvasses Group References")]
+    [SerializeField] private CanvasGroup _mainCanvasGroup;
+    [SerializeField] private CanvasGroup _settingsCanvasGroup;
+    [SerializeField] private CanvasGroup _creditsCanvasGroup;
+    [SerializeField] private CanvasGroup _fadeCanvasGroup;
+    [SerializeField] private CanvasGroup _commandsGroup;
+
+
+    [Header("Effects References")]
     [SerializeField] private AudioSource _audio;
-    [SerializeField] private Animation _animation;
-    private readonly string FadeIn = "AC_FadeInCanvas";
-    private readonly string FadeOut = "AC_FadeOutCanvas";
-    private readonly string FadeInCredits = "AC_FadeInCredits";
-    private readonly string FadeoutCredits= "AC_FadeOutCredits";
-    
-    private readonly string FadeinTutorial= "AC_FadeinTutorial";
+    [SerializeField] private Animator _animator;
+
+    private int _animFadeInMainStart;
+    private int _animFadeOutStart;
+    private int _animFadeInSettings;
+    private int _animFadeOutSettings;
+    private int _animFICredits;
+    private int _animFOCredits;
+    private int _animFOCommands;
+    private int _animFICommands;
+
+    private readonly string _gamePlayScene = "Scene_Main";
+    #endregion
+
+    #region Unity Standard Methods
+
+    void OnValidate()
+    {
+        if (_mainCanvasGroup == null)
+            DevLog.LogError("Riferimento al main canvas group assente", this);
+        if (_settingsCanvasGroup == null)
+            DevLog.LogError("Riferimento al settings canvas group assente", this);
+        if (_creditsCanvasGroup == null)
+            DevLog.LogError("Riferimento al credits canvas group assente", this);
+        if (_fadeCanvasGroup == null)
+            DevLog.LogError("Riferimento al fade canvas group assente", this);
+        if (_commandsGroup == null)
+            DevLog.LogError("Riferimento al commands canvas group assente", this);
+        if (_languageController == null)
+            DevLog.LogError("Riferimento al language controller assente", this);
+        if (_windowController == null)
+            DevLog.LogError("Riferimento al window controller assente", this);
+        if (_audioController == null)
+            DevLog.LogError("Riferimento al audio controller assente", this);
+        if (_audio == null)
+            DevLog.LogError("Riferimento all'audio source assente", this);
+        if (_animator == null)
+            DevLog.LogError("Riferimento all'animator assente", this);
+    }
+
+    void Awake()
+    {
+        //Canvas groups inizialization
+        _commandsGroup.gameObject.SetActive(false);
+        _commandsGroup.alpha = 0;
+        _mainCanvasGroup.gameObject.SetActive(false);
+        _mainCanvasGroup.alpha = 0;
+        _settingsCanvasGroup.gameObject.SetActive(false);
+        _settingsCanvasGroup.alpha = 0;
+        _creditsCanvasGroup.gameObject.SetActive(false);
+        _creditsCanvasGroup.alpha = 0;
+        _fadeCanvasGroup.gameObject.SetActive(true);
+        _fadeCanvasGroup.alpha = 1;
 
 
-    [SerializeField] private AudioSource _buttonEffect;
+        _animFadeInMainStart = Animator.StringToHash("FadeInStart");
+        _animFadeOutStart = Animator.StringToHash("FadeOutMain");
+        _animFadeInSettings = Animator.StringToHash("FadeInSettings");
+        _animFadeOutSettings = Animator.StringToHash("FadeOutSettings");
+        _animFICredits = Animator.StringToHash("FadeInCredits");
+        _animFOCredits = Animator.StringToHash("FadeOutCredits");
+        _animFICommands = Animator.StringToHash("FICommands");
+        _animFOCommands = Animator.StringToHash("FOCommands");
+    }
 
     void Start()
     {
         StartGame();
     }
+    #endregion
 
-    public void PlayClick(AudioClip newClip)
-    {
-        _buttonEffect.Stop();
-        _buttonEffect.clip = newClip;
-        _buttonEffect.Play();
-    }
+    #region Class Methods
 
     private async void StartGame()
     {
         await UniTask.Delay(500);
-        _animation.Play(FadeIn);
+        _animator.SetTrigger(_animFadeInMainStart);
         _audio.Play();
     }
 
     public async void OnStartClick()
     {
         await UniTask.Delay(500);
-        _ = FadeAudio(_audio,false,1,0);
-        _animation.Play(FadeOut);
+        _ = FadeAudio(_audio, false, 1, 0);
+        //animazione play
         await UniTask.Delay(1200);
 
         SceneManager.LoadScene(_gamePlayScene);
@@ -53,21 +114,45 @@ public class StartMenuController : MonoBehaviour
     public async void OnExitClick()
     {
         await UniTask.Delay(1000);
-
         Application.Quit();
+    }
+
+    public void OnSettingShow()
+    {
+        _animator.SetTrigger(_animFadeInSettings);
+    }
+
+    public void OnSettingsHide()
+    {
+        ApplySettings();
+        _animator.SetTrigger(_animFadeOutSettings);
     }
 
     public void ShowCredits()
     {
-        _animation.Play(FadeInCredits);
+        ApplySettings();
+        _animator.SetTrigger(_animFICredits);
     }
+
     public void HideCredits()
     {
-        _animation.Play(FadeoutCredits);
+        _animator.SetTrigger(_animFOCredits);
     }
-    public void ShowTutorial()
+
+    public void ShowCommands()
     {
-        _animation.Play(FadeinTutorial);
+        ApplySettings();
+        _animator.SetTrigger(_animFICommands);
+    }
+
+    public void HideCommands()
+    {
+        _animator.SetTrigger(_animFOCommands);
+    }
+
+    public async void ShowTutorial()
+    {
+        await UniTask.Delay(500);
     }
 
     public async UniTask FadeAudio(AudioSource source, bool isFadeIn, float duration, float volume = 0)
@@ -94,4 +179,13 @@ public class StartMenuController : MonoBehaviour
 
         if (!isFadeIn) source.Stop();
     }
+
+
+    private void ApplySettings()
+    {
+        _languageController.ChangeLanguage(GameSettings.Instance.Language);
+        _windowController.ApplyWindowSettings();
+        _audioController.ApplyAllVolumes();
+    }
+    #endregion
 }
