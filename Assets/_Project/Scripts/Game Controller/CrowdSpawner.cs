@@ -19,10 +19,7 @@ public class CrowdSpawner : MonoBehaviour
     {
         if (_crowdSpawnPoint == null || _crowdSpawnPoint.Count <= 0)
         {
-
-#if UNITY_EDITOR
-            Debug.LogWarning("Crowd spawn points are not assigned in MessageController.");
-#endif
+            DevLog.LogWarning("Crowd spawn points are not assigned in CrowdSpawner.");
         }
     }
 

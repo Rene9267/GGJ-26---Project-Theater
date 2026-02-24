@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb232ff5b98b94f48948efe3c71a63d3, type: 3}
+  m_Name: GuestsSettings_Tutorial
+  m_EditorClassIdentifier: Assembly-CSharp::GuestsSettings
+  GuestSpawnRange: {x: 1, y: 4}
+  ObstacleLayer:
+    serializedVersion: 2
+    m_Bits: 72
+  MaxAttemptsPerPawn: 10
+  Radius: 2
+  SecurityRadiusCheck: 1
+  GuestsPool:
+  - {fileID: 824400903376900153, guid: 267b4a731af29644a9df5566b4a2dfd8, type: 3}
+  - {fileID: 824400903376900153, guid: 267b4a731af29644a9df5566b4a2dfd8, type: 3}
+  - {fileID: 824400903376900153, guid: 267b4a731af29644a9df5566b4a2dfd8, type: 3}
+  - {fileID: 97266854541878832, guid: c9cd6ce35cb82634092cc6f297b27620, type: 3}
+  - {fileID: 97266854541878832, guid: c9cd6ce35cb82634092cc6f297b27620, type: 3}
+  - {fileID: 97266854541878832, guid: c9cd6ce35cb82634092cc6f297b27620, type: 3}
+  - {fileID: 6027401718457927909, guid: 94e1263c11a632d4995a68244d0f232a, type: 3}
+  - {fileID: 6027401718457927909, guid: 94e1263c11a632d4995a68244d0f232a, type: 3}
+  GuestsColors:
+  - {r: 0.8078432, g: 0.31764707, b: 0.03529412, a: 1}
+  - {r: 1, g: 0, b: 0, a: 1}
+  - {r: 0.078431375, g: 0.18039216, b: 0.37647063, a: 1}
+  - {r: 0, g: 1, b: 0.05740881, a: 1}
+  ExitAreaDirectionImages:
+  - {fileID: 21300000, guid: 4251080a0f6cfb24b80d501799ffd7b9, type: 3}
+  - {fileID: 21300000, guid: b51873d57160f2f468c32166074fdd9d, type: 3}
+  - {fileID: 21300000, guid: 4ab87debd3a511b479a061710cef69e7, type: 3}
+  - {fileID: 21300000, guid: a1e2406f0d0841446aa387e131065c66, type: 3}
+  ExitAreaBaseImages:
+  - {fileID: 21300000, guid: a1ed621b98e794249a824df426232f9e, type: 3}
+  - {fileID: 21300000, guid: fa47b72b0bb937a49a29c137c032a7eb, type: 3}
+  - {fileID: 21300000, guid: cbf694602872d80429597aa934d3cd1a, type: 3}
+  - {fileID: 21300000, guid: e969f5cbeb2ab794ab0461b78467f5ad, type: 3}
+  RotationSpeed: 100
+  Clockwise: 1
+  TimeToExit: 15000
+  GuestRunAwayTimer: 7000

@@ -102,9 +102,7 @@ public class Crowd : MonoBehaviour
         if (_crowdSettings.SpawnableGuest == null || _crowdSettings.SpawnableGuest.Count == 0)
         {
 
-#if UNITY_EDITOR
-            Debug.LogError("No spawnable guests available in CrowdSettings.");
-#endif
+            DevLog.LogError("No spawnable guests available in CrowdSettings.");
             return;
         }
 
@@ -141,9 +139,7 @@ public class Crowd : MonoBehaviour
             }
             if (!foundValidSpot)
             {
-#if UNITY_EDITOR
-                Debug.LogWarning($"Impossibile trovare un posto per lo spettatore {i} dopo {_crowdSettings.MaxAttemptsPerPawn} tentativi.");
-#endif
+                DevLog.LogWarning($"Impossibile trovare un posto per lo spettatore {i} dopo {_crowdSettings.MaxAttemptsPerPawn} tentativi.");
             }
         }
 
