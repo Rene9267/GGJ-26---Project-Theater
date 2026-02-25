@@ -188,16 +188,10 @@ public class Crowd : MonoBehaviour
 
     public void EnableReciver(Color CircleColor)
     {
-        _crowdInteractionArea.gameObject.SetActive(true);
-        _crowdInteractionArea.SetUPInteractionArea(CircleColor, InteractType.MessageReciver);
-        _myColor = CircleColor;
-        if (_uiRotationCoroutine != null)
-        {
-            StopCoroutine(_uiRotationCoroutine);
-            _uiRotationCoroutine = null;
-        }
+        _crowdInteractionArea.gameObject.SetActive(false);
 
-        _uiRotationCoroutine = StartCoroutine(_crowdInteractionArea.AreaImageRotate(_crowdSettings.RotationSpeed, _crowdSettings.Clockwise));
+        _myColor = CircleColor;
+
         _crowdInteractionArea.OnCompleteInteract -= HandleInteraction;
         _crowdInteractionArea.OnCompleteInteract += HandleInteraction;
     }
@@ -231,6 +225,17 @@ public class Crowd : MonoBehaviour
 
     public void ActivateReciverIcon(Crowd Sender)
     {
+        _crowdInteractionArea.gameObject.SetActive(true);
+
+        _crowdInteractionArea.SetUPInteractionArea(_myColor, InteractType.MessageReciver);
+
+        if (_uiRotationCoroutine != null)
+        {
+            StopCoroutine(_uiRotationCoroutine);
+            _uiRotationCoroutine = null;
+        }
+        _uiRotationCoroutine = StartCoroutine(_crowdInteractionArea.AreaImageRotate(_crowdSettings.RotationSpeed, _crowdSettings.Clockwise));
+
         _crowdInteractionArea.IconController.SelectReciverIcon(Sender._crowdInteractionArea.IconController.iconIndex);
         _myAnimation.Play(_letterSpawnName);
     }

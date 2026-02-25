@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: CrowdSettings_Tutorial
   m_EditorClassIdentifier: Assembly-CSharp::CrowdSettings
   SpawnableGuest:
-  - {fileID: 8751252145075040725, guid: aaadcb4d62472a043925c33ace6d0875, type: 3}
-  - {fileID: 7789533014929328691, guid: 18f0fba879c8baf44a159ad50305c4a8, type: 3}
+  - {fileID: 8751252145075040725, guid: db34f24904094f1478a45ee3c702c542, type: 3}
+  - {fileID: 7789533014929328691, guid: ab905cc0889490c4a9a16a24648ad406, type: 3}
   Radius: 2.5
   SecurityRadiusCheck: 1.5
   CrowdSize: {x: 3, y: 6}

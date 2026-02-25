@@ -1,19 +1,9 @@
 fileFormatVersion: 2
-guid: 7d0a7de13c09c524b8d6e612800bd33e
+guid: e1638a1aefe7d0641b4c8eb70a00a749
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Material
-    second: {fileID: 2100000, guid: 32952cec80417ba428809d96e735bd3f, type: 2}
-  - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: texture-cartonati
-    second: {fileID: 2800000, guid: 9c39a68f9e597a84fba00975a52c1cf3, type: 3}
+  externalObjects: {}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -43,7 +33,7 @@ ModelImporter:
     isReadable: 0
   meshes:
     lODScreenPercentages: []
-    globalScale: 150
+    globalScale: 1.5
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1

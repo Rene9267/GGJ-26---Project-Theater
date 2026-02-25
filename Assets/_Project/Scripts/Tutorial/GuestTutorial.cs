@@ -19,11 +19,16 @@ public class GuestTutorial : MonoBehaviour
 
     [Header("Audio")]
     [SerializeField] private AudioSource _source;
+    [SerializeField] private AudioSource _smokeParticlesAudioSource;
     [SerializeField] private AudioClip _spawnClip;
     [SerializeField] private AudioClip _arriveClip;
 
+    [Header("VFX")]
+    [Tooltip("Inserisci qui il Particle System per l'effetto di completamento (nella scena o prefab)")]
+    [SerializeField] private ParticleSystem _completionParticles;
+
     private Dictionary<Color, FollowerGuestExitArea> _guestInteractionExitAreasDic = new();
-    private List<FollowerGuest> _spawnedGuests = new List<FollowerGuest>();
+    private List<FollowerGuestTutorial> _spawnedGuests = new List<FollowerGuestTutorial>();
     private UniTaskCompletionSource _tutorialCompletionSource;
 
     private int _exitLayerIndex;
@@ -34,7 +39,8 @@ public class GuestTutorial : MonoBehaviour
     {
         _exitLayerIndex = LayerMask.NameToLayer("ExitingGuest");
 
-        if (_settings.GuestsPool.Count > 0 && _settings.GuestsPool[0] != null)
+        // Leggiamo il layer direttamente dal primo prefab nei Settings
+        if (_settings != null && _settings.GuestsPool.Count > 0 && _settings.GuestsPool[0] != null)
         {
             _defaultGuestLayer = _settings.GuestsPool[0].layer;
         }
@@ -60,6 +66,7 @@ public class GuestTutorial : MonoBehaviour
             tmpList[k] = tmpList[n];
             tmpList[n] = value;
         }
+
         Queue<TutorialExitInfo> shuffledQueue = new Queue<TutorialExitInfo>(tmpList);
 
         foreach (FollowerGuestExitArea exitArea in _guestInteractionExitAreas)
@@ -78,7 +85,6 @@ public class GuestTutorial : MonoBehaviour
     {
         _tutorialCompletionSource = new UniTaskCompletionSource();
 
-       
         _currentSpawnColor = _settings.GuestsColors[Random.Range(0, _settings.GuestsColors.Count)];
 
         _guestInteractionArea.ResetArea();
@@ -93,6 +99,12 @@ public class GuestTutorial : MonoBehaviour
 
     private void SpawnGuests()
     {
+        if (_settings.GuestsPool == null || _settings.GuestsPool.Count == 0)
+        {
+            DevLog.LogError("[Tutorial_GuestController]: GuestsPool è vuoto nei Settings!");
+            return;
+        }
+
         int guestCount = Random.Range((int)_settings.GuestSpawnRange.x, (int)_settings.GuestSpawnRange.y);
         Vector2 crowdMiddlePoint = Vector2.zero;
 
@@ -101,14 +113,19 @@ public class GuestTutorial : MonoBehaviour
             Vector2 randomPoint2D = Random.insideUnitCircle * _settings.Radius;
             Vector3 spawnPosition = new Vector3(randomPoint2D.x, 0, randomPoint2D.y) + _guestInteractionArea.transform.position;
 
+            // Spawna direttamente dai Settings
             GameObject guestPrefab = _settings.GuestsPool[Random.Range(0, _settings.GuestsPool.Count)];
             GameObject guestObj = Instantiate(guestPrefab, spawnPosition, Quaternion.identity, _guestSpwanTransform);
             guestObj.SetActive(true);
 
-            if (guestObj.TryGetComponent<FollowerGuest>(out var followerComp))
+            // Cerca il TUO script custom che hai messo sui prefab del tutorial
+            if (guestObj.TryGetComponent<FollowerGuestTutorial>(out var followerComp))
             {
-                followerComp.SetMyColor(_currentSpawnColor);
                 _spawnedGuests.Add(followerComp);
+            }
+            else
+            {
+                DevLog.LogWarning($"Il prefab {guestObj.name} non ha il componente FollowerGuestTutorial!");
             }
 
             crowdMiddlePoint += new Vector2(spawnPosition.x, spawnPosition.z);
@@ -142,8 +159,7 @@ public class GuestTutorial : MonoBehaviour
 
         foreach (var guest in _spawnedGuests)
         {
-            // Impostiamo un timer altissimo (es. 9999 secondi) per simulare l'assenza di timer nel tutorial
-            guest.SetUpTarget(followTarget, 9999);
+            guest.SetUpTarget(followTarget);
             guest.SetPlayer(player);
             followTarget = guest.transform;
         }
@@ -151,9 +167,8 @@ public class GuestTutorial : MonoBehaviour
         _guestInteractionArea.ResetArea();
     }
 
-    private void HandlePlayerDropGuest(Color colorID, Transform alignPoint, Transform exitPoint)
+    private async void HandlePlayerDropGuest(Color colorID, Transform alignPoint, Transform exitPoint)
     {
-        // Controlla che il colore droppato sia quello che abbiamo spawnato
         if (colorID != _currentSpawnColor) return;
 
         if (_source != null && _arriveClip != null)
@@ -161,9 +176,39 @@ public class GuestTutorial : MonoBehaviour
             _source.PlayOneShot(_arriveClip);
         }
 
-        ExitSequenceRoutine(_spawnedGuests, alignPoint, exitPoint).Forget();
+        // Calcolo del punto medio per il particellare
+        Vector3 middlePoint = Vector3.zero;
+        if (_spawnedGuests.Count > 0)
+        {
+            foreach (var guest in _spawnedGuests)
+            {
+                middlePoint += guest.transform.position;
+            }
+            middlePoint /= _spawnedGuests.Count;
 
-        // Pulizia eventi
+            // Spostiamo e facciamo partire il particellare
+            if (_completionParticles != null)
+            {
+                _completionParticles.transform.position = middlePoint;
+                _completionParticles.gameObject.SetActive(true);
+                _smokeParticlesAudioSource.Play();
+                await UniTask.Delay(200);
+                _completionParticles.Play();
+            }
+
+            // Disattiviamo e distruggiamo i guest istantaneamente
+            foreach (var guest in _spawnedGuests)
+            {
+                if (guest != null)
+                {
+                    guest.gameObject.SetActive(false);
+                    Destroy(guest.gameObject);
+                }
+            }
+            _spawnedGuests.Clear();
+        }
+
+        // Pulizia Eventi
         foreach (var exitArea in _guestInteractionExitAreas)
         {
             exitArea.OnCompleteInteractWithExit -= HandlePlayerDropGuest;
@@ -171,44 +216,7 @@ public class GuestTutorial : MonoBehaviour
         _guestInteractionArea.OnStartInteract -= HandlePlayerGrabGuests;
         _guestInteractionArea.OnAreaExit -= HandlePlayerExitGrabArea;
 
-        // Segnaliamo il completamento del task al Tutorial_GameController
         _tutorialCompletionSource.TrySetResult();
-    }
-
-    private async UniTaskVoid ExitSequenceRoutine(List<FollowerGuest> guests, Transform alignPoint, Transform exitPoint)
-    {
-        foreach (var guest in guests)
-        {
-            guest.SetPlayer(null);
-            SetLayerRecursively(guest.gameObject, _exitLayerIndex);
-
-            if (guest.TryGetComponent<FollowerGuestMovement>(out var movement))
-            {
-                movement.SetExitMode(true);
-                movement.LocalOffset = Vector3.zero;
-            }
-
-            guest.SetUpTarget(alignPoint);
-        }
-
-        // Attendiamo che raggiungano il punto di allineamento
-        await UniTask.Delay(1500);
-
-        foreach (var guest in guests)
-        {
-            guest.SetUpTarget(exitPoint);
-        }
-
-        // Attendiamo che superino la porta
-        await UniTask.Delay(1500);
-
-        // Nel tutorial possiamo semplicemente distruggerli una volta usciti dallo schermo
-        foreach (var guest in guests)
-        {
-            if (guest != null) Destroy(guest.gameObject);
-        }
-
-        guests.Clear();
     }
 
     private void SetLayerRecursively(GameObject obj, int newLayer)

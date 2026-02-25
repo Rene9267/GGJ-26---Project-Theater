@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7401834248339588819}
   - component: {fileID: 6708269434825591231}
   - component: {fileID: 5715879787164636510}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: pedina_uomo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,7 +41,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2686045612489461001}
-  m_Mesh: {fileID: 1398309437777180686, guid: 7d0a7de13c09c524b8d6e612800bd33e, type: 3}
+  m_Mesh: {fileID: 1398309437777180686, guid: e1638a1aefe7d0641b4c8eb70a00a749, type: 3}
 --- !u!23 &6708269434825591231
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -123,7 +123,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6455740171395624778}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -155,8 +155,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3631605974430966390}
-  m_Layer: 0
-  m_Name: PaperGuest_Man
+  m_Layer: 7
+  m_Name: PaperGuest_Man_Static
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

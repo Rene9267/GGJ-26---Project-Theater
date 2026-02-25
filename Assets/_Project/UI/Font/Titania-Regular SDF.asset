@@ -6,7 +6,7 @@ Texture2D:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Titania-Regular Atlas
+  m_Name: Titania-Regular SDF Atlas
   m_ImageContentsHash:
     serializedVersion: 2
     Hash: 00000000000000000000000000000000
@@ -109,7 +109,7 @@ Material:
     - _GlowOffset: 0
     - _GlowOuter: 0.05
     - _GlowPower: 0.75
-    - _GradientScale: 10
+    - _GradientScale: 14
     - _LightAngle: 3.1416
     - _MaskSoftnessX: 0
     - _MaskSoftnessY: 0
@@ -119,9 +119,9 @@ Material:
     - _OutlineWidth: 0
     - _PerspectiveFilter: 0.875
     - _Reflectivity: 10
-    - _ScaleRatioA: 0.9
-    - _ScaleRatioB: 0.73125
-    - _ScaleRatioC: 0.73125
+    - _ScaleRatioA: 0.9285714
+    - _ScaleRatioB: 0.75446427
+    - _ScaleRatioC: 0.75446427
     - _ScaleX: 1
     - _ScaleY: 1
     - _ShaderFlags: 0
@@ -172,24 +172,24 @@ MonoBehaviour:
     m_FaceIndex: 0
     m_FamilyName: Titania
     m_StyleName: Regular
-    m_PointSize: 90
+    m_PointSize: 130
     m_Scale: 1
     m_UnitsPerEM: 1000
-    m_LineHeight: 96.840004
-    m_AscentLine: 77.4
-    m_CapLine: 59
-    m_MeanLine: 45
+    m_LineHeight: 139.88
+    m_AscentLine: 111.8
+    m_CapLine: 86
+    m_MeanLine: 66
     m_Baseline: 0
-    m_DescentLine: -19.44
-    m_SuperscriptOffset: 77.4
+    m_DescentLine: -28.08
+    m_SuperscriptOffset: 111.8
     m_SuperscriptSize: 0.5
-    m_SubscriptOffset: -19.44
+    m_SubscriptOffset: -28.08
     m_SubscriptSize: 0.5
-    m_UnderlineOffset: -12.870001
-    m_UnderlineThickness: 1.8000001
-    m_StrikethroughOffset: 18
-    m_StrikethroughThickness: 1.8000001
-    m_TabWidth: 36
+    m_UnderlineOffset: -18.59
+    m_UnderlineThickness: 2.6000001
+    m_StrikethroughOffset: 26.4
+    m_StrikethroughThickness: 2.6000001
+    m_TabWidth: 51
   m_Material: {fileID: -771813390427381518}
   m_SourceFontFileGUID: bc772c0e1a00bf54eb1d4bdad9e42bf0
   m_CreationSettings:
@@ -197,14 +197,14 @@ MonoBehaviour:
     sourceFontFileGUID: bc772c0e1a00bf54eb1d4bdad9e42bf0
     faceIndex: 0
     pointSizeSamplingMode: 0
-    pointSize: 90
-    padding: 9
-    paddingMode: 2
+    pointSize: 130
+    padding: 13
+    paddingMode: 1
     packingMode: 0
     atlasWidth: 1024
     atlasHeight: 1024
-    characterSetSelectionMode: 7
-    characterSequence: 
+    characterSetSelectionMode: 0
+    characterSequence: 32 - 126, 160, 8203, 8230, 9633
     referencedFontAssetGUID: 
     referencedTextAssetGUID: 
     fontStyle: 0
@@ -225,7 +225,7 @@ MonoBehaviour:
   m_ClearDynamicDataOnBuild: 1
   m_AtlasWidth: 1024
   m_AtlasHeight: 1024
-  m_AtlasPadding: 9
+  m_AtlasPadding: 13
   m_AtlasRenderMode: 4165
   m_UsedGlyphRects: []
   m_FreeGlyphRects:

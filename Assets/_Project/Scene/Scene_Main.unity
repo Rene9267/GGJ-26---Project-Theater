@@ -51467,6 +51467,7 @@ MonoBehaviour:
   _letter: {fileID: 3193697352418905199}
   _heart: {fileID: 8901530413342961339}
   _audioController: {fileID: 2146422190}
+  CanMove: 1
   GuestFamilyColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!143 &2066213264
 CharacterController:

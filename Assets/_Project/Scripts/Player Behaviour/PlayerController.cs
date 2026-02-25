@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject _heart;
     [SerializeField] private PlayerAudio_Controller _audioController;
     
-    public bool CanMove = false;
+    public bool CanMove = true;
 
     private CharacterController _controller;
     private Vector3 _moveDirection;
@@ -138,7 +138,7 @@ public class PlayerController : MonoBehaviour
 
     private void HandleMovement()
     {
-        if(CanMove == false) return;
+        // if(CanMove == false) return;
 
         Vector3 input = new Vector3(-_inputVector.x, 0, -_inputVector.y).normalized;
 

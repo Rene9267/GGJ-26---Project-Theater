@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -18,6 +19,7 @@ public class SimpleCrowd : MonoBehaviour
 
     public AudioClip TaskSuccessClip;
     public AudioSource MessageSource;
+    public AudioSource SmokeSource;
 
     private readonly List<StaticGuest_Controller> _crowdMembers = new();
     private Coroutine _uiRotationCoroutine;
@@ -41,20 +43,15 @@ public class SimpleCrowd : MonoBehaviour
         }
     }
 
-    void OnValidate()
-    {
-        if(_smokeController == null)
-        {
-            DevLog.LogError("SmokeController reference is missing in SimpleCrowd.");
-        }
-    }
 
     #endregion
 
     #region Class Methods
-    public void SpawnGuests()
+    public async void SpawnGuests()
     {
         if (_crowdSettings.SpawnableGuest == null || _crowdSettings.SpawnableGuest.Count == 0) return;
+        SmokeSource.Play();
+        await UniTask.Delay(200);
         _smokeController.PlaySmokeEffect();
 
         int crowdSize = Random.Range((int)_crowdSettings.CrowdSize.x, (int)_crowdSettings.CrowdSize.y);
@@ -111,12 +108,8 @@ public class SimpleCrowd : MonoBehaviour
 
     public void EnableReciver(Color circleColor)
     {
-        _crowdInteractionArea.gameObject.SetActive(true);
-        _crowdInteractionArea.SetUPInteractionArea(circleColor, InteractType.MessageReciver);
+        _crowdInteractionArea.gameObject.SetActive(false);
         _myColor = circleColor;
-
-        if (_uiRotationCoroutine != null) StopCoroutine(_uiRotationCoroutine);
-        _uiRotationCoroutine = StartCoroutine(_crowdInteractionArea.AreaImageRotate(_crowdSettings.RotationSpeed, _crowdSettings.Clockwise));
 
         _crowdInteractionArea.OnCompleteInteract -= HandleInteraction;
         _crowdInteractionArea.OnCompleteInteract += HandleInteraction;
@@ -124,6 +117,13 @@ public class SimpleCrowd : MonoBehaviour
 
     public void ActivateReciverIcon(SimpleCrowd sender)
     {
+        _crowdInteractionArea.gameObject.SetActive(true);
+
+        _crowdInteractionArea.SetUPInteractionArea(_myColor, InteractType.MessageReciver);
+
+        if (_uiRotationCoroutine != null) StopCoroutine(_uiRotationCoroutine);
+        _uiRotationCoroutine = StartCoroutine(_crowdInteractionArea.AreaImageRotate(_crowdSettings.RotationSpeed, _crowdSettings.Clockwise));
+
         _crowdInteractionArea.IconController.SelectReciverIcon(sender._crowdInteractionArea.IconController.iconIndex);
         _myAnimation.Play(_letterSpawnName);
     }

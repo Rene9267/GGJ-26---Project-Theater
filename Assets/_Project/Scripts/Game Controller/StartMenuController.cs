@@ -33,8 +33,9 @@ public class StartMenuController : MonoBehaviour
     private int _animFOCredits;
     private int _animFOCommands;
     private int _animFICommands;
+    private int _animPlay;
 
-    private readonly string _gamePlayScene = "Scene_Main";
+    private readonly string _gamePlayScene = "Scene_Tutorial";
     #endregion
 
     #region Unity Standard Methods
@@ -86,6 +87,8 @@ public class StartMenuController : MonoBehaviour
         _animFOCredits = Animator.StringToHash("FadeOutCredits");
         _animFICommands = Animator.StringToHash("FICommands");
         _animFOCommands = Animator.StringToHash("FOCommands");
+        _animPlay = Animator.StringToHash("Play");
+
 
         _settingsCanvasGroup.gameObject.TryGetComponent(out _optionsController);
         if(_optionsController == null)
@@ -128,9 +131,9 @@ public class StartMenuController : MonoBehaviour
 
     public async void OnStartClick()
     {
+        _animator.SetTrigger(_animPlay);
         await UniTask.Delay(500);
         _ = FadeAudio(_audio, false, 1, 0);
-        //animazione play
         await UniTask.Delay(1200);
 
         SceneManager.LoadScene(_gamePlayScene);

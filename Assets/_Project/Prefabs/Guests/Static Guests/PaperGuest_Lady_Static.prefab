@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1871201678486707432}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 1930677195176221409}
   - component: {fileID: 4190072063638432800}
   - component: {fileID: 6365396915294041070}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: pedina_donna
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -73,7 +73,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6518605717319873293}
-  m_Mesh: {fileID: -1988165313298172050, guid: 7d0a7de13c09c524b8d6e612800bd33e, type: 3}
+  m_Mesh: {fileID: -1988165313298172050, guid: e1638a1aefe7d0641b4c8eb70a00a749, type: 3}
 --- !u!23 &4190072063638432800
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -155,8 +155,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5659264618920350857}
-  m_Layer: 0
-  m_Name: PaperGuest_Lady
+  m_Layer: 7
+  m_Name: PaperGuest_Lady_Static
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cd222b63153cc246bb5c3e178c6765b, type: 3}
   m_Name: PlayerSettings
   m_EditorClassIdentifier: Assembly-CSharp::PlayerSettings
-  MoveSpeed: 6.5
+  MoveSpeed: 8.5
   SprintMultiplier: 1.5
   RotationSpeed: 10
   StunGuestTag: StunGuest

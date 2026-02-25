@@ -30,11 +30,11 @@ Material:
     m_Ints: []
     m_Floats:
     - _EffectHeight: -0.15
-    - _NoiseFrequency: 8
-    - _NoiseStrength: 0.1
+    - _NoiseFrequency: 10
+    - _NoiseStrength: 0.343
     - _RimPower: 3
-    - _Speed: 5
+    - _Speed: 3.08
     m_Colors:
-    - _Color: {r: 1, g: 0.6503882, b: 0, a: 1}
+    - _Color: {r: 1, g: 0.8816931, b: 0, a: 0.5882353}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

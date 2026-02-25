@@ -54,7 +54,7 @@ public class GameController : MonoBehaviour
     #endregion
 
     #region Unity Methods
-    //======================= Unity Methods ================================
+
     private void OnValidate()
     {
         if (_settings == null)
@@ -77,14 +77,19 @@ public class GameController : MonoBehaviour
         _messageController.OnTaskFailed += HandleMessageFail;
         _candleController.OnDarkRise += HandleDarkRise;
         _guestController.OnTaskFailed += HandleGuestTaskFailed;
+        SceneManager.sceneLoaded += OnLevelFinishedLoading;
+
+
     }
 
     private void OnDisable()
     {
         _guestController.OnGuestDropped -= HandleGuestDrop;
         _messageController.OnTaskFailed -= HandleMessageFail;
-        _candleController.OnDarkRise += HandleDarkRise;
+        _candleController.OnDarkRise -= HandleDarkRise;
         _guestController.OnTaskFailed -= HandleGuestTaskFailed;
+        SceneManager.sceneLoaded -= OnLevelFinishedLoading;
+
     }
 
     private void Awake()
@@ -94,8 +99,13 @@ public class GameController : MonoBehaviour
         _uiController.SetPeopleNumber(_remainingGuests);
     }
 
-    private void Start()
+
+    #region Class Methods
+
+    private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
     {
+        DevLog.Log($"La scena {scene.name} è completamente caricata!");
+
         CutsceneStartOpera();
     }
 
@@ -104,10 +114,10 @@ public class GameController : MonoBehaviour
     {
         var crowds = _crowdSpawner.InitializeCrowds();
         _messageController.GetCrowds(crowds);
-        
+
         _ = FadeAudio(_theaterBackground, false, 0, 0);
         _theaterBackground.clip = _preShow;
-        await FadeAudio(_theaterBackground,true,1, 0.3f);
+        await FadeAudio(_theaterBackground, true, 1, 0.3f);
 
         _myAnimation.Play(_cameraAnimation);
         _uiController.StartUp();
@@ -215,13 +225,13 @@ public class GameController : MonoBehaviour
     private async void EndOpera()
     {
         StopAllGameplay();
-        
-        await FadeAudio(_theaterBackground,false,4,0);
+
+        await FadeAudio(_theaterBackground, false, 4, 0);
         _theaterBackground.gameObject.SetActive(false);
 
         //Schermata fine gioco
         //await _uiController.FadeCanvas(true, 1, _uiController.EndUI);
-        
+
         //_ = _uiController.FadeCanvas(false, 1, _uiController.EndUI);
 
         await _uiController.FadeCanvas(true, 1);
@@ -331,7 +341,6 @@ public class GameController : MonoBehaviour
         if (_candleController != null) _candleController.StopAllCandles();
         if (_actorController != null) _actorController.StopAct();
     }
-
-
+    #endregion
     #endregion
 }

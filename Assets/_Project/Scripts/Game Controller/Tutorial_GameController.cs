@@ -1,5 +1,6 @@
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Tutorial_GameController : MonoBehaviour
 {
@@ -11,6 +12,9 @@ public class Tutorial_GameController : MonoBehaviour
     [SerializeField] private CrowdTutorial _crowdTutorial;
     [SerializeField] private GuestTutorial _guestTutorial;
     [SerializeField] private CandleTutorial _candleTutorial;
+    [SerializeField] private AudioSource _smokeParticlesAudioSource;
+    [SerializeField] private AudioClip _theaterEnterClip;
+
 
     //Particle
     [SerializeField] private SmokeController _smokeController_movementTutorial;
@@ -20,15 +24,16 @@ public class Tutorial_GameController : MonoBehaviour
     [SerializeField] private SmokeController _smokeController_CandleTuorial;
 
 
-
     private static readonly int _showTutorial = Animator.StringToHash("StartCameraMotion");
+    private static readonly int _ExitTutorial = Animator.StringToHash("ExitTutorial");
     private static readonly int _tutorialUIStartAppear = Animator.StringToHash("StartTutorial");
     private static readonly int _tutorialUIWASD = Animator.StringToHash("WASD");
     private static readonly int _tutorialUIMessage = Animator.StringToHash("Message");
-    private static readonly int _tutorialUIGuests = Animator.StringToHash("Guests"); 
+    private static readonly int _tutorialUIGuests = Animator.StringToHash("Guest"); 
     private static readonly int _tutorialUICandle = Animator.StringToHash("Candle");
-
     private static readonly int _tutorialUIDisappear = Animator.StringToHash("CloseTip");
+    private static readonly int _tutorialUIEnd = Animator.StringToHash("End");
+    private readonly string _gamePlayScene = "Scene_Main";
     #endregion
 
     #region Unity Methods
@@ -49,23 +54,37 @@ public class Tutorial_GameController : MonoBehaviour
         }
     }
 
-    void Start()
+    private void OnEnable()
     {
-        StartTutorial().Forget();
+        SceneManager.sceneLoaded += OnLevelFinishedLoading;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnLevelFinishedLoading;
     }
 
     #endregion
 
     #region Class Methods
 
+    private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
+    {
+        DevLog.Log($"La scena {scene.name} è completamente caricata!");
+
+        StartTutorial().Forget();
+    }
+
     private async UniTask CutsceneStartOpera()
     {
+        _smokeParticlesAudioSource.PlayOneShot(_theaterEnterClip);
         _animator.SetTrigger(_showTutorial);
         await UniTask.Delay(4000);
     }
 
     private async UniTask StartTutorial()
     {
+        await UniTask.Delay(1000);
         await CutsceneStartOpera();
         await UniTask.Delay(3000);
         _player.gameObject.SetActive(true);
@@ -77,7 +96,10 @@ public class Tutorial_GameController : MonoBehaviour
     {
         _tutorialUIAnimator.SetTrigger(_tutorialUIWASD);
         await UniTask.Delay(1000);
+        _smokeParticlesAudioSource.Play();
+        await UniTask.Delay(200);
         _smokeController_movementTutorial.PlaySmokeEffect();
+
         _movementTutorial.gameObject.SetActive(true);
 
         _movementTutorial.OnPlayerReachArea += () =>
@@ -90,9 +112,12 @@ public class Tutorial_GameController : MonoBehaviour
     private async void WasdTutorialComplete()
     {
         _tutorialUIAnimator.SetTrigger(_tutorialUIDisappear);
+        _smokeParticlesAudioSource.Play();
+        await UniTask.Delay(200);
         _smokeController_movementTutorial.PlaySmokeEffect();
+
         _movementTutorial.gameObject.SetActive(false);
-        await UniTask.Delay(1000);
+        await UniTask.Delay(2000);
         _movementTutorial.OnPlayerReachArea -= WasdTutorialComplete;
         BringMessageTutorial().Forget();
     }
@@ -105,10 +130,13 @@ public class Tutorial_GameController : MonoBehaviour
         await _crowdTutorial.StartTutorial();
 
         _tutorialUIAnimator.SetTrigger(_tutorialUIDisappear);
+        _smokeParticlesAudioSource.Play();
+        await UniTask.Delay(200);
         _smokeController_1.PlaySmokeEffect();
         _smokeController_2.PlaySmokeEffect();
+
         _crowdTutorial.gameObject.SetActive(false);
-        await UniTask.Delay(1000);
+        await UniTask.Delay(2000);
 
         LeadPeopleToLobbyTutorial().Forget();
     }
@@ -118,12 +146,15 @@ public class Tutorial_GameController : MonoBehaviour
         _tutorialUIAnimator.SetTrigger(_tutorialUIGuests);
         await UniTask.Delay(1000);
 
+        _smokeParticlesAudioSource.Play();
+        await UniTask.Delay(200);
         _smokeController_GuestTutorial.PlaySmokeEffect();
+
         _guestTutorial.gameObject.SetActive(true);
         await _guestTutorial.StartGuestTutorial();
 
         _tutorialUIAnimator.SetTrigger(_tutorialUIDisappear);
-        await UniTask.Delay(1000);
+        await UniTask.Delay(2000);
 
         CandleLightTutorial().Forget();
     }
@@ -133,7 +164,10 @@ public class Tutorial_GameController : MonoBehaviour
         _tutorialUIAnimator.SetTrigger(_tutorialUICandle);
         await UniTask.Delay(1000);
 
+        _smokeParticlesAudioSource.Play();
+        await UniTask.Delay(200);
         _smokeController_CandleTuorial.PlaySmokeEffect();
+
         _candleTutorial.StartTutorial();
 
         _candleTutorial.OnCandleTutorialComplete+= () =>
@@ -143,12 +177,21 @@ public class Tutorial_GameController : MonoBehaviour
         };
     }
 
-    private void CandleLightTutorialComplete()
+    private async void CandleLightTutorialComplete()
     {
         _tutorialUIAnimator.SetTrigger(_tutorialUIDisappear);
-        _smokeController_CandleTuorial.PlaySmokeEffect();
-        _candleTutorial.OnCandleTutorialComplete -= CandleLightTutorialComplete;
-    }
+        _smokeParticlesAudioSource.Play();
+        await UniTask.Delay(200);
 
+        _smokeController_CandleTuorial.PlaySmokeEffect();
+
+        _candleTutorial.OnCandleTutorialComplete -= CandleLightTutorialComplete;
+        await UniTask.Delay(3000);
+        _tutorialUIAnimator.SetTrigger(_tutorialUIEnd);
+        await UniTask.Delay(2000);
+        _animator.SetTrigger(_ExitTutorial);
+        await UniTask.Delay(2000);
+        SceneManager.LoadScene(_gamePlayScene);
+    }
     #endregion
 }
