@@ -38,13 +38,7 @@ public class GuestTutorial : MonoBehaviour
         {
             _defaultGuestLayer = _settings.GuestsPool[0].layer;
         }
-    }
 
-    public async UniTask StartGuestTutorial()
-    {
-        _tutorialCompletionSource = new UniTaskCompletionSource();
-
-        // 1. Setup di tutte le aree di uscita (Logica presa dal GuestController originale)
         List<TutorialExitInfo> tmpList = new();
         for (int i = 0; i < _settings.GuestsColors.Count; i++)
         {
@@ -56,7 +50,6 @@ public class GuestTutorial : MonoBehaviour
             });
         }
 
-        // Mischia gli elementi per assegnarli in modo randomico
         System.Random rng = new System.Random();
         int n = tmpList.Count;
         while (n > 1)
@@ -67,7 +60,6 @@ public class GuestTutorial : MonoBehaviour
             tmpList[k] = tmpList[n];
             tmpList[n] = value;
         }
-
         Queue<TutorialExitInfo> shuffledQueue = new Queue<TutorialExitInfo>(tmpList);
 
         foreach (FollowerGuestExitArea exitArea in _guestInteractionExitAreas)
@@ -80,20 +72,22 @@ public class GuestTutorial : MonoBehaviour
                 _guestInteractionExitAreasDic.Add(exitInfo.color, exitArea);
             }
         }
+    }
 
-        // 2. Scegliamo un colore randomico tra quelli disponibili in _settings per questo spawn
+    public async UniTask StartGuestTutorial()
+    {
+        _tutorialCompletionSource = new UniTaskCompletionSource();
+
+       
         _currentSpawnColor = _settings.GuestsColors[Random.Range(0, _settings.GuestsColors.Count)];
 
-        // 3. Setup dell'Area di Interazione (Spawn)
         _guestInteractionArea.ResetArea();
         _guestInteractionArea.SetUpInteractionArea(_currentSpawnColor, _settings.RotationSpeed, _settings.Clockwise);
         _guestInteractionArea.OnStartInteract += HandlePlayerGrabGuests;
         _guestInteractionArea.OnAreaExit += HandlePlayerExitGrabArea;
 
-        // 4. Spawna i Guest senza timer
         SpawnGuests();
 
-        // 5. Attendi che il giocatore completi il task
         await _tutorialCompletionSource.Task;
     }
 

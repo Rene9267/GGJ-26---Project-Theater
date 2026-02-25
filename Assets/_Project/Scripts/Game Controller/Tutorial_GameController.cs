@@ -9,17 +9,24 @@ public class Tutorial_GameController : MonoBehaviour
     [SerializeField] private TutorialColliderChecker _movementTutorial;
     [SerializeField] private PlayerController _player;
     [SerializeField] private CrowdTutorial _crowdTutorial;
-    [SerializeField] private GuestTutorial _guestTutorial; 
+    [SerializeField] private GuestTutorial _guestTutorial;
+    [SerializeField] private CandleTutorial _candleTutorial;
+
+    //Particle
     [SerializeField] private SmokeController _smokeController_movementTutorial;
     [SerializeField] private SmokeController _smokeController_1;
     [SerializeField] private SmokeController _smokeController_2;
-    [SerializeField] private SmokeController _smokeController_guestTutorial;
+    [SerializeField] private SmokeController _smokeController_GuestTutorial;
+    [SerializeField] private SmokeController _smokeController_CandleTuorial;
+
+
 
     private static readonly int _showTutorial = Animator.StringToHash("StartCameraMotion");
     private static readonly int _tutorialUIStartAppear = Animator.StringToHash("StartTutorial");
     private static readonly int _tutorialUIWASD = Animator.StringToHash("WASD");
     private static readonly int _tutorialUIMessage = Animator.StringToHash("Message");
-    private static readonly int _tutorialUIGuests = Animator.StringToHash("Guests"); // Trigger UI per i Guest
+    private static readonly int _tutorialUIGuests = Animator.StringToHash("Guests"); 
+    private static readonly int _tutorialUICandle = Animator.StringToHash("Candle");
 
     private static readonly int _tutorialUIDisappear = Animator.StringToHash("CloseTip");
     #endregion
@@ -97,7 +104,7 @@ public class Tutorial_GameController : MonoBehaviour
         _crowdTutorial.gameObject.SetActive(true);
         await _crowdTutorial.StartTutorial();
 
-        _tutorialUIAnimator.Play(_tutorialUIDisappear);
+        _tutorialUIAnimator.SetTrigger(_tutorialUIDisappear);
         _smokeController_1.PlaySmokeEffect();
         _smokeController_2.PlaySmokeEffect();
         _crowdTutorial.gameObject.SetActive(false);
@@ -111,13 +118,11 @@ public class Tutorial_GameController : MonoBehaviour
         _tutorialUIAnimator.SetTrigger(_tutorialUIGuests);
         await UniTask.Delay(1000);
 
-        _smokeController_guestTutorial.PlaySmokeEffect();
+        _smokeController_GuestTutorial.PlaySmokeEffect();
         _guestTutorial.gameObject.SetActive(true);
         await _guestTutorial.StartGuestTutorial();
 
         _tutorialUIAnimator.SetTrigger(_tutorialUIDisappear);
-        // _smokeController_guestTutorial.PlaySmokeEffect();
-        // _guestTutorial.gameObject.SetActive(false);
         await UniTask.Delay(1000);
 
         CandleLightTutorial().Forget();
@@ -125,7 +130,24 @@ public class Tutorial_GameController : MonoBehaviour
 
     private async UniTask CandleLightTutorial()
     {
-        // Implementazione futura per il tutorial delle candele
+        _tutorialUIAnimator.SetTrigger(_tutorialUICandle);
+        await UniTask.Delay(1000);
+
+        _smokeController_CandleTuorial.PlaySmokeEffect();
+        _candleTutorial.StartTutorial();
+
+        _candleTutorial.OnCandleTutorialComplete+= () =>
+        {
+            DevLog.Log("Candle Tutorial Complete", this);
+            CandleLightTutorialComplete();
+        };
+    }
+
+    private void CandleLightTutorialComplete()
+    {
+        _tutorialUIAnimator.SetTrigger(_tutorialUIDisappear);
+        _smokeController_CandleTuorial.PlaySmokeEffect();
+        _candleTutorial.OnCandleTutorialComplete -= CandleLightTutorialComplete;
     }
 
     #endregion

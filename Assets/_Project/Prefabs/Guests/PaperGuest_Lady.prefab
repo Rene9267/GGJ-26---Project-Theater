@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 4953564571055483672}
   - component: {fileID: 1930677195176221409}
   - component: {fileID: 4190072063638432800}
+  - component: {fileID: 6365396915294041070}
   m_Layer: 0
   m_Name: pedina_donna
   m_TagString: Untagged
@@ -122,6 +123,29 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!136 &6365396915294041070
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6518605717319873293}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.61
+  m_Height: 2.2
+  m_Direction: 2
+  m_Center: {x: 0.0060444474, y: 0, z: 1.0991032}
 --- !u!1 &8751252145075040725
 GameObject:
   m_ObjectHideFlags: 0

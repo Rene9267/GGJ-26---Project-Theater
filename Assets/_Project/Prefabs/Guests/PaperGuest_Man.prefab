@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6087015801354650421}
   - component: {fileID: 7401834248339588819}
   - component: {fileID: 6708269434825591231}
+  - component: {fileID: 5715879787164636510}
   m_Layer: 0
   m_Name: pedina_uomo
   m_TagString: Untagged
@@ -90,6 +91,29 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!136 &5715879787164636510
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2686045612489461001}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.57
+  m_Height: 2.32
+  m_Direction: 2
+  m_Center: {x: -0.01212886, y: 0, z: 1.1075934}
 --- !u!1 &3740683961851501888
 GameObject:
   m_ObjectHideFlags: 0

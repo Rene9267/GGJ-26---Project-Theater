@@ -7,6 +7,8 @@ public class Candle : MonoBehaviour
     #region  Variables
 
     public event Action OnDarkEffect;
+    public event Action OnTurnOn;
+
 
     [Header("Interaction")]
     [SerializeField] private CandleInteractionArea _interactionArea;
@@ -22,8 +24,8 @@ public class Candle : MonoBehaviour
     private float _darkGuestRunTimer;
     private Coroutine _darkCoroutine;
 
-    private readonly string _candleOff = "AC_FlameOff";
-    private readonly string _cancdleOn = "AC_FlameOn";
+    private readonly string _candleOff = "Anim_Candle_FlameOff";
+    private readonly string _cancdleOn = "Anim_Candle_FlameOn";
 
     #endregion
 
@@ -49,7 +51,7 @@ public class Candle : MonoBehaviour
         _animation.Play(_candleOff);
 
         _source.PlayOneShot(_candleOffClip);
-        
+
         _isDark = true;
 
         _darkGuestRunTimer = timeToRaiseTheDarkness;
@@ -69,7 +71,6 @@ public class Candle : MonoBehaviour
 
     }
 
-
     private void HandleStartInteraction()
     {
         if (_darkCoroutine != null) StopCoroutine(_darkCoroutine);
@@ -81,6 +82,7 @@ public class Candle : MonoBehaviour
         _isDark = false;
         _animation.Play(_cancdleOn);
         _source.PlayOneShot(_candleOn);
+        OnTurnOn?.Invoke();
         _interactionArea.OnCompleteInteract -= HandleCompleteInteraction;
     }
 

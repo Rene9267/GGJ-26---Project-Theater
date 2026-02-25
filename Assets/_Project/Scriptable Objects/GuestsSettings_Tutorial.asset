@@ -20,14 +20,14 @@ MonoBehaviour:
   Radius: 2
   SecurityRadiusCheck: 1
   GuestsPool:
-  - {fileID: 824400903376900153, guid: 267b4a731af29644a9df5566b4a2dfd8, type: 3}
-  - {fileID: 824400903376900153, guid: 267b4a731af29644a9df5566b4a2dfd8, type: 3}
-  - {fileID: 824400903376900153, guid: 267b4a731af29644a9df5566b4a2dfd8, type: 3}
-  - {fileID: 97266854541878832, guid: c9cd6ce35cb82634092cc6f297b27620, type: 3}
-  - {fileID: 97266854541878832, guid: c9cd6ce35cb82634092cc6f297b27620, type: 3}
-  - {fileID: 97266854541878832, guid: c9cd6ce35cb82634092cc6f297b27620, type: 3}
-  - {fileID: 6027401718457927909, guid: 94e1263c11a632d4995a68244d0f232a, type: 3}
-  - {fileID: 6027401718457927909, guid: 94e1263c11a632d4995a68244d0f232a, type: 3}
+  - {fileID: 8751252145075040725, guid: aaadcb4d62472a043925c33ace6d0875, type: 3}
+  - {fileID: 8751252145075040725, guid: aaadcb4d62472a043925c33ace6d0875, type: 3}
+  - {fileID: 8751252145075040725, guid: aaadcb4d62472a043925c33ace6d0875, type: 3}
+  - {fileID: 8751252145075040725, guid: aaadcb4d62472a043925c33ace6d0875, type: 3}
+  - {fileID: 7789533014929328691, guid: 18f0fba879c8baf44a159ad50305c4a8, type: 3}
+  - {fileID: 7789533014929328691, guid: 18f0fba879c8baf44a159ad50305c4a8, type: 3}
+  - {fileID: 7789533014929328691, guid: 18f0fba879c8baf44a159ad50305c4a8, type: 3}
+  - {fileID: 7789533014929328691, guid: 18f0fba879c8baf44a159ad50305c4a8, type: 3}
   GuestsColors:
   - {r: 0.8078432, g: 0.31764707, b: 0.03529412, a: 1}
   - {r: 1, g: 0, b: 0, a: 1}
