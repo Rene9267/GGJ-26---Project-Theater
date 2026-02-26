@@ -272,10 +272,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::StaticGuest_Controller
   _settings: {fileID: 11400000, guid: 8013280747f24c942bc3799c5f87e662, type: 2}
   _animtion: {fileID: 1960678494012299328}
+  _animator: {fileID: 3296216751019940023}
   _hurryUpIcon: {fileID: 1537854387653094144}
   _bodyPartToChangeColor:
   - {fileID: 292362899805887828}
   - {fileID: 229656354407123874}
+  _idleAnimationIndex: 3
   SetRandomMaterialOnAwake: 1
 --- !u!111 &1960678494012299328
 Animation:
@@ -438,6 +440,18 @@ PrefabInstance:
       propertyPath: m_TagString
       value: StunGuest
       objectReference: {fileID: 0}
+    - target: {fileID: 6018940174307112535, guid: 57b513773e4a63147b5f2132773e3824, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6995796772928185612, guid: 57b513773e4a63147b5f2132773e3824, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 84163acdc415dbc469bfe06f94d6328d, type: 2}
+    - target: {fileID: 6995796772928185612, guid: 57b513773e4a63147b5f2132773e3824, type: 3}
+      propertyPath: m_CullingMode
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7133858404780376502, guid: 57b513773e4a63147b5f2132773e3824, type: 3}
       propertyPath: m_Name
       value: Pawn_Lady Variant
@@ -449,6 +463,10 @@ PrefabInstance:
     - target: {fileID: 7701752193038330979, guid: 57b513773e4a63147b5f2132773e3824, type: 3}
       propertyPath: m_Layer
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8053195799621991039, guid: 57b513773e4a63147b5f2132773e3824, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8141258025855184351, guid: 57b513773e4a63147b5f2132773e3824, type: 3}
       propertyPath: m_Layer
@@ -472,5 +490,10 @@ GameObject:
 --- !u!4 &388722650192047219 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5318072222648193480, guid: 57b513773e4a63147b5f2132773e3824, type: 3}
+  m_PrefabInstance: {fileID: 5523827336757722555}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &3296216751019940023 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 6995796772928185612, guid: 57b513773e4a63147b5f2132773e3824, type: 3}
   m_PrefabInstance: {fileID: 5523827336757722555}
   m_PrefabAsset: {fileID: 0}

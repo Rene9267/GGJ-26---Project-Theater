@@ -459,6 +459,10 @@ PrefabInstance:
       propertyPath: _lockYAxis
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3412360520191463301, guid: 740aa3fb2ebf3df46acbe2cdfd352ae6, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4564774349216399054, guid: 740aa3fb2ebf3df46acbe2cdfd352ae6, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.5

@@ -14,6 +14,7 @@
   <Project Path="UniTask.csproj" />
   <Project Path="UnityEditor.UI.Analytics.csproj" />
   <Project Path="UnityEditor.TestRunner.csproj" />
+  <Project Path="Unity.AutoGroupGenerator.Editor.csproj" />
   <Project Path="Unity.VisualStudio.Editor.csproj" />
   <Project Path="Unity.TextMeshPro.Editor.csproj" />
   <Project Path="Unity.ResourceManager.csproj" />
@@ -22,6 +23,7 @@
   <Project Path="Unity.TextMeshPro.csproj" />
   <Project Path="Unity.InternalAPIEngineBridge.013.csproj" />
   <Project Path="Unity.InputSystem.TestFramework.csproj" />
+  <Project Path="Unity.2D.Sprite.Editor.csproj" />
   <Project Path="Unity.Addressables.csproj" />
   <Project Path="UniTask.Addressables.csproj" />
   <Project Path="Unity.InputSystem.DocCodeSamples.csproj" />
@@ -30,6 +32,6 @@
   <Project Path="UniTask.Editor.csproj" />
   <Project Path="Unity.InputSystem.ForUI.csproj" />
   <Project Path="UniTask.TextMeshPro.csproj" />
-  <Project Path="UniTask.DOTween.csproj" />
   <Project Path="Unity.ScriptableBuildPipeline.csproj" />
+  <Project Path="UniTask.DOTween.csproj" />
 </Solution>

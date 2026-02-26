@@ -124,9 +124,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::StaticGuest_Controller
   _settings: {fileID: 11400000, guid: 8013280747f24c942bc3799c5f87e662, type: 2}
   _animtion: {fileID: 2525889443855574298}
+  _animator: {fileID: 1237574966351822692}
   _hurryUpIcon: {fileID: 1415700336598542209}
   _bodyPartToChangeColor:
   - {fileID: 5639545345258245940}
+  _idleAnimationIndex: 3
   SetRandomMaterialOnAwake: 1
 --- !u!111 &2525889443855574298
 Animation:
@@ -569,6 +571,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 1297872200278586443, guid: 650391468dd30f747a973d29fc209648, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 84163acdc415dbc469bfe06f94d6328d, type: 2}
     - target: {fileID: 2928771176370808318, guid: 650391468dd30f747a973d29fc209648, type: 3}
       propertyPath: m_IncludeLayers.m_Bits
       value: 72
@@ -658,6 +664,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 650391468dd30f747a973d29fc209648, type: 3}
+--- !u!95 &1237574966351822692 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 1297872200278586443, guid: 650391468dd30f747a973d29fc209648, type: 3}
+  m_PrefabInstance: {fileID: 229200054536457007}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3389774498256742152 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3180858339191958567, guid: 650391468dd30f747a973d29fc209648, type: 3}

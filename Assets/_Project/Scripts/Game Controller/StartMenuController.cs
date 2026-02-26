@@ -1,5 +1,6 @@
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
 public class StartMenuController : MonoBehaviour
@@ -18,6 +19,11 @@ public class StartMenuController : MonoBehaviour
     [SerializeField] private CanvasGroup _fadeCanvasGroup;
     [SerializeField] private CanvasGroup _commandsGroup;
 
+    [Header("Button References")]
+    [SerializeField] private GameObject _startButton;
+    [SerializeField] private GameObject _settingsFirstButton;
+    [SerializeField] private GameObject _commandsFirstButton;
+    [SerializeField] private GameObject _creditsFirstButton;
 
     [Header("Effects References")]
     [SerializeField] private AudioSource _audio;
@@ -213,6 +219,30 @@ public class StartMenuController : MonoBehaviour
         _languageController.ChangeLanguage(GameSettings.Instance.Language);
         _windowController.ApplyWindowSettings();
         _audioController.ApplyAllVolumes();
+    }
+
+    public void OpenMenu()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(_startButton);
+    }
+
+    public void OpenSettingsMenu()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(_settingsFirstButton);
+    }
+
+    public void OpenCommandsMenu()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(_commandsFirstButton);
+    }
+
+    public void OpenCreditsMenu()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(_creditsFirstButton);
     }
     #endregion
 }

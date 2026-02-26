@@ -186,9 +186,9 @@ public class Tutorial_GameController : MonoBehaviour
         _smokeController_CandleTuorial.PlaySmokeEffect();
 
         _candleTutorial.OnCandleTutorialComplete -= CandleLightTutorialComplete;
-        await UniTask.Delay(3000);
-        _tutorialUIAnimator.SetTrigger(_tutorialUIEnd);
         await UniTask.Delay(2000);
+        _tutorialUIAnimator.SetTrigger(_tutorialUIEnd);
+        await UniTask.Delay(6000);
         _animator.SetTrigger(_ExitTutorial);
         await UniTask.Delay(2000);
         SceneManager.LoadScene(_gamePlayScene);

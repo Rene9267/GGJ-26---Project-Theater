@@ -1,19 +1,29 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class StaticGuest_Controller : MonoBehaviour
 {
+    #region Parameters
     [SerializeField] private StaticGuestSettings _settings;
     [SerializeField] private Animation _animtion;
+    [SerializeField] private Animator _animator;
     [SerializeField] private GameObject _hurryUpIcon;
     [SerializeField] private List<GameObject> _bodyPartToChangeColor;
+    [SerializeField] private int _idleAnimationIndex = 0;
+
 
     public bool SetRandomMaterialOnAwake = true;
 
     private List<Renderer> _renderers = new();
     private MaterialPropertyBlock _sharedPropBlock;
     private readonly string _hurryUp = "AC_HurryUP";
+    private static readonly int _indexNextIdle = Animator.StringToHash("Static_Index");
+    private static readonly int _customIdle = Animator.StringToHash("NewIdle");
 
+    #endregion
+
+    #region Unity Methods
     void OnValidate()
     {
         if (SetRandomMaterialOnAwake)
@@ -35,6 +45,17 @@ public class StaticGuest_Controller : MonoBehaviour
         }
     }
 
+    void OnEnable()
+    {
+        StartCoroutine(RandomIdleRoutine());
+    }
+
+    void OnDisable()
+    {
+        StopAllCoroutines();
+    }
+
+    #endregion
 
     public void SetMaterialColor(Color chosenColor)
     {
@@ -64,5 +85,18 @@ public class StaticGuest_Controller : MonoBehaviour
     {
         _animtion.Stop();
         _hurryUpIcon.SetActive(false);
+    }
+
+    IEnumerator RandomIdleRoutine()
+    {
+        while (true)
+        {
+            float waitTime = Random.Range(8f, 10f);
+            yield return new WaitForSeconds(waitTime);
+
+            int randomIndex = Random.Range(0, _idleAnimationIndex);
+            _animator.SetInteger(_indexNextIdle, randomIndex);
+            _animator.SetTrigger(_customIdle);
+        }
     }
 }

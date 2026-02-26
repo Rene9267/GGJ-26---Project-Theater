@@ -1,0 +1,85 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: Tutorial_en
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.StringTable
+  m_LocaleId:
+    m_Code: en
+  m_SharedData: {fileID: 11400000, guid: 2353c4816e6d75e4f96bfd434a5f4808, type: 2}
+  m_Metadata:
+    m_Items:
+    - rid: 3836485838366310464
+  m_TableData:
+  - m_Id: 10314665984
+    m_Localized: "Ok, remember: {0} to walk, {1} to run. \n\nNow relax and try to
+      reach the center of the theater. Try not to trip immediately."
+    m_Metadata:
+      m_Items:
+      - rid: 3836485838366310464
+  - m_Id: 29595274137600
+    m_Localized: 'Remember: {0} to collect the missive.
+
+
+      I shall carry <b>only
+      one</b> at a time. But make haste! The audience is not known for its patience.
+      And above all: <color=#7B1A1A><b>never collide with the guests</b></color>!
+      Offending a noble is an unpardonable affront that would cost me my position
+      in a heartbeat.'
+    m_Metadata:
+      m_Items:
+      - rid: 3836485838366310464
+  - m_Id: 31288808263680
+    m_Localized: 'Crucial Note: Relight the extinguished lamps!
+
+      Run to the
+      marked area and use {0} on the candles.
+
+
+      Every moment of darkness makes
+      the audience vanish like mist in the sun.'
+    m_Metadata:
+      m_Items:
+      - rid: 3836485838366310464
+  - m_Id: 31270575624192
+    m_Localized: 'Note: Beware of the nobles!
+
+
+      Drop everything and use {0}
+      to lead them to their chambers.
+
+
+      High-ranking guests bring larger crowds.
+      Do not keep them waiting!'
+    m_Metadata:
+      m_Items:
+      - rid: 3836485838366310464
+  - m_Id: 31299138834432
+    m_Localized: 'It seems I have accounted for every last detail. The grand debut
+      is finally upon us, and the curtain is about to rise! May fortune favor me,
+      and may the lights stay lit...
+
+
+      <color=#7B1A1A><i>Merde! Merde! Merde!</i></color>'
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 3836485838366310464
+      type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_Entries: 
+        m_SharedEntries:
+        - id: 10314665984
+        - id: 29595274137600
+        - id: 31288808263680
+        - id: 31270575624192

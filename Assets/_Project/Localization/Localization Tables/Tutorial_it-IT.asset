@@ -1,0 +1,77 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: Tutorial_it-IT
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.StringTable
+  m_LocaleId:
+    m_Code: it-IT
+  m_SharedData: {fileID: 11400000, guid: 2353c4816e6d75e4f96bfd434a5f4808, type: 2}
+  m_Metadata:
+    m_Items:
+    - rid: 3836485838366310463
+  m_TableData:
+  - m_Id: 10314665984
+    m_Localized: 'Ok, ripassiamo: {0} per camminare, {1} per correre.
+
+
+      Ora
+      rilassati e prova a raggiungere il centro del teatro. Cerca di non inciampare
+      subito.'
+    m_Metadata:
+      m_Items:
+      - rid: 3836485838366310463
+  - m_Id: 29595274137600
+    m_Localized: "Rammentiama: {0} per raccogliere la missiva. \n\nNe porter\xF2
+      <b>una soltanto</b> alla volta. Ma solerzia! Il pubblico non brilla per pazienza.
+      E soprattutto: <color=#7B1A1A><b>mai scontrarsi con gli ospiti</b></color>!
+      Urtare un nobile \xE8 un affronto imperdonabile che mi costerebbe il posto
+      in un battibaleno."
+    m_Metadata:
+      m_Items:
+      - rid: 3836485838366310463
+  - m_Id: 31270575624192
+    m_Localized: "Nota: Attenzione ai nobili!\n\nMolla tutto e usa {0} per scortarli
+      nelle loro stanze.\n\nGli ospiti di rango attirano pi\xF9 pubblico. Non farli
+      attendere!"
+    m_Metadata:
+      m_Items:
+      - rid: 3836485838366310463
+  - m_Id: 31288808263680
+    m_Localized: 'Nota cruciale: Riaccendi i lumi spenti!
+
+      Corri nell''area
+      indicata e usa {0} sui ceri.
+
+
+      Ogni istante di buio fa svanire il pubblico
+      come nebbia al sole.'
+    m_Metadata:
+      m_Items:
+      - rid: 3836485838366310463
+  - m_Id: 31299138834432
+    m_Localized: "Pare che io abbia annotato ogni minima faccenda. Il gran debutto
+      \xE8 infine giunto e il sipario sta per levarsi! Che la sorte mi sia amica
+      e i lumi restino accesi... \n\n<color=#7B1A1A><i>Merda! Merda! Merda!</color=#7B1A1A></i>"
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 3836485838366310463
+      type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_Entries: 
+        m_SharedEntries:
+        - id: 10314665984
+        - id: 29595274137600
+        - id: 31270575624192
+        - id: 31288808263680

@@ -12,7 +12,7 @@ public class InteractionDynamicIcon : DirectionIcon
 
     public void SetActiveInteractionIcon(bool isActive)
     {
-        InteractionIcon.gameObject.SetActive(isActive);
+        // InteractionIcon.gameObject.SetActive(isActive);
         ChangableImage.gameObject.SetActive(!isActive);
     }
 

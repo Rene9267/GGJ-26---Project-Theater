@@ -52,7 +52,7 @@ public class FollowerGuestExitArea : MonoBehaviour, IInteractable
             {
                 OnPlayerEntered?.Invoke();
                 player.OnInteractionAreaEnter(this);
-                _directionIcon.SetActiveInteractionIcon(true);
+                // _directionIcon.SetActiveInteractionIcon(true);
             }
         }
     }
@@ -63,7 +63,7 @@ public class FollowerGuestExitArea : MonoBehaviour, IInteractable
         {
             player.OnInteractionAreaExit();
             OnPlayerExited?.Invoke();
-            _directionIcon.SetActiveInteractionIcon(false);
+            // _directionIcon.SetActiveInteractionIcon(false);
         }
     }
 
