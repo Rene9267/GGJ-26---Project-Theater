@@ -12,6 +12,7 @@ struct CrowdLink
 
 public class MessageController : MonoBehaviour
 {
+    #region Parameters
     [SerializeField] private MessageSettings _settings;
 
     //=== Crowd References ===//
@@ -24,6 +25,10 @@ public class MessageController : MonoBehaviour
     //Ascoltato da GameContrller
     public event Action OnTaskFailed;
 
+    #endregion
+
+
+    #region Unity Methods
     private void OnValidate()
     {
         if (_settings == null)
@@ -46,6 +51,10 @@ public class MessageController : MonoBehaviour
         _availableColors = new List<Color>(_settings.CircleColor);
     }
 
+    #endregion
+
+
+    #region Class Methods
     public void GetCrowds(List<Crowd> crowds)
     {
         if (crowds != null && crowds.Count > 0)
@@ -116,12 +125,19 @@ public class MessageController : MonoBehaviour
         foreach (var link in _crowdLinks.Values)
         {
             if (link.Receiver != null)
+            {
                 link.Receiver.OnInteracionComplete -= HandleMessageTaskCompleted;
+                link.Receiver.ResetCrowd(); 
+            }
 
             if (link.Sender != null)
+            {
                 link.Sender.OnTaskFailed -= HandleMessageTaskFailed;
-
+                link.Sender.ResetCrowd(); 
+            }
         }
         _crowdLinks.Clear();
     }
+    
+    #endregion
 }

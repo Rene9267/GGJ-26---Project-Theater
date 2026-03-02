@@ -17,13 +17,13 @@ public class GameController : MonoBehaviour
     [SerializeField] private MessageController _messageController;
     [SerializeField] private CrowdSpawner _crowdSpawner;
     [SerializeField] private GlobalUIController _uiController;
-    [SerializeField] private Animation _myAnimation;
     [SerializeField] private Camera _mainCamera;
     [SerializeField] private Camera _cutSceneCamera;
     [SerializeField] private Transform _finalCameraPosition;
     [SerializeField] public PlayerInput playerInput;
     [SerializeField] public MusiciansController MusiciansController;
     [SerializeField] public ActorController _actorController;
+    [SerializeField] private Animator _cutSceneCameraAnimator;
     [SerializeField] private King _king;
 
 
@@ -49,6 +49,9 @@ public class GameController : MonoBehaviour
     private float _guestTimer, _messageTimer, _lightTimer;
     private readonly string _cameraAnimation = "AC_CameraStartMove";
     private readonly string _menuScene = "Scene_Menu";
+    private static readonly int _endGameCutScene = Animator.StringToHash("EndGame");
+    private static readonly int _startGameCutScene = Animator.StringToHash("StartGame");
+
 
     //=======================================================
     #endregion
@@ -119,9 +122,11 @@ public class GameController : MonoBehaviour
         _theaterBackground.clip = _preShow;
         await FadeAudio(_theaterBackground, true, 1, 0.3f);
 
-        _myAnimation.Play(_cameraAnimation);
+        _cutSceneCameraAnimator.SetTrigger(_startGameCutScene);
         _uiController.StartUp();
-        await UniTask.Delay(2000);
+        await UniTask.Delay(3800);
+
+        StartGameplay();
     }
 
     public async void StartGameplay()
@@ -217,28 +222,23 @@ public class GameController : MonoBehaviour
 
     private void FaceTheKing()
     {
+        _cutSceneCamera.gameObject.SetActive(true);
         _cutSceneCamera.transform.SetPositionAndRotation(_finalCameraPosition.position, _finalCameraPosition.rotation);
         _cutSceneCamera.fieldOfView = 45;
-        _cutSceneCamera.gameObject.SetActive(true);
     }
 
     private async void EndOpera()
     {
         StopAllGameplay();
+        _actorController.StartBending();
+        _cutSceneCameraAnimator.SetTrigger(_endGameCutScene);
 
         await FadeAudio(_theaterBackground, false, 4, 0);
         _theaterBackground.gameObject.SetActive(false);
 
-        //Schermata fine gioco
-        //await _uiController.FadeCanvas(true, 1, _uiController.EndUI);
-
-        //_ = _uiController.FadeCanvas(false, 1, _uiController.EndUI);
-
         await _uiController.FadeCanvas(true, 1);
         _uiController.GamePlayUI.SetActive(false);
-        _mainCamera.gameObject.SetActive(false);
-
-        await UniTask.Delay(500);
+        await UniTask.Delay(5000);
 
         FaceTheKing();
         await UniTask.Delay(1200);

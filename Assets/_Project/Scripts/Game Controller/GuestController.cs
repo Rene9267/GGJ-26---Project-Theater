@@ -3,9 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
-
 
 struct ExitInfo
 {
@@ -37,7 +35,6 @@ public class GuestController : MonoBehaviour
     [SerializeField] private string _exitLayerName = "ExitingGuest";
     private int _exitLayerIndex;
     private int _defaultGuestLayer;
-
 
     private Dictionary<Color, List<FollowerGuest>> _activeGuests = new Dictionary<Color, List<FollowerGuest>>();
     private Dictionary<Color, FollowerGuestExitArea> _guestInteractionExitAreasDic = new Dictionary<Color, FollowerGuestExitArea>();
@@ -152,6 +149,7 @@ public class GuestController : MonoBehaviour
             queue.Enqueue(item);
         }
     }
+
     private async void HandleHurryUP()
     {
         if (_lastSpawnedGuests != null && _lastSpawnedGuests.Count > 0)
@@ -163,6 +161,7 @@ public class GuestController : MonoBehaviour
             }
         }
     }
+
     [ContextMenu("Genera Direction Manuale")]
     public void CreateGuestDirection()
     {
@@ -266,7 +265,6 @@ public class GuestController : MonoBehaviour
             DevLog.Log("Il mio colore è attivo");
             _guestInteractionExitAreasDic[_guestInteractionArea.MyInteractionColor].EnableDirectionIcon();
         }
-
     }
 
     private void HandleplayerStartInteract()
@@ -397,7 +395,6 @@ public class GuestController : MonoBehaviour
         }
     }
 
-
     private void HandlePlayerExitGrabArea(PlayerController player)
     {
         if (player == null || _lastSpawnedGuests == null) return;
@@ -521,17 +518,19 @@ public class GuestController : MonoBehaviour
             _cts.Dispose();
             _cts = null;
         }
-            
-        foreach(var obj in _activeGuests)
+
+        // Modifica: invece di nascondere i GameObject, li mettiamo in idle
+        foreach (var obj in _activeGuests)
         {
-            foreach(var ele in obj.Value)
+            foreach (var ele in obj.Value)
             {
-                ele.gameObject.SetActive(false);
+                ele.SetIdleState();
             }
         }
 
         if (_guestInteractionArea != null)
         {
+            _guestInteractionArea.ResetArea(); 
             _guestInteractionArea.OnAreaExit -= HandlePlayerExitGrabArea;
             _guestInteractionArea.OnStartInteract -= HandlePlayerGrabGuests;
             _guestInteractionArea.OnInteract -= HandleplayerStartInteract;
@@ -540,6 +539,7 @@ public class GuestController : MonoBehaviour
 
         foreach (var exitArea in _guestInteractionExitAreas)
         {
+            exitArea.DisableDirectionIcon(); 
             exitArea.OnCompleteInteractWithExit -= HandlePlayerDropGuest;
             exitArea.OnStartInteract -= HandlePlayerStartDroppingGuest;
         }

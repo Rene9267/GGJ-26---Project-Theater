@@ -36,4 +36,13 @@ public class ActorController : MonoBehaviour
     {
         _isActStarted = false;
     }
+
+    public void StartBending()
+    {
+        foreach (var actor in _myActor)
+        {
+            actor.Bend();
+        }
+    }
+
 }

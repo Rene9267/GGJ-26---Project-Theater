@@ -82,6 +82,7 @@ MonoBehaviour:
   MaxDistanceLeash: 5
   MinDistanceBump: 0.8
   BounceForce: 12
+  MaxSpeed: 20
   RotationSpeed: 10
 --- !u!114 &-37032389868820733
 MonoBehaviour:
@@ -455,6 +456,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 5370218811729079731, guid: 57b513773e4a63147b5f2132773e3824, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5558806205815028177, guid: 57b513773e4a63147b5f2132773e3824, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -495,7 +500,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 4195662627967855192}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 666c7c935d655c940a7fba2eb514d6f2, type: 3}
   m_Name: 

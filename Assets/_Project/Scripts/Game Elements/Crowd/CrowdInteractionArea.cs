@@ -7,6 +7,7 @@ using Color = UnityEngine.Color;
 public class CrowdInteractionArea : MonoBehaviour, IInteractable
 {
 
+    #region Parameters
     [Header("UI Icon")]
     [SerializeField] private Image _areaImage;
     public LetterIcon_Controller IconController;
@@ -15,7 +16,6 @@ public class CrowdInteractionArea : MonoBehaviour, IInteractable
     public AudioClip LetterSpawn;
 
     public AudioSource MessageSource;
-
 
     public InteractType InteactableType { get; private set; }
     public event Action OnHurryUp;
@@ -26,6 +26,9 @@ public class CrowdInteractionArea : MonoBehaviour, IInteractable
     public event Action OnMessageTake;
     public Color MyInteractionColor { get; private set; }
 
+    #endregion
+
+    #region Unity Methods
     private void OnValidate()
     {
         if (_areaImage == null)
@@ -44,6 +47,9 @@ public class CrowdInteractionArea : MonoBehaviour, IInteractable
         _areaImage.gameObject.SetActive(false);
     }
 
+    #endregion
+
+    #region Class Methods
     public void ResetArea()
     {
         InteactableType = InteractType.None;
@@ -53,6 +59,11 @@ public class CrowdInteractionArea : MonoBehaviour, IInteractable
         {
             _areaImage.color = Color.white;
         }
+
+        // --- INIZIO MODIFICHE: Interrompe i suoni e nasconde le icone ---
+        if (MessageSource != null) MessageSource.Stop();
+        if (IconController != null) IconController.HideAllIcons();
+        // --- FINE MODIFICHE ---
     }
 
     public void SetUPInteractionArea(Color color, InteractType type)
@@ -143,4 +154,5 @@ public class CrowdInteractionArea : MonoBehaviour, IInteractable
             this.gameObject.SetActive(false);
         }
     }
+    #endregion
 }

@@ -28,7 +28,7 @@ public class FollowerGuest : MonoBehaviour
 
     void OnValidate()
     {
-        if(_hurryUpIcon == null)
+        if (_hurryUpIcon == null)
         {
             DevLog.LogWarning($"[{this.gameObject}]: Hurry up icon mancante");
         }
@@ -118,7 +118,6 @@ public class FollowerGuest : MonoBehaviour
         _animation.Stop();
     }
 
-
     void TaskFailed()
     {
         if (playerController == null) return;
@@ -147,4 +146,11 @@ public class FollowerGuest : MonoBehaviour
 
     public void SetPlayer(PlayerController player)
     { playerController = player; }
+
+    public void SetIdleState()
+    {
+        CompleteMessageTask(); 
+        HurryUpEnd();          
+        SetUpTarget(null);     
+    }
 }

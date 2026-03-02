@@ -7,6 +7,7 @@ using System.Threading;
 
 public class Crowd : MonoBehaviour
 {
+    #region  Parameters
     [Header("Interaction")]
     public CrowdInteractionArea _crowdInteractionArea;
 
@@ -33,6 +34,9 @@ public class Crowd : MonoBehaviour
     private readonly string _letterTaskGet = "AC_GetMessage";
     private Crowd _myReciver;
 
+    #endregion
+
+    #region Unity Methods
     void OnDisable()
     {
         if (_crowdInteractionArea != null)
@@ -49,6 +53,9 @@ public class Crowd : MonoBehaviour
         }
     }
 
+    #endregion
+
+    #region Class Methods
     private void HandleInteraction()
     {
         _myAnimation.Play(_letterTaskGet);
@@ -65,7 +72,7 @@ public class Crowd : MonoBehaviour
         {
             _crowdInteractionArea.OnCompleteInteract -= HandleInteraction;
             _crowdInteractionArea.OnMessageTake -= CompleteMessageTask;
-            _crowdInteractionArea.OnHurryUp -= HandleHurryup; 
+            _crowdInteractionArea.OnHurryUp -= HandleHurryup;
         }
 
         if (_cts != null)
@@ -81,14 +88,19 @@ public class Crowd : MonoBehaviour
             _uiRotationCoroutine = null;
         }
 
+        // --- INIZIO MODIFICHE: Interruzione animazioni e suoni in corso ---
+        if (_myAnimation != null) _myAnimation.Stop();
+        if (MessageSource != null) MessageSource.Stop();
+        // --- FINE MODIFICHE ---
+
         _myColor = Color.clear;
         IsReciverOrSender = false;
         _myReciver = null;
 
         if (_crowdInteractionArea != null)
         {
-            _crowdInteractionArea.ResetArea(); 
-            _crowdInteractionArea.gameObject.SetActive(false); 
+            _crowdInteractionArea.ResetArea();
+            _crowdInteractionArea.gameObject.SetActive(false);
         }
 
         foreach (var obj in _crowdMembers)
@@ -277,7 +289,9 @@ public class Crowd : MonoBehaviour
         _crowdInteractionArea.IconController.gameObject.SetActive(false);
     }
 
+    #endregion
 
+    #region Gizmos
     //===== DEBUG =====
     private void OnDrawGizmos()
     {
@@ -286,4 +300,5 @@ public class Crowd : MonoBehaviour
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position, _crowdSettings.Radius);
     }
+    #endregion
 }
