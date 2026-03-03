@@ -71,6 +71,31 @@ MonoBehaviour:
       <color=#7B1A1A><i>Merde! Merde! Merde!</i></color>'
     m_Metadata:
       m_Items: []
+  - m_Id: 1863440260747264
+    m_Localized: "Make sure everything goes smoothly, the theater needs the <color=#7B1A1A>king\u2019s
+      applause</color>!\n\nDo you want to review your duties?"
+    m_Metadata:
+      m_Items:
+      - rid: 3836485838366310464
+  - m_Id: 1863472863072256
+    m_Localized: "Hello Mask,\nI am the theater <color=#7B1A1A>Director</color>.\nI\u2019ve
+      finally found something for you to do.\nWhenever there are shows, there\u2019s
+      always chaos everywhere; you\u2019ll be the one to handle everything."
+    m_Metadata:
+      m_Items:
+      - rid: 3836485838366310464
+  - m_Id: 1865232964997120
+    m_Localized: Skip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1910391861760000
+    m_Localized: Tutorial
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1912076533321728
+    m_Localized: Skip
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:
@@ -83,3 +108,5 @@ MonoBehaviour:
         - id: 29595274137600
         - id: 31288808263680
         - id: 31270575624192
+        - id: 1863440260747264
+        - id: 1863472863072256

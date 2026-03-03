@@ -1,3 +1,4 @@
+using System.Collections;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -20,10 +21,10 @@ public class GameController : MonoBehaviour
     [SerializeField] private Camera _mainCamera;
     [SerializeField] private Camera _cutSceneCamera;
     [SerializeField] private Transform _finalCameraPosition;
-    [SerializeField] public PlayerInput playerInput;
-    [SerializeField] public MusiciansController MusiciansController;
-    [SerializeField] public ActorController _actorController;
-    [SerializeField] private Animator _cutSceneCameraAnimator;
+    [SerializeField] private PlayerInput playerInput;
+    [SerializeField] private MusiciansController MusiciansController;
+    [SerializeField] private ActorController _actorController;
+    [SerializeField] private CutSceneController _cutSceneController;
     [SerializeField] private King _king;
 
 
@@ -122,17 +123,14 @@ public class GameController : MonoBehaviour
         _theaterBackground.clip = _preShow;
         await FadeAudio(_theaterBackground, true, 1, 0.3f);
 
-        _cutSceneCameraAnimator.SetTrigger(_startGameCutScene);
+        await _cutSceneController.IntroCutscene();
         _uiController.StartUp();
-        await UniTask.Delay(3800);
-
         StartGameplay();
     }
 
     public async void StartGameplay()
     {
         await FadeAudio(_theaterBackground, false, 0.5f, 0);
-        _mainCamera.gameObject.SetActive(true);
         playerInput.ActivateInput();
         await UniTask.Delay(1000);
         _theaterBackground.clip = _act1;
@@ -231,8 +229,9 @@ public class GameController : MonoBehaviour
     {
         StopAllGameplay();
         _actorController.StartBending();
-        _cutSceneCameraAnimator.SetTrigger(_endGameCutScene);
 
+        await _cutSceneController.EndCutscene();
+        
         await FadeAudio(_theaterBackground, false, 4, 0);
         _theaterBackground.gameObject.SetActive(false);
 

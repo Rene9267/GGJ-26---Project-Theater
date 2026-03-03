@@ -35,6 +35,28 @@ MonoBehaviour:
     m_Key: End
     m_Metadata:
       m_Items: []
+  - m_Id: 1863440260747264
+    m_Key: 'Letter Down Test
+
+'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1863472863072256
+    m_Key: Letter Up Test
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1865232964997120
+    m_Key: "SkipTutorial\t"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1910391861760000
+    m_Key: Tutorial
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1912076533321728
+    m_Key: Skip
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

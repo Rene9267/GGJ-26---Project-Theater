@@ -63,6 +63,37 @@ MonoBehaviour:
       e i lumi restino accesi... \n\n<color=#7B1A1A><i>Merda! Merda! Merda!</color=#7B1A1A></i>"
     m_Metadata:
       m_Items: []
+  - m_Id: 1863440260747264
+    m_Localized: '
+
+      Mi raccomando, deve andare tutto liscio, il teatro ha bisogno
+      dell''<color=#7B1A1A>applauso del re</color>!
+
+
+      Vuoi ripassare le tue
+      mansioni?'
+    m_Metadata:
+      m_Items:
+      - rid: 3836485838366310463
+  - m_Id: 1863472863072256
+    m_Localized: "Ciao Maschera, \nsono il <color=#7B1A1A>Direttore </color>del teatro.\nFinalmente
+      ho trovato cosa farti fare.\nQuando ci sono gli spettacoli c'\xE8 sempre un
+      caos ovunque, sarai tu ad occuparti di tutto."
+    m_Metadata:
+      m_Items:
+      - rid: 3836485838366310463
+  - m_Id: 1865232964997120
+    m_Localized: Salta
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1910391861760000
+    m_Localized: Tutorial
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1912076533321728
+    m_Localized: Salta
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:
@@ -75,3 +106,5 @@ MonoBehaviour:
         - id: 29595274137600
         - id: 31270575624192
         - id: 31288808263680
+        - id: 1863440260747264
+        - id: 1863472863072256

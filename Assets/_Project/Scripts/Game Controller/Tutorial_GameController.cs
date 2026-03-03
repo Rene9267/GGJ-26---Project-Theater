@@ -1,21 +1,32 @@
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Playables;
 using UnityEngine.SceneManagement;
 
 public class Tutorial_GameController : MonoBehaviour
 {
     #region Parameters
-    [SerializeField] private Animator _animator;
-    [SerializeField] private Animator _tutorialUIAnimator;
-    [SerializeField] private TutorialColliderChecker _movementTutorial;
+    [Header("Controller")]
+    [SerializeField] private CutSceneController _cutSceneController;
     [SerializeField] private PlayerController _player;
     [SerializeField] private CrowdTutorial _crowdTutorial;
     [SerializeField] private GuestTutorial _guestTutorial;
     [SerializeField] private CandleTutorial _candleTutorial;
+    [SerializeField] private TutorialColliderChecker _movementTutorial;
+
+    [Header("References")]
+    [SerializeField] private Animator _animator;
+    [SerializeField] private Animator _tutorialUIAnimator;
     [SerializeField] private AudioSource _smokeParticlesAudioSource;
     [SerializeField] private AudioClip _theaterEnterClip;
+    [Header("Cutscene")]
+    [SerializeField] private PlayableDirector _tutorialSkipCutscene;
+    [SerializeField] private PlayableDirector _playtutorialCutscene;
+    [SerializeField] private PlayableDirector _skipTutorialCutscene;
 
 
+
+    [Header("Particle Particle")]
     //Particle
     [SerializeField] private SmokeController _smokeController_movementTutorial;
     [SerializeField] private SmokeController _smokeController_1;
@@ -29,9 +40,11 @@ public class Tutorial_GameController : MonoBehaviour
     private static readonly int _tutorialUIStartAppear = Animator.StringToHash("StartTutorial");
     private static readonly int _tutorialUIWASD = Animator.StringToHash("WASD");
     private static readonly int _tutorialUIMessage = Animator.StringToHash("Message");
-    private static readonly int _tutorialUIGuests = Animator.StringToHash("Guest"); 
+    private static readonly int _tutorialUIGuests = Animator.StringToHash("Guest");
     private static readonly int _tutorialUICandle = Animator.StringToHash("Candle");
     private static readonly int _tutorialUIDisappear = Animator.StringToHash("CloseTip");
+    private static readonly int _tuorialIntroSkip = Animator.StringToHash("TutorialSkip");
+    private static readonly int _tutorialIntroEnd = Animator.StringToHash("TutorialSelection");
     private static readonly int _tutorialUIEnd = Animator.StringToHash("End");
     private readonly string _gamePlayScene = "Scene_Main";
     #endregion
@@ -72,24 +85,35 @@ public class Tutorial_GameController : MonoBehaviour
     {
         DevLog.Log($"La scena {scene.name} è completamente caricata!");
 
-        StartTutorial().Forget();
+        AskTutorial().Forget();
     }
 
     private async UniTask CutsceneStartOpera()
     {
         _smokeParticlesAudioSource.PlayOneShot(_theaterEnterClip);
         _animator.SetTrigger(_showTutorial);
-        await UniTask.Delay(4000);
+        await UniTask.Delay(6000);
     }
 
-    private async UniTask StartTutorial()
+    private async UniTask AskTutorial()
     {
         await UniTask.Delay(1000);
         await CutsceneStartOpera();
-        await UniTask.Delay(3000);
+        await _cutSceneController.PlayCutscene(_tutorialSkipCutscene);
+    }
+
+    public async void StartTutorial()
+    {
+        await _cutSceneController.PlayCutscene(_playtutorialCutscene);
         _player.gameObject.SetActive(true);
         _player.CanMove = true;
         WasdTutorialStart().Forget();
+    }
+
+    public async void SkipTutorial()
+    {
+        await _cutSceneController.PlayCutscene(_skipTutorialCutscene);
+        SceneManager.LoadScene(_gamePlayScene);
     }
 
     private async UniTask WasdTutorialStart()
@@ -170,7 +194,7 @@ public class Tutorial_GameController : MonoBehaviour
 
         _candleTutorial.StartTutorial();
 
-        _candleTutorial.OnCandleTutorialComplete+= () =>
+        _candleTutorial.OnCandleTutorialComplete += () =>
         {
             DevLog.Log("Candle Tutorial Complete", this);
             CandleLightTutorialComplete();

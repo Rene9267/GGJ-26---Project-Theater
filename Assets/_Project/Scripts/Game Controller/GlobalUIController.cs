@@ -27,7 +27,7 @@ public class GlobalUIController : MonoBehaviour
 
     public void StartUp()
     {
-        _anim.Play(FadeIn);
+        // _anim.Play(FadeIn);
     }
 
     public void EndGame()
