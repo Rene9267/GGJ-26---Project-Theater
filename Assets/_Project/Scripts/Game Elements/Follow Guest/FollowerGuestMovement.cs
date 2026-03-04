@@ -32,6 +32,7 @@ public class FollowerGuestMovement : MonoBehaviour
     private float _defaultStiffness;
     private float _defaultLeash;
     private float _defaultMaxSpeed;
+    private float _defaultBump;
 
     private void Awake()
     {
@@ -46,6 +47,7 @@ public class FollowerGuestMovement : MonoBehaviour
         _defaultLeash = MaxDistanceLeash;
         MaxSpeed = Random.Range(20,100);
         _defaultMaxSpeed = MaxSpeed;
+        _defaultBump = MinDistanceBump;
     }
 
     private void OnDisable()
@@ -93,15 +95,17 @@ public class FollowerGuestMovement : MonoBehaviour
     {
         if (isExiting)
         {
-            Stiffness = 30f;           
-            MaxDistanceLeash = 1000f;  
-            MaxSpeed = 4f;            
+            Stiffness = 80f;
+            MaxDistanceLeash = 1000f;
+            MaxSpeed = 10f;
+            MinDistanceBump = 0f; 
         }
         else
         {
             Stiffness = _defaultStiffness;
             MaxDistanceLeash = _defaultLeash;
             MaxSpeed = _defaultMaxSpeed;
+            MinDistanceBump = _defaultBump;
         }
     }
 
@@ -133,7 +137,17 @@ public class FollowerGuestMovement : MonoBehaviour
     public void SetUpTarget(Transform target)
     {
         _target = target;
-        _rb.isKinematic = false;
+
+        if (_target != null)
+        {
+            _rb.isKinematic = false;
+        }
+        else
+        {
+            _rb.linearVelocity = Vector3.zero;
+            _rb.angularVelocity = Vector3.zero;
+            _rb.isKinematic = true;
+        }
     }
 
 

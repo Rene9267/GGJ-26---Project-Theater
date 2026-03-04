@@ -460,6 +460,14 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5370218811729079731, guid: 57b513773e4a63147b5f2132773e3824, type: 3}
+      propertyPath: _bodyPartToChangeColor.Array.data[0].BodyPart
+      value: 
+      objectReference: {fileID: 8484368696758230081}
+    - target: {fileID: 5370218811729079731, guid: 57b513773e4a63147b5f2132773e3824, type: 3}
+      propertyPath: _bodyPartToChangeColor.Array.data[1].BodyPart
+      value: 
+      objectReference: {fileID: 8259533402407963319}
     - target: {fileID: 5558806205815028177, guid: 57b513773e4a63147b5f2132773e3824, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -505,8 +513,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 666c7c935d655c940a7fba2eb514d6f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StaticGuest_Controller
+--- !u!1 &8259533402407963319 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5234938894917034223, guid: 57b513773e4a63147b5f2132773e3824, type: 3}
+  m_PrefabInstance: {fileID: 4195662627967855192}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8355420223481232272 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5318072222648193480, guid: 57b513773e4a63147b5f2132773e3824, type: 3}
+  m_PrefabInstance: {fileID: 4195662627967855192}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8484368696758230081 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5730677206515987993, guid: 57b513773e4a63147b5f2132773e3824, type: 3}
   m_PrefabInstance: {fileID: 4195662627967855192}
   m_PrefabAsset: {fileID: 0}

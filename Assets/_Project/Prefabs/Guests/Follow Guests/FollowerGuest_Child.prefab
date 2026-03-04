@@ -420,6 +420,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2076526668873699541, guid: d17777e07d2e0ae41b49101a0a511469, type: 3}
+      propertyPath: _bodyPartToChangeColor.Array.data[0].BodyPart
+      value: 
+      objectReference: {fileID: 6961230549994662893}
     - target: {fileID: 2993968066723650219, guid: d17777e07d2e0ae41b49101a0a511469, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -501,6 +505,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 666c7c935d655c940a7fba2eb514d6f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StaticGuest_Controller
+--- !u!1 &6961230549994662893 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2993968066723650219, guid: d17777e07d2e0ae41b49101a0a511469, type: 3}
+  m_PrefabInstance: {fileID: 5266946937724760390}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7148820123141488544 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3036062024039223014, guid: d17777e07d2e0ae41b49101a0a511469, type: 3}

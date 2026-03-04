@@ -122,14 +122,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 666c7c935d655c940a7fba2eb514d6f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StaticGuest_Controller
-  _settings: {fileID: 11400000, guid: 8013280747f24c942bc3799c5f87e662, type: 2}
-  _animtion: {fileID: 2525889443855574298}
-  _animator: {fileID: 1237574966351822692}
-  _hurryUpIcon: {fileID: 1415700336598542209}
-  _bodyPartToChangeColor:
-  - {fileID: 5639545345258245940}
-  _idleAnimationIndex: 3
   SetRandomMaterialOnAwake: 1
+  _settings: {fileID: 11400000, guid: 8013280747f24c942bc3799c5f87e662, type: 2}
+  _animator: {fileID: 1237574966351822692}
+  _bodyPartToChangeColor:
+  - BodyPart: {fileID: 5639545345258245940}
+    MaterialIndex: 0
+  _idleAnimationIndex: 3
+  _animtion: {fileID: 2525889443855574298}
+  _hurryUpIcon: {fileID: 1415700336598542209}
 --- !u!111 &2525889443855574298
 Animation:
   m_ObjectHideFlags: 0

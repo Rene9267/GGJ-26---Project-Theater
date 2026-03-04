@@ -18,14 +18,15 @@ public class Tutorial_GameController : MonoBehaviour
     // [SerializeField] private Animator _animator;
     [SerializeField] private Animator _tutorialUIAnimator;
     [SerializeField] private AudioSource _smokeParticlesAudioSource;
-    [SerializeField] private AudioClip _theaterEnterClip;
+    [SerializeField] private WayPointNavigator _fakePlayer;
+
 
     [Header("Cutscene")]
     [SerializeField] private PlayableDirector _introCutscene;
     [SerializeField] private PlayableDirector _tutorialSkipCutscene;
     [SerializeField] private PlayableDirector _playtutorialCutscene;
     [SerializeField] private PlayableDirector _skipTutorialCutscene;
-
+    [SerializeField] private PlayableDirector _endTutorialCutscene;
 
 
     [Header("Particle Particle")]
@@ -84,7 +85,6 @@ public class Tutorial_GameController : MonoBehaviour
 
     private async UniTask CutsceneStartOpera()
     {
-        _smokeParticlesAudioSource.PlayOneShot(_theaterEnterClip);
         await _cutSceneController.PlayCutscene(_introCutscene);
     }
 
@@ -94,14 +94,22 @@ public class Tutorial_GameController : MonoBehaviour
         await CutsceneStartOpera();
         await _cutSceneController.PlayCutscene(_tutorialSkipCutscene);
     }
-
+    
     public async void StartTutorial()
     {
-        await _cutSceneController.PlayCutscene(_playtutorialCutscene);
+        _fakePlayer.gameObject.SetActive(true);
+        UniTask fakePlayerNavigation = _fakePlayer.StartNavigation();
+        UniTask cutscenePlay = _cutSceneController.PlayCutscene(_playtutorialCutscene);
+
+        await UniTask.WhenAll(fakePlayerNavigation, cutscenePlay);
+
+        _fakePlayer.gameObject.SetActive(false);
         _player.gameObject.SetActive(true);
         _player.CanMove = true;
         WasdTutorialStart().Forget();
     }
+
+
     public async void SkipTutorial()
     {
         await _cutSceneController.PlayCutscene(_skipTutorialCutscene);
@@ -205,7 +213,7 @@ public class Tutorial_GameController : MonoBehaviour
         await UniTask.Delay(2000);
         _tutorialUIAnimator.SetTrigger(_tutorialUIEnd);
         await UniTask.Delay(6000);
-        // _animator.SetTrigger(_ExitTutorial);
+        await CutsceneMiscellaneous.PlayCutscene(_endTutorialCutscene, this.gameObject);
         await UniTask.Delay(2000);
         SceneManager.LoadScene(_gamePlayScene);
     }

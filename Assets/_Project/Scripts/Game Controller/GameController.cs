@@ -2,6 +2,7 @@ using System.Collections;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Playables;
 using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
@@ -26,6 +27,12 @@ public class GameController : MonoBehaviour
     [SerializeField] private ActorController _actorController;
     [SerializeField] private CutSceneController _cutSceneController;
     [SerializeField] private King _king;
+    [SerializeField] private WayPointNavigator _fakePlayer;
+
+
+    [Header("Cutscenes")]
+    [SerializeField] private PlayableDirector _endOperaCutscene;
+
 
 
     [Header("Audio")]
@@ -82,8 +89,6 @@ public class GameController : MonoBehaviour
         _candleController.OnDarkRise += HandleDarkRise;
         _guestController.OnTaskFailed += HandleGuestTaskFailed;
         SceneManager.sceneLoaded += OnLevelFinishedLoading;
-
-
     }
 
     private void OnDisable()
@@ -93,7 +98,6 @@ public class GameController : MonoBehaviour
         _candleController.OnDarkRise -= HandleDarkRise;
         _guestController.OnTaskFailed -= HandleGuestTaskFailed;
         SceneManager.sceneLoaded -= OnLevelFinishedLoading;
-
     }
 
     private void Awake()
@@ -130,7 +134,10 @@ public class GameController : MonoBehaviour
 
     public async void StartGameplay()
     {
-        await FadeAudio(_theaterBackground, false, 0.5f, 0);
+        FadeAudio(_theaterBackground, false, 0.5f, 0).Forget();
+        await _fakePlayer.StartNavigation();
+        _fakePlayer.gameObject.SetActive(false);
+        playerInput.gameObject.SetActive(true);
         playerInput.ActivateInput();
         await UniTask.Delay(1000);
         _theaterBackground.clip = _act1;
@@ -221,6 +228,7 @@ public class GameController : MonoBehaviour
     private void FaceTheKing()
     {
         _cutSceneCamera.gameObject.SetActive(true);
+        _mainCamera.gameObject.SetActive(false);
         _cutSceneCamera.transform.SetPositionAndRotation(_finalCameraPosition.position, _finalCameraPosition.rotation);
         _cutSceneCamera.fieldOfView = 45;
     }
@@ -229,15 +237,11 @@ public class GameController : MonoBehaviour
     {
         StopAllGameplay();
         _actorController.StartBending();
-
-        await _cutSceneController.EndCutscene();
-        
-        await FadeAudio(_theaterBackground, false, 4, 0);
+        FadeAudio(_theaterBackground, false, 4, 0).Forget();
         _theaterBackground.gameObject.SetActive(false);
-
-        await _uiController.FadeCanvas(true, 1);
+        _uiController.FadeCanvas(true, 1).Forget();
         _uiController.GamePlayUI.SetActive(false);
-        await UniTask.Delay(5000);
+        await CutsceneMiscellaneous.PlayCutscene(_endOperaCutscene, this.gameObject);
 
         FaceTheKing();
         await UniTask.Delay(1200);

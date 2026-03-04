@@ -2,6 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public struct BodyPartColorTarget
+{
+    public GameObject BodyPart;
+    [Tooltip("L'indice del materiale da colorare (0 = primo materiale, 1 = secondo, ecc.)")]
+    public int MaterialIndex;
+}
+
 public class StaticGuest_Public_Controller : MonoBehaviour
 {
     #region Parameters
@@ -9,7 +17,9 @@ public class StaticGuest_Public_Controller : MonoBehaviour
 
     [SerializeField] protected StaticGuestSettings _settings;
     [SerializeField] protected Animator _animator;
-    [SerializeField] protected List<GameObject> _bodyPartToChangeColor;
+
+    [SerializeField] protected List<BodyPartColorTarget> _bodyPartToChangeColor;
+
     [SerializeField] protected int _idleAnimationIndex = 0;
 
     protected List<Renderer> _renderers = new();
@@ -26,7 +36,7 @@ public class StaticGuest_Public_Controller : MonoBehaviour
         {
             if (_settings == null)
             {
-                DevLog.LogError($"[{this.gameObject}]: Mancno i setting");
+                DevLog.LogError($"[{this.gameObject}]: Mancano i setting");
             }
         }
     }
@@ -57,17 +67,20 @@ public class StaticGuest_Public_Controller : MonoBehaviour
     {
         _sharedPropBlock = new MaterialPropertyBlock();
 
-        foreach (var obj in _bodyPartToChangeColor)
+        foreach (var target in _bodyPartToChangeColor)
         {
-            if (obj.TryGetComponent<Renderer>(out var renderer))
+            if (target.BodyPart != null && target.BodyPart.TryGetComponent<Renderer>(out var renderer))
             {
-                _renderers.Add(renderer);
+                if (!_renderers.Contains(renderer))
+                {
+                    _renderers.Add(renderer);
+                }
 
-                renderer.GetPropertyBlock(_sharedPropBlock);
+                renderer.GetPropertyBlock(_sharedPropBlock, target.MaterialIndex);
 
                 _sharedPropBlock.SetColor("_Color", chosenColor);
 
-                renderer.SetPropertyBlock(_sharedPropBlock);
+                renderer.SetPropertyBlock(_sharedPropBlock, target.MaterialIndex);
             }
         }
     }

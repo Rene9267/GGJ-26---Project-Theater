@@ -49,8 +49,9 @@ MonoBehaviour:
   _settings: {fileID: 11400000, guid: 8013280747f24c942bc3799c5f87e662, type: 2}
   _animator: {fileID: 1237574966351822692}
   _bodyPartToChangeColor:
-  - {fileID: 5639545345258245940}
-  _idleAnimationIndex: 3
+  - BodyPart: {fileID: 5639545345258245940}
+    MaterialIndex: 0
+  _idleAnimationIndex: 2
 --- !u!1 &7229231698663369380
 GameObject:
   m_ObjectHideFlags: 0

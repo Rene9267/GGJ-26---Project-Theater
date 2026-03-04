@@ -163,14 +163,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 666c7c935d655c940a7fba2eb514d6f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StaticGuest_Controller
-  _settings: {fileID: 11400000, guid: 8013280747f24c942bc3799c5f87e662, type: 2}
-  _animtion: {fileID: 5944616917554271788}
-  _animator: {fileID: 2092647892060981986}
-  _hurryUpIcon: {fileID: 4880922895151142262}
-  _bodyPartToChangeColor:
-  - {fileID: 4898108040669412886}
-  _idleAnimationIndex: 3
   SetRandomMaterialOnAwake: 1
+  _settings: {fileID: 11400000, guid: 8013280747f24c942bc3799c5f87e662, type: 2}
+  _animator: {fileID: 2092647892060981986}
+  _bodyPartToChangeColor:
+  - BodyPart: {fileID: 4898108040669412886}
+    MaterialIndex: 0
+  _idleAnimationIndex: 3
+  _animtion: {fileID: 5944616917554271788}
+  _hurryUpIcon: {fileID: 4880922895151142262}
 --- !u!111 &5944616917554271788
 Animation:
   m_ObjectHideFlags: 0
@@ -443,6 +444,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 5975632618634709886, guid: d17777e07d2e0ae41b49101a0a511469, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: f1cacc699e9f58e4399bbdcb977b8d8e, type: 2}
     - target: {fileID: 7125691352665814046, guid: d17777e07d2e0ae41b49101a0a511469, type: 3}
       propertyPath: m_Layer
       value: 7

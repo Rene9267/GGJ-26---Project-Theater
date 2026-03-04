@@ -196,7 +196,7 @@ public class PlayerController : MonoBehaviour
 
             DevLog.Log($"[{this.gameObject}]: Ho interagito con {_currentInteractable}");
             _currentInteractable.Interact();
-            StartCoroutine(Interaction(interactionDelay));
+            StartCoroutine(Interaction(interactionDelay, _currentInteractable));
         }
     }
 
@@ -250,14 +250,17 @@ public class PlayerController : MonoBehaviour
         _animator.SetBool(_animIDSorry, _isStunned);
     }
 
-    private IEnumerator Interaction(float interactionDelay)
+    private IEnumerator Interaction(float interactionDelay, IInteractable targetInteractable)
     {
         _isInteracting = true;
         _inputVector = Vector2.zero;
 
         yield return new WaitForSeconds(interactionDelay);
+
         _animator.SetBool(_animIDInteract, false);
-        _currentInteractable.CompleteInteraction();
+
+        targetInteractable?.CompleteInteraction();
+
         _isInteracting = false;
     }
 

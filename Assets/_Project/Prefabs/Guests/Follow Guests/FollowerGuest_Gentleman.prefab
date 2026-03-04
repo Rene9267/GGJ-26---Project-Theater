@@ -464,6 +464,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3513898009443987829, guid: 650391468dd30f747a973d29fc209648, type: 3}
+      propertyPath: _bodyPartToChangeColor.Array.data[0].BodyPart
+      value: 
+      objectReference: {fileID: 6278195008878359835}
     - target: {fileID: 3985715167513234396, guid: 650391468dd30f747a973d29fc209648, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -504,5 +508,10 @@ MonoBehaviour:
 --- !u!4 &3920933738334461223 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3180858339191958567, guid: 650391468dd30f747a973d29fc209648, type: 3}
+  m_PrefabInstance: {fileID: 1895269667034181888}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &6278195008878359835 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5579388882144068635, guid: 650391468dd30f747a973d29fc209648, type: 3}
   m_PrefabInstance: {fileID: 1895269667034181888}
   m_PrefabAsset: {fileID: 0}

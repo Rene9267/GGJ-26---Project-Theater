@@ -43,17 +43,14 @@ public class DynamicTextChanger : MonoBehaviour
 
     private void OnEnable()
     {
-        // Cambio di input
         if (_playerInput != null)
             _playerInput.onControlsChanged += UpdateIcon;
 
+        if (_playerInput != null)
+            SetupArguments(_playerInput);
 
-        // Evento della localizzazione
         if (_localizedText != null)
             _localizedText.StringChanged += OnStringChanged;
-
-        // Eseguiamo un primo setup all'avvio
-        if (_playerInput != null) UpdateIcon(_playerInput);
     }
 
     private void OnDisable()
@@ -68,26 +65,34 @@ public class DynamicTextChanger : MonoBehaviour
     #endregion
 
     #region Class Methods
-    private void UpdateIcon(PlayerInput input)
-    {
-        bool isGamepad = input.currentControlScheme == "Gamepad";
 
+    private void SetupArguments(PlayerInput input)
+    {
+        if (input == null || DynamicIcons == null) return;
+
+        bool isGamepad = input.currentControlScheme == "Gamepad";
         object[] argomenti = new object[DynamicIcons.Length];
 
-        // Riempiamo l'array con le icone corrette per il dispositivo attuale
         for (int i = 0; i < DynamicIcons.Length; i++)
         {
             argomenti[i] = isGamepad ? DynamicIcons[i].GamepadIcon : DynamicIcons[i].KeyboardIcon;
         }
 
-        // Passiamo l'intero array alla localizzazione
         _localizedText.Arguments = argomenti;
-        _localizedText.RefreshString();
+    }
+
+    private void UpdateIcon(PlayerInput input)
+    {
+        SetupArguments(input);
+
+        if (_localizedText != null)
+            _localizedText.RefreshString();
     }
 
     private void OnStringChanged(string transalatedAndFormattedText)
     {
         _tutorialText.text = transalatedAndFormattedText;
     }
+    
     #endregion
 }

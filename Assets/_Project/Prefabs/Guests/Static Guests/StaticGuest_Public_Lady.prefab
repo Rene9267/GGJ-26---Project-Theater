@@ -81,8 +81,10 @@ MonoBehaviour:
   _settings: {fileID: 11400000, guid: 8013280747f24c942bc3799c5f87e662, type: 2}
   _animator: {fileID: 3296216751019940023}
   _bodyPartToChangeColor:
-  - {fileID: 292362899805887828}
-  - {fileID: 229656354407123874}
+  - BodyPart: {fileID: 229656354407123874}
+    MaterialIndex: 0
+  - BodyPart: {fileID: 292362899805887828}
+    MaterialIndex: 0
   _idleAnimationIndex: 3
 --- !u!1001 &5523827336757722555
 PrefabInstance:

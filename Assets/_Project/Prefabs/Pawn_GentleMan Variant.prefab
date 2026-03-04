@@ -130,7 +130,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3985715167513234396}
-  m_Mesh: {fileID: -6356375885574618814, guid: 46f5054851ce0034b8bb94bee8dc91e1, type: 3}
+  m_Mesh: {fileID: -4301743633109911022, guid: 30f004153a281874ea0ae2f51a65e6f9, type: 3}
 --- !u!23 &7577028725223569906
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -156,7 +156,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e083a45b367cb3b4e9106dd575dab4bc, type: 2}
+  - {fileID: 2100000, guid: 07036ee6eb77ee649b282ce0bb7792aa, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -221,7 +221,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4047563095355830618}
-  m_Mesh: {fileID: -5297931966567198323, guid: 46f5054851ce0034b8bb94bee8dc91e1, type: 3}
+  m_Mesh: {fileID: -5297931966567198323, guid: 30f004153a281874ea0ae2f51a65e6f9, type: 3}
 --- !u!23 &7345250252437774548
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -247,7 +247,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e083a45b367cb3b4e9106dd575dab4bc, type: 2}
+  - {fileID: 2100000, guid: 07036ee6eb77ee649b282ce0bb7792aa, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -334,7 +334,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5579388882144068635}
-  m_Mesh: {fileID: 4300000, guid: 62ec7aa1cbb773f45bd01c60cb082c32, type: 2}
+  m_Mesh: {fileID: 7146710336633453759, guid: 30f004153a281874ea0ae2f51a65e6f9, type: 3}
 --- !u!23 &5211349276583636875
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -360,7 +360,8 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 4a8bbb370265aec49a01faf0b53d4642, type: 2}
+  - {fileID: 2100000, guid: 14fbb878c8e6c944f8b1075a99521dcf, type: 2}
+  - {fileID: 2100000, guid: ac9e0676c9cf2b24fa204af661142f0b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -498,12 +499,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 666c7c935d655c940a7fba2eb514d6f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StaticGuest_Controller
+  SetRandomMaterialOnAwake: 0
   _settings: {fileID: 0}
-  _animtion: {fileID: 0}
-  _hurryUpIcon: {fileID: 0}
+  _animator: {fileID: 0}
   _bodyPartToChangeColor:
   - {fileID: 5579388882144068635}
-  SetRandomMaterialOnAwake: 0
+  _idleAnimationIndex: 0
+  _animtion: {fileID: 0}
+  _hurryUpIcon: {fileID: 0}
 --- !u!4 &732830708750583696 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3452619305462606251, guid: a606e37194f3af94b9c13e82f227a6d2, type: 3}

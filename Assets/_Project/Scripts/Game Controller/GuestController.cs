@@ -14,6 +14,7 @@ struct ExitInfo
 
 public class GuestController : MonoBehaviour
 {
+    #region Parameters
     [SerializeField] private GuestsSettings _settings;
     [SerializeField] private FollowerGuestInteractionArea _guestInteractionArea;
     [SerializeField] private List<FollowerGuestExitArea> _guestInteractionExitAreas = new();
@@ -29,6 +30,9 @@ public class GuestController : MonoBehaviour
 
     [Tooltip("Il punto finale fuori scena (dietro la porta generica)")]
     [SerializeField] private Transform _runAwayExitPoint;
+
+    [Tooltip("Il punto fisso fuori mappa (es. la porta) da cui partono i guest")]
+    [SerializeField] private Transform _entranceDoorPoint;
 
     [Header("Exit Physics")]
     [Tooltip("Il nome del layer creato per i guest che escono (es. 'ExitingGuest')")]
@@ -47,6 +51,9 @@ public class GuestController : MonoBehaviour
     private CancellationTokenSource _cts;
     public event Action<int> OnTaskFailed;
 
+    #endregion
+
+    #region Unity Methods
     void OnValidate()
     {
         if (_settings == null || _settings.GuestsPool == null || _settings.GuestsPool.Count <= 0)
@@ -130,6 +137,8 @@ public class GuestController : MonoBehaviour
         }
     }
 
+    #endregion  
+
     private void ShuffleAndEnqueue(List<ExitInfo> list, Queue<ExitInfo> queue)
     {
         System.Random rng = new();
@@ -199,16 +208,14 @@ public class GuestController : MonoBehaviour
 
     private void SpawnGuests(Color color)
     {
-        if (_guestPool.Count == 0)
-        {
-            DevLog.LogWarning("[Guest Controller]: Pool vuoto, impossibile spawnare.");
-            return;
-        }
+        if (_guestPool.Count == 0) return;
 
         _crowdMiddlePoint = Vector2.zero;
-
         int randomGuestNumber = Random.Range((int)_settings.GuestSpawnRange.x, (int)_settings.GuestSpawnRange.y);
         int actualSpawnedCount = 0;
+
+        List<FollowerGuest> guestsToEnter = new List<FollowerGuest>();
+        List<Vector3> targetRandomPositions = new List<Vector3>();
 
         for (int i = 0; i < randomGuestNumber; i++)
         {
@@ -216,19 +223,30 @@ public class GuestController : MonoBehaviour
 
             bool foundValidSpot = false;
             int attempts = 0;
+            float minDistanceBetweenGuests = 1.2f;
 
             while (!foundValidSpot && attempts < _settings.MaxAttemptsPerPawn)
             {
                 attempts++;
                 Vector2 randomPoint2D = Random.insideUnitCircle * _settings.Radius;
-                Vector3 spawnPosition = new Vector3(randomPoint2D.x, 0, randomPoint2D.y) + _guestInteractionArea.transform.position;
+                Vector3 finalRandomPos = new Vector3(randomPoint2D.x, 0, randomPoint2D.y) + _guestInteractionArea.transform.position;
 
-                if (!Physics.CheckSphere(spawnPosition, _settings.SecurityRadiusCheck, _settings.ObstacleLayer))
+                bool isTooCloseToOthers = false;
+                foreach (var existingPos in targetRandomPositions)
+                {
+                    if (Vector3.Distance(finalRandomPos, existingPos) < minDistanceBetweenGuests)
+                    {
+                        isTooCloseToOthers = true;
+                        break;
+                    }
+                }
+
+                if (!isTooCloseToOthers && !Physics.CheckSphere(finalRandomPos, _settings.SecurityRadiusCheck, _settings.ObstacleLayer))
                 {
                     int randomIndex = Random.Range(0, _guestPool.Count);
                     var tmpGuest = _guestPool[randomIndex];
 
-                    tmpGuest.transform.SetPositionAndRotation(spawnPosition, Quaternion.identity);
+                    tmpGuest.transform.SetPositionAndRotation(_entranceDoorPoint.position, Quaternion.identity);
                     tmpGuest.SetActive(true);
 
                     var followerComp = tmpGuest.GetComponent<FollowerGuest>();
@@ -236,10 +254,13 @@ public class GuestController : MonoBehaviour
                     {
                         _activeGuests[color].Add(followerComp);
                         followerComp.SetMyColor(color);
+                        guestsToEnter.Add(followerComp);
+
+                        targetRandomPositions.Add(finalRandomPos);
                     }
 
                     _guestPool.RemoveAt(randomIndex);
-                    _crowdMiddlePoint += new Vector2(spawnPosition.x, spawnPosition.z);
+                    _crowdMiddlePoint += new Vector2(finalRandomPos.x, finalRandomPos.z);
                     actualSpawnedCount++;
                     foundValidSpot = true;
                 }
@@ -255,7 +276,56 @@ public class GuestController : MonoBehaviour
             _lastSpawnedGuests = new List<FollowerGuest>(_activeGuests[color]);
 
             _guestInteractionArea.transform.position = new Vector3(_crowdMiddlePoint.x, _guestInteractionArea.transform.position.y, _crowdMiddlePoint.y);
+
+            EnterSequenceRoutine(guestsToEnter, targetRandomPositions, color).Forget();
         }
+    }
+
+    private async UniTaskVoid EnterSequenceRoutine(List<FollowerGuest> guests, List<Vector3> targetPositions, Color color)
+    {
+        List<Transform> temporaryTargets = new List<Transform>();
+
+        for (int i = 0; i < guests.Count; i++)
+        {
+            if (_exitLayerIndex != -1)
+            {
+                SetLayerRecursively(guests[i].gameObject, _exitLayerIndex);
+            }
+
+            if (guests[i].TryGetComponent<FollowerGuestMovement>(out var movement))
+            {
+                movement.SetExitMode(true);
+                movement.LocalOffset = Vector3.zero;
+            }
+
+            GameObject tempTarget = new GameObject($"TempTarget_Enter_{i}");
+            tempTarget.transform.position = targetPositions[i];
+            temporaryTargets.Add(tempTarget.transform);
+
+            guests[i].SetUpTarget(tempTarget.transform);
+        }
+
+        await WaitForGuestsToReachTarget(guests, temporaryTargets, 1.0f);
+
+        for (int i = 0; i < guests.Count; i++)
+        {
+            guests[i].transform.rotation = Quaternion.Euler(0, guests[i].transform.rotation.eulerAngles.y, 0);
+
+            guests[i].SetUpTarget(null);
+            Destroy(temporaryTargets[i].gameObject);
+
+
+            if (guests[i].TryGetComponent<FollowerGuestMovement>(out var movement))
+            {
+                movement.SetExitMode(false);
+                movement.LocalOffset = new Vector3(0, 1.2f, -1.8f);
+            }
+
+            guests[i].gameObject.layer = _defaultGuestLayer;
+        }
+
+        _guestInteractionArea.ResetArea();
+        _guestInteractionArea.SetUpInteractionArea(color, _settings.RotationSpeed, _settings.Clockwise);
     }
 
     private void HandlePlayerGrabGuests()
@@ -355,10 +425,10 @@ public class GuestController : MonoBehaviour
         }
     }
 
-    private async UniTask WaitForGuestsToReachTarget(List<FollowerGuest> guests, Transform target, float threshold)
+    private async UniTask WaitForGuestsToReachTarget(List<FollowerGuest> guests, List<Transform> targets, float threshold)
     {
         bool allArrived = false;
-        float timeout = 5f;
+        float timeout = 8f;
         float timer = 0f;
 
         while (!allArrived && timer < timeout)
@@ -366,11 +436,37 @@ public class GuestController : MonoBehaviour
             timer += Time.deltaTime;
             allArrived = true;
 
-            foreach (var guest in guests)
+            for (int i = 0; i < guests.Count; i++)
             {
-                if (guest == null || !guest.gameObject.activeSelf) continue;
+                if (guests[i] == null || !guests[i].gameObject.activeSelf) continue;
 
-                float dist = Vector3.Distance(guest.transform.position, target.position);
+                float dist = Vector3.Distance(guests[i].transform.position, targets[i].position);
+                if (dist > threshold)
+                {
+                    allArrived = false;
+                    break;
+                }
+            }
+            await UniTask.Yield();
+        }
+    }
+
+    private async UniTask WaitForGuestsToReachTarget(List<FollowerGuest> guests, Transform singleTarget, float threshold)
+    {
+        bool allArrived = false;
+        float timeout = 10f;
+        float timer = 0f;
+
+        while (!allArrived && timer < timeout)
+        {
+            timer += Time.deltaTime;
+            allArrived = true;
+
+            for (int i = 0; i < guests.Count; i++)
+            {
+                if (guests[i] == null || !guests[i].gameObject.activeSelf) continue;
+
+                float dist = Vector3.Distance(guests[i].transform.position, singleTarget.position);
                 if (dist > threshold)
                 {
                     allArrived = false;
@@ -490,24 +586,32 @@ public class GuestController : MonoBehaviour
     private void TaskFailed()
     {
         int lostGuestsCount = _lastSpawnedGuests != null ? _lastSpawnedGuests.Count : 0;
-
         OnTaskFailed?.Invoke(lostGuestsCount);
 
-        foreach (FollowerGuest guest in _lastSpawnedGuests)
+        if (_lastSpawnedGuests != null && _lastSpawnedGuests.Count > 0)
         {
-            guest.SetUpTarget(null);
-            guest.gameObject.SetActive(false);
-            _guestPool.Add(guest.gameObject);
+            List<FollowerGuest> guestsToExit = new List<FollowerGuest>(_lastSpawnedGuests);
+            ExitSequenceRoutine(guestsToExit, _runAwayAlignPoint, _runAwayExitPoint).Forget();
         }
 
         _isSpawnAreaFree = true;
         var tmpColor = _guestInteractionArea.MyInteractionColor;
-        _lastSpawnedGuests.Clear();
-        _lastSpawnedGuests = null;
+
+        if (_lastSpawnedGuests != null)
+        {
+            _lastSpawnedGuests.Clear();
+            _lastSpawnedGuests = null;
+        }
+
         _availableGuestsColor.Add(tmpColor);
-        _activeGuests[tmpColor].Clear();
+
+        if (_activeGuests.ContainsKey(tmpColor))
+        {
+            _activeGuests[tmpColor].Clear();
+            _activeGuests.Remove(tmpColor);
+        }
+
         _guestInteractionArea.ResetArea();
-        _activeGuests.Remove(tmpColor);
     }
 
     public void StopAllGuests()
@@ -530,7 +634,7 @@ public class GuestController : MonoBehaviour
 
         if (_guestInteractionArea != null)
         {
-            _guestInteractionArea.ResetArea(); 
+            _guestInteractionArea.ResetArea();
             _guestInteractionArea.OnAreaExit -= HandlePlayerExitGrabArea;
             _guestInteractionArea.OnStartInteract -= HandlePlayerGrabGuests;
             _guestInteractionArea.OnInteract -= HandleplayerStartInteract;
@@ -539,7 +643,7 @@ public class GuestController : MonoBehaviour
 
         foreach (var exitArea in _guestInteractionExitAreas)
         {
-            exitArea.DisableDirectionIcon(); 
+            exitArea.DisableDirectionIcon();
             exitArea.OnCompleteInteractWithExit -= HandlePlayerDropGuest;
             exitArea.OnStartInteract -= HandlePlayerStartDroppingGuest;
         }
