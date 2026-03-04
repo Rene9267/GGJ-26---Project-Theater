@@ -15,11 +15,13 @@ public class Tutorial_GameController : MonoBehaviour
     [SerializeField] private TutorialColliderChecker _movementTutorial;
 
     [Header("References")]
-    [SerializeField] private Animator _animator;
+    // [SerializeField] private Animator _animator;
     [SerializeField] private Animator _tutorialUIAnimator;
     [SerializeField] private AudioSource _smokeParticlesAudioSource;
     [SerializeField] private AudioClip _theaterEnterClip;
+
     [Header("Cutscene")]
+    [SerializeField] private PlayableDirector _introCutscene;
     [SerializeField] private PlayableDirector _tutorialSkipCutscene;
     [SerializeField] private PlayableDirector _playtutorialCutscene;
     [SerializeField] private PlayableDirector _skipTutorialCutscene;
@@ -35,16 +37,12 @@ public class Tutorial_GameController : MonoBehaviour
     [SerializeField] private SmokeController _smokeController_CandleTuorial;
 
 
-    private static readonly int _showTutorial = Animator.StringToHash("StartCameraMotion");
     private static readonly int _ExitTutorial = Animator.StringToHash("ExitTutorial");
-    private static readonly int _tutorialUIStartAppear = Animator.StringToHash("StartTutorial");
     private static readonly int _tutorialUIWASD = Animator.StringToHash("WASD");
     private static readonly int _tutorialUIMessage = Animator.StringToHash("Message");
     private static readonly int _tutorialUIGuests = Animator.StringToHash("Guest");
     private static readonly int _tutorialUICandle = Animator.StringToHash("Candle");
     private static readonly int _tutorialUIDisappear = Animator.StringToHash("CloseTip");
-    private static readonly int _tuorialIntroSkip = Animator.StringToHash("TutorialSkip");
-    private static readonly int _tutorialIntroEnd = Animator.StringToHash("TutorialSelection");
     private static readonly int _tutorialUIEnd = Animator.StringToHash("End");
     private readonly string _gamePlayScene = "Scene_Main";
     #endregion
@@ -53,10 +51,6 @@ public class Tutorial_GameController : MonoBehaviour
 
     void OnValidate()
     {
-        if (_animator == null)
-        {
-            DevLog.LogError("Animator is not assigned in the inspector.", this);
-        }
         if (_tutorialUIAnimator == null)
         {
             DevLog.LogError("Tutorial UI Animator is not assigned in the inspector.", this);
@@ -91,8 +85,7 @@ public class Tutorial_GameController : MonoBehaviour
     private async UniTask CutsceneStartOpera()
     {
         _smokeParticlesAudioSource.PlayOneShot(_theaterEnterClip);
-        _animator.SetTrigger(_showTutorial);
-        await UniTask.Delay(6000);
+        await _cutSceneController.PlayCutscene(_introCutscene);
     }
 
     private async UniTask AskTutorial()
@@ -109,7 +102,6 @@ public class Tutorial_GameController : MonoBehaviour
         _player.CanMove = true;
         WasdTutorialStart().Forget();
     }
-
     public async void SkipTutorial()
     {
         await _cutSceneController.PlayCutscene(_skipTutorialCutscene);
@@ -213,7 +205,7 @@ public class Tutorial_GameController : MonoBehaviour
         await UniTask.Delay(2000);
         _tutorialUIAnimator.SetTrigger(_tutorialUIEnd);
         await UniTask.Delay(6000);
-        _animator.SetTrigger(_ExitTutorial);
+        // _animator.SetTrigger(_ExitTutorial);
         await UniTask.Delay(2000);
         SceneManager.LoadScene(_gamePlayScene);
     }

@@ -26,6 +26,10 @@ public class CutSceneController : MonoBehaviour
         await UniTask.WaitUntil(() => director.state != PlayState.Playing || director.time >= director.duration,
         cancellationToken: this.GetCancellationTokenOnDestroy());
 
+        director.RebindPlayableGraphOutputs();
+        director.playableAsset = null;
+        director.enabled = false;
+        
         DevLog.Log("Cutscene finished: " + director.name, this);
     }
 
