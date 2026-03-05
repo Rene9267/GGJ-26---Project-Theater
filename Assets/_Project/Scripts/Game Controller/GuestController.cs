@@ -130,7 +130,8 @@ public class GuestController : MonoBehaviour
         }
 
         _exitLayerIndex = LayerMask.NameToLayer(_exitLayerName);
-
+        DevLog.LogWarning($"[GuestController]: Layer di uscita '{_exitLayerName}' ha indice {_exitLayerIndex}. Assicurati che sia corretto e che il layer esista.");
+        
         if (_settings.GuestsPool.Count > 0 && _settings.GuestsPool[0] != null)
         {
             _defaultGuestLayer = _settings.GuestsPool[0].layer;

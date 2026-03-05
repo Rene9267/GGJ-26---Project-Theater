@@ -20,6 +20,12 @@ MonoBehaviour:
     m_ReadOnly: 1
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 37741cf04ff6ad347a1e2ccae9e36129
+    m_Address: Assets/_Project/Localization/Localization Tables/Main Table Shared
+      Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: fa77a4d6bd02d0841896abe9c1d77543
     m_Address: "Assets/_Project/Localization/Localization Tables/Men\xF9_Table Shared
       Data.asset"

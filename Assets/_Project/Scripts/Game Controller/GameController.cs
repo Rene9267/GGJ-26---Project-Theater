@@ -32,6 +32,7 @@ public class GameController : MonoBehaviour
 
     [Header("Cutscenes")]
     [SerializeField] private PlayableDirector _endOperaCutscene;
+    [SerializeField] private PlayableDirector _faceTheKingCutscene;
 
 
 
@@ -55,10 +56,7 @@ public class GameController : MonoBehaviour
     private float _elapsedTime;
     private bool _isOperaRunning;
     private float _guestTimer, _messageTimer, _lightTimer;
-    private readonly string _cameraAnimation = "AC_CameraStartMove";
     private readonly string _menuScene = "Scene_Menu";
-    private static readonly int _endGameCutScene = Animator.StringToHash("EndGame");
-    private static readonly int _startGameCutScene = Animator.StringToHash("StartGame");
 
 
     //=======================================================
@@ -123,7 +121,7 @@ public class GameController : MonoBehaviour
         var crowds = _crowdSpawner.InitializeCrowds();
         _messageController.GetCrowds(crowds);
 
-        _ = FadeAudio(_theaterBackground, false, 0, 0);
+        FadeAudio(_theaterBackground, false, 0, 0).Forget();
         _theaterBackground.clip = _preShow;
         await FadeAudio(_theaterBackground, true, 1, 0.3f);
 
@@ -139,9 +137,8 @@ public class GameController : MonoBehaviour
         _fakePlayer.gameObject.SetActive(false);
         playerInput.gameObject.SetActive(true);
         playerInput.ActivateInput();
-        await UniTask.Delay(1000);
         _theaterBackground.clip = _act1;
-        _ = FadeAudio(_theaterBackground, true, 3, 0.3f);
+        FadeAudio(_theaterBackground, true, 3, 1f).Forget();
         _actorController.StartAct();
         StartOpera();
     }
@@ -224,35 +221,36 @@ public class GameController : MonoBehaviour
     private void SpawnLight() => _candleController.TurnOffACandle();
     private void StartOpera() => _isOperaRunning = true;
 
-
-    private void FaceTheKing()
+    private IEnumerator MuoviCameraAZero(float durata)
     {
-        _cutSceneCamera.gameObject.SetActive(true);
-        _mainCamera.gameObject.SetActive(false);
-        _cutSceneCamera.transform.SetPositionAndRotation(_finalCameraPosition.position, _finalCameraPosition.rotation);
-        _cutSceneCamera.fieldOfView = 45;
+        _mainCamera.transform.GetLocalPositionAndRotation(out Vector3 posizioneIniziale, out Quaternion rotazioneIniziale);
+        float tempoTrascorso = 0f;
+
+        while (tempoTrascorso < durata)
+        {
+            tempoTrascorso += Time.deltaTime;
+
+            float percentuale = tempoTrascorso / durata;
+
+            percentuale = percentuale * percentuale * (3f - 2f * percentuale);
+
+            _mainCamera.transform.SetLocalPositionAndRotation(Vector3.Lerp(posizioneIniziale, Vector3.zero, percentuale), Quaternion.Slerp(rotazioneIniziale, Quaternion.identity, percentuale));
+            yield return null;
+        }
+
+        _mainCamera.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
     }
 
     private async void EndOpera()
     {
         StopAllGameplay();
         _actorController.StartBending();
-        FadeAudio(_theaterBackground, false, 4, 0).Forget();
-        _theaterBackground.gameObject.SetActive(false);
+        StartCoroutine(MuoviCameraAZero(1f));
         _uiController.FadeCanvas(true, 1).Forget();
         _uiController.GamePlayUI.SetActive(false);
+        
         await CutsceneMiscellaneous.PlayCutscene(_endOperaCutscene, this.gameObject);
-
-        FaceTheKing();
-        await UniTask.Delay(1200);
-        await _uiController.FadeCanvas(false, 1);
-
-        _audioSource.PlayOneShot(_kingTromb);
-        await UniTask.Delay(3500);
-
-        _audioSource.clip = _rulloDiTamburi;
-        _audioSource.Play();
-
+        await CutsceneMiscellaneous.PlayCutscene(_faceTheKingCutscene, this.gameObject);
         await UniTask.Delay(2000);
 
         if (_remainingGuests > 20)
