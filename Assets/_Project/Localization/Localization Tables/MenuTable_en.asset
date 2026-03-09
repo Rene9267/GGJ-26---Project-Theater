@@ -130,6 +130,10 @@ MonoBehaviour:
     m_Localized: Programming..........................
     m_Metadata:
       m_Items: []
+  - m_Id: 10210992668364800
+    m_Localized: Narrative Designer............
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

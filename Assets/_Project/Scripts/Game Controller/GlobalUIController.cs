@@ -10,6 +10,9 @@ public class GlobalUIController : MonoBehaviour
     public GameObject GamePlayUI;
     public CanvasGroup EndUI;
 
+    [Header("Pause UI")]
+    public GameObject PauseMenuUI; // Riferimento al pannello del menu di pausa
+
     [SerializeField] private TextMeshProUGUI _peopleNumber;
     [SerializeField] private CanvasGroup _fadeScreen;
     [SerializeField] private Animation _anim;
@@ -19,6 +22,32 @@ public class GlobalUIController : MonoBehaviour
     private readonly string EndGameFade = "AC_FadeOutCanvas_EndGame";
     private Coroutine _currentFadeRoutine;
     private CancellationTokenSource fadeCts;
+
+    private void Start()
+    {
+        // Iscrizione all'evento della pausa
+        if (PauseController.Instance != null)
+        {
+            PauseController.Instance.OnPauseToggled += HandlePauseState;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        // Disiscrizione per evitare memory leaks
+        if (PauseController.Instance != null)
+        {
+            PauseController.Instance.OnPauseToggled -= HandlePauseState;
+        }
+    }
+
+    private void HandlePauseState(bool isPaused)
+    {
+        if (PauseMenuUI != null)
+        {
+            PauseMenuUI.SetActive(isPaused);
+        }
+    }
 
     public void SetPeopleNumber(int newCount)
     {
@@ -90,7 +119,6 @@ public class GlobalUIController : MonoBehaviour
         _fadeScreen.interactable = isFadeIn;
         _fadeScreen.blocksRaycasts = isFadeIn;
     }
-
 
     public void UpdateTimerBar(float progress)
     {

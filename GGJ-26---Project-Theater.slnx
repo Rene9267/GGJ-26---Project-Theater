@@ -11,10 +11,10 @@
   <Project Path="Unity.Localization.Editor.csproj" />
   <Project Path="UnityEngine.TestRunner.csproj" />
   <Project Path="UniTask.csproj" />
+  <Project Path="Assembly-CSharp.csproj" />
   <Project Path="Unity.VisualStudio.Editor.csproj" />
   <Project Path="Unity.TextMeshPro.Editor.csproj" />
   <Project Path="Unity.ResourceManager.csproj" />
-  <Project Path="Assembly-CSharp.csproj" />
   <Project Path="Unity.Addressables.DocExampleCode.Editor.Tests.csproj" />
   <Project Path="Unity.InternalAPIEngineBridge.004.csproj" />
   <Project Path="Unity.Postprocessing.Runtime.csproj" />

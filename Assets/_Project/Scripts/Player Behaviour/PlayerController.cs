@@ -20,12 +20,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject _letter;
     [SerializeField] private GameObject _heart;
     [SerializeField] private PlayerAudio_Controller _audioController;
-    
+
     public bool CanMove = true;
 
     private CharacterController _controller;
     private Vector3 _moveDirection;
-    
+
     private bool _isStunned;
     private bool _isSprinting;
     private bool _isInvulnerable;
@@ -49,96 +49,79 @@ public class PlayerController : MonoBehaviour
 
     private bool _isHeart;
     private CancellationTokenSource _iconCts;
+
     private void OnValidate()
     {
-        if (_playerSettings == null)
-        {
-            DevLog.LogWarning("[Player]: PlayerSettings ScriptableObject non assegnato.");
-        }
-        if (_animator == null)
-        {
-            DevLog.LogWarning("[Player]: animator non assegnato.");
-        }
+        if (_playerSettings == null) DevLog.LogWarning("[Player]: PlayerSettings non assegnato.");
+        if (_animator == null) DevLog.LogWarning("[Player]: animator non assegnato.");
     }
 
     private void Awake()
     {
-        if (!TryGetComponent(out _controller))
-        {
-            DevLog.LogError("[Player]: CharacterController mancante.");
-        }
+        if (!TryGetComponent(out _controller)) DevLog.LogError("[Player]: CharacterController mancante.");
 
-        if (GetComponent<PlayerInput>() == null)
+        ActualMessage = new Message
         {
-            DevLog.LogError("[Player]: Manca il componente PlayerInput!");
-        }
-
-        ActualMessage = new Message();
-        ActualMessage.MessageColor = Color.clear;
+            MessageColor = Color.clear
+        };
 
         _animIDWalking = Animator.StringToHash("IsWalking");
         _animIDRunning = Animator.StringToHash("IsRunning");
         _animIDInteract = Animator.StringToHash("IsInteracting");
         _animIDSorry = Animator.StringToHash("IsStun");
 
-        _sprintAction = _playerInput.actions["Sprint"];
+        if (_playerInput != null)
+            _sprintAction = _playerInput.actions["Sprint"];
     }
 
     public void OnMove(InputValue value)
     {
-        _inputVector = value.Get<Vector2>();
-    }
+        // Se siamo in pausa, ignoriamo l'input
+        if (PauseController.Instance != null && PauseController.Instance.IsPaused) return;
 
+        _inputVector = value.Get<Vector2>();
+
+        // LOG DI TEST: Rimuovilo una volta verificato che funziona
+        if (_inputVector.magnitude > 0) DevLog.Log($"[INPUT] Movimento rilevato: {_inputVector}");
+    }
 
     public void OnInteract(InputValue value)
     {
+        if (PauseController.Instance != null && PauseController.Instance.IsPaused) return;
+
         if (value.isPressed)
         {
             TryInteract();
         }
     }
-    // -------------------------------------------------------------------------
 
-    private void UpdateAnimator()
+    public void OnPause(InputValue value)
     {
-        if (_animator == null) return;
-        bool walking;
-        if (_inputVector.magnitude > 0.01f && _isSprinting == false)
+        if (value.isPressed)
         {
-            walking = true;
+            // DevLog.Log("[INPUT] Tasto Pausa premuto!");
+            if (PauseController.Instance != null)
+                PauseController.Instance.TogglePause();
         }
-        else
-            walking = false;
-        _animator.SetBool(_animIDWalking, walking);
-
-
-        bool sprinting;
-        if (_inputVector.magnitude > 0.01f && _isSprinting == true)
-        {
-            sprinting = true;
-        }
-        else sprinting = false;
-        _animator.SetBool(_animIDRunning, sprinting);
-
-
     }
 
     private void Update()
     {
+        if (PauseController.Instance != null && PauseController.Instance.IsPaused) return;
+
         UpdateAnimator();
 
         if (_isStunned || _isInteracting) return;
 
         if (_sprintAction != null)
-        {
             _isSprinting = _sprintAction.IsPressed();
-        }
+
         HandleMovement();
     }
 
     private void HandleMovement()
     {
-        // if(CanMove == false) return;
+        if (!CanMove) return;
 
         Vector3 input = new Vector3(-_inputVector.x, 0, -_inputVector.y).normalized;
 
@@ -163,7 +146,6 @@ public class PlayerController : MonoBehaviour
     {
         if (_canInteract && _currentInteractable != null)
         {
-            DevLog.Log($"[{this.gameObject}]: Sto interagendo con {_currentInteractable}");
             float interactionDelay = 0;
             switch (_currentInteractable.InteactableType)
             {
@@ -192,136 +174,74 @@ public class PlayerController : MonoBehaviour
                     interactionDelay = _playerSettings.Interaction_TurnOnCandle;
                     break;
             }
-            _audioController.PlayOneShot(_audioController.MmhmmhSound, 1.2f,1);
-
-            DevLog.Log($"[{this.gameObject}]: Ho interagito con {_currentInteractable}");
+            _audioController.PlayOneShot(_audioController.MmhmmhSound, 1.2f, 1);
             _currentInteractable.Interact();
             StartCoroutine(Interaction(interactionDelay, _currentInteractable));
         }
     }
 
+    private void UpdateAnimator()
+    {
+        if (_animator == null) return;
+        bool isMoving = _inputVector.magnitude > 0.01f;
+        _animator.SetBool(_animIDWalking, isMoving && !_isSprinting);
+        _animator.SetBool(_animIDRunning, isMoving && _isSprinting);
+    }
+
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
-        if (hit.gameObject.CompareTag(_playerSettings.StunGuestTag))
-        {
-            SetStunState();
-        }
+        if (hit.gameObject.CompareTag(_playerSettings.StunGuestTag)) SetStunState();
     }
 
-    public void OnInteractionAreaEnter(IInteractable area)
-    {
-        _canInteract = true;
-        _currentInteractable = area;
-    }
+    public void OnInteractionAreaEnter(IInteractable area) { _canInteract = true; _currentInteractable = area; }
+    public void OnInteractionAreaExit() { _canInteract = false; _currentInteractable = null; }
 
-    public void OnInteractionAreaExit()
-    {
-        _canInteract = false;
-        _currentInteractable = null;
-    }
-
-    public void SetStunState()
-    {
-        if (!_isStunned && !_isInvulnerable)
-        {
-            StartCoroutine(StunRoutine());
-        }
-    }
-
-    public void ResetMessageColor()
-    {
-        ActualMessage.MessageColor = Color.clear;
-    }
+    public void SetStunState() { if (!_isStunned && !_isInvulnerable) StartCoroutine(StunRoutine()); }
+    public void ResetMessageColor() => ActualMessage.MessageColor = Color.clear;
 
     private IEnumerator StunRoutine()
     {
         _isStunned = true;
-        _animator.SetBool(_animIDSorry, _isStunned);
+        _animator.SetBool(_animIDSorry, true);
         _inputVector = Vector2.zero;
-        _isSprinting = false;
-
-        DevLog.Log("[Player]: Sbattuto contro uno spettatore");
-
         yield return new WaitForSeconds(1.2f);
-
         StartCoroutine(Invulnerableroutine());
         _isStunned = false;
-        //_audioController.StopAudio();
-        _animator.SetBool(_animIDSorry, _isStunned);
+        _animator.SetBool(_animIDSorry, false);
     }
 
-    private IEnumerator Interaction(float interactionDelay, IInteractable targetInteractable)
+    private IEnumerator Interaction(float delay, IInteractable target)
     {
         _isInteracting = true;
         _inputVector = Vector2.zero;
-
-        yield return new WaitForSeconds(interactionDelay);
-
+        yield return new WaitForSeconds(delay);
         _animator.SetBool(_animIDInteract, false);
-
-        targetInteractable?.CompleteInteraction();
-
+        target?.CompleteInteraction();
         _isInteracting = false;
     }
 
     private IEnumerator Invulnerableroutine()
     {
         _isInvulnerable = true;
-
-#if UNITY_EDITOR
-        Debug.Log("[Player]: Sono Invulnerabile");
-#endif
         yield return new WaitForSeconds(2f);
-
         _isInvulnerable = false;
     }
 
-
-    public void SetHeadIcon(bool isHeart)
-    {
-        _isHeart = isHeart;
-       
-    }
+    public void SetHeadIcon(bool isHeart) => _isHeart = isHeart;
 
     public void HandleIconHEadInteraction(Color color)
     {
-        if (_iconCts != null) { _iconCts.Cancel(); _iconCts.Dispose(); _iconCts = null; }
-
-        if (_isHeart)
-        {
-            _heart.gameObject.SetActive(true);
-            _heart.GetComponent<Renderer>().material.color = color;
-            _letter.gameObject.SetActive(false);
-        }
-        else
-        {
-            _letter.gameObject.SetActive(true);
-            _letter.GetComponent<Renderer>().material.color = color;
-            _heart.gameObject.SetActive(false);
-        }
+        if (_iconCts != null) { _iconCts.Cancel(); _iconCts.Dispose(); }
+        if (_isHeart) { _heart.SetActive(true); _heart.GetComponent<Renderer>().material.color = color; _letter.SetActive(false); }
+        else { _letter.SetActive(true); _letter.GetComponent<Renderer>().material.color = color; _heart.SetActive(false); }
         _animation.Play(_messageSpawn);
     }
 
     public async void DisableHeadIcon()
     {
         _iconCts = new CancellationTokenSource();
-        var token = _iconCts.Token;
-
         _animation.Play(_getMessage);
-
-        try
-        {
-            await UniTask.Delay(1000, cancellationToken: token);
-
-            _letter.gameObject.SetActive(false);
-            _heart.gameObject.SetActive(false);
-        }
-        catch (OperationCanceledException)
-        {
-        }
-        finally
-        {
-            if (_iconCts != null) { _iconCts.Dispose(); _iconCts = null; }
-        }
+        try { await UniTask.Delay(1000, cancellationToken: _iconCts.Token); _letter.SetActive(false); _heart.SetActive(false); }
+        catch (OperationCanceledException) { }
     }
 }

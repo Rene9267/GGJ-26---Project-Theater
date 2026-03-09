@@ -16,7 +16,6 @@ public class OptionsController : MonoBehaviour
 
     #endregion
 
-
     #region Unity Standard Methods
 
     void OnValidate()
@@ -37,7 +36,6 @@ public class OptionsController : MonoBehaviour
     }
 
     #endregion
-
 
     #region Class Methods
 
@@ -70,16 +68,28 @@ public class OptionsController : MonoBehaviour
     public void OnMusicSliderChange()
     {
         GameSettings.Instance.MusicVolume = _mainVolumeSlider.SliderValue;
+
+        // Applica l'audio in tempo reale nella scena
+        if (AudioController.Instance != null)
+        {
+            AudioController.Instance.SetVolume("MusicParam", GameSettings.Instance.MusicVolume);
+        }
+
         OnMusicVolumeChange?.Invoke();
     }
 
     public void OnFXSliderChange()
     {
         GameSettings.Instance.FXVolume = _fxVolumeSlider.SliderValue;
+
+        // Applica l'audio in tempo reale nella scena
+        if (AudioController.Instance != null)
+        {
+            AudioController.Instance.SetVolume("FXParam", GameSettings.Instance.FXVolume);
+        }
+
         OnFXVolumeChange?.Invoke();
     }
 
-
     #endregion
-
 }

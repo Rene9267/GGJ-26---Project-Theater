@@ -96,6 +96,18 @@ MonoBehaviour:
     m_Localized: Skip
     m_Metadata:
       m_Items: []
+  - m_Id: 4014982023696384
+    m_Localized: Resume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4015036423819264
+    m_Localized: Esci
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4019198591062016
+    m_Localized: Pause
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

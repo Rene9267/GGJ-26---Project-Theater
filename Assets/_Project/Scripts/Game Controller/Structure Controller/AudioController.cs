@@ -5,11 +5,25 @@ public class AudioController : MonoBehaviour
 {
     #region Variables
 
+    public static AudioController Instance { get; private set; }
+
     [SerializeField] private AudioMixer mainMixer;
 
     #endregion
 
     #region Unity Standard Methods
+
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     void OnValidate()
     {
@@ -41,6 +55,7 @@ public class AudioController : MonoBehaviour
         float dB = normalizedValue > 0 ? Mathf.Log10(normalizedValue) * 20 : -80f;
         mainMixer.SetFloat(parameterName, dB);
     }
+
     #endregion
 
 }

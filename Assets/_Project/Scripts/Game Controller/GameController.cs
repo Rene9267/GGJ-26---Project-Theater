@@ -29,12 +29,9 @@ public class GameController : MonoBehaviour
     [SerializeField] private King _king;
     [SerializeField] private WayPointNavigator _fakePlayer;
 
-
     [Header("Cutscenes")]
     [SerializeField] private PlayableDirector _endOperaCutscene;
     [SerializeField] private PlayableDirector _faceTheKingCutscene;
-
-
 
     [Header("Audio")]
     [SerializeField] private AudioSource _audioSource;
@@ -46,7 +43,6 @@ public class GameController : MonoBehaviour
     [SerializeField] private AudioClip _kingApplause;
     [SerializeField] private AudioClip _kingBuu;
     [SerializeField] private AudioClip _preShow;
-
     [SerializeField] private AudioClip _act1;
 
     private bool _isAct1Notified, _isAct2Notified, _isAct3Notified;
@@ -58,6 +54,12 @@ public class GameController : MonoBehaviour
     private float _guestTimer, _messageTimer, _lightTimer;
     private readonly string _menuScene = "Scene_Menu";
 
+    [Header("Pause Settings")]
+    [SerializeField] private GameObject _pauseMenuRoot;
+    [SerializeField] private Animator _pauseAnimator;
+
+    private static readonly int IsPauseTrigger = Animator.StringToHash("IsPause");
+    private static readonly int IsEndPauseTrigger = Animator.StringToHash("IsEndPause");
 
     //=======================================================
     #endregion
@@ -67,15 +69,15 @@ public class GameController : MonoBehaviour
     private void OnValidate()
     {
         if (_settings == null)
-            Debug.LogWarning("Opera Settings is not assigned in GameController.");
+            DevLog.LogWarning("Opera Settings is not assigned in GameController.");
         if (_guestController == null)
-            Debug.LogWarning("GuestController is not assigned in GameController.");
+            DevLog.LogWarning("GuestController is not assigned in GameController.");
         if (_candleController == null)
-            Debug.LogWarning("LightController is not assigned in GameController.");
+            DevLog.LogWarning("LightController is not assigned in GameController.");
         if (_messageController == null)
-            Debug.LogWarning("MessageController is not assigned in GameController.");
+            DevLog.LogWarning("MessageController is not assigned in GameController.");
         if (_crowdSpawner == null)
-            Debug.LogWarning("CrowdSpawner is not assigned in GameController.");
+            DevLog.LogWarning("CrowdSpawner is not assigned in GameController.");
         if (_uiController == null)
             DevLog.LogWarning($"[{this.gameObject}]: GlobalUIController is not assigned");
     }
@@ -96,6 +98,12 @@ public class GameController : MonoBehaviour
         _candleController.OnDarkRise -= HandleDarkRise;
         _guestController.OnTaskFailed -= HandleGuestTaskFailed;
         SceneManager.sceneLoaded -= OnLevelFinishedLoading;
+
+        if (PauseController.Instance != null)
+        {
+            PauseController.Instance.OnPauseToggled -= HandlePause;
+            PauseController.Instance.OnResumeRequested -= StartExitAnimation;
+        }
     }
 
     private void Awake()
@@ -105,16 +113,22 @@ public class GameController : MonoBehaviour
         _uiController.SetPeopleNumber(_remainingGuests);
     }
 
+    private void Start()
+    {
+        if (PauseController.Instance != null)
+        {
+            PauseController.Instance.OnPauseToggled += HandlePause;
+            PauseController.Instance.OnResumeRequested += StartExitAnimation;
+        }
+    }
 
     #region Class Methods
 
     private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
     {
         DevLog.Log($"La scena {scene.name} è completamente caricata!");
-
         CutsceneStartOpera();
     }
-
 
     private async void CutsceneStartOpera()
     {
@@ -146,7 +160,6 @@ public class GameController : MonoBehaviour
     private void HandleGuestTaskFailed(int lostCount)
     {
         ChangeTotlaGuest(-lostCount);
-
         DevLog.Log($"Task Guest Fallita! Persi {lostCount} spettatori.");
     }
 
@@ -163,8 +176,6 @@ public class GameController : MonoBehaviour
         if (progress >= _settings.GuestActivationThreshold && !_isAct1Notified)
         {
             _isAct1Notified = true;
-
-
         }
 
         if (progress >= _settings.MessageActivationThreshold && !_isAct2Notified)
@@ -177,7 +188,6 @@ public class GameController : MonoBehaviour
             _isAct3Notified = true;
         }
 
-
         HandleSpawning(progress);
 
         if (progress >= 1f) EndOpera();
@@ -185,7 +195,6 @@ public class GameController : MonoBehaviour
 
     //=======================================================
     #endregion
-
 
     #region GameLoop
     //======================= GameLoop ================================
@@ -229,9 +238,7 @@ public class GameController : MonoBehaviour
         while (tempoTrascorso < durata)
         {
             tempoTrascorso += Time.deltaTime;
-
             float percentuale = tempoTrascorso / durata;
-
             percentuale = percentuale * percentuale * (3f - 2f * percentuale);
 
             _mainCamera.transform.SetLocalPositionAndRotation(Vector3.Lerp(posizioneIniziale, Vector3.zero, percentuale), Quaternion.Slerp(rotazioneIniziale, Quaternion.identity, percentuale));
@@ -248,7 +255,7 @@ public class GameController : MonoBehaviour
         StartCoroutine(MuoviCameraAZero(1f));
         _uiController.FadeCanvas(true, 1).Forget();
         _uiController.GamePlayUI.SetActive(false);
-        
+
         await CutsceneMiscellaneous.PlayCutscene(_endOperaCutscene, this.gameObject);
         await CutsceneMiscellaneous.PlayCutscene(_faceTheKingCutscene, this.gameObject);
         await UniTask.Delay(2000);
@@ -286,7 +293,6 @@ public class GameController : MonoBehaviour
     {
         ChangeTotlaGuest(_settings.MessageFailTask);
     }
-
 
     public async UniTask FadeAudio(AudioSource source, bool isFadeIn, float duration, float volume = 0)
     {
@@ -331,10 +337,10 @@ public class GameController : MonoBehaviour
         ChangeTotlaGuest(_settings.DarkIsRising);
         DevLog.Log($"[{this.gameObject}]: Sto decrementando il valore degli spettatori di {1}, rimanenti: {_remainingGuests}");
     }
+
     private void StopAllGameplay()
     {
         _isOperaRunning = false;
-
         playerInput.DeactivateInput();
 
         if (_guestController != null) _guestController.StopAllGuests();
@@ -343,5 +349,70 @@ public class GameController : MonoBehaviour
         if (_actorController != null) _actorController.StopAct();
     }
     #endregion
+
+    #region Pause Logic
+    //======================= PAUSE ================================
+
+    private void HandlePause(bool isPaused)
+    {
+        DevLog.Log($"[GameController] Pausa toggled: {(isPaused ? "PAUSED" : "RESUMED")}");
+        if (_pauseAnimator == null || _pauseMenuRoot == null) return;
+
+        if (isPaused)
+        {
+            _pauseMenuRoot.SetActive(true);
+            _pauseAnimator.ResetTrigger(IsEndPauseTrigger);
+            _pauseAnimator.SetTrigger(IsPauseTrigger);
+        }
+    }
+
+    private void StartExitAnimation()
+    {
+        if (_pauseAnimator != null && _pauseAnimator.isActiveAndEnabled)
+        {
+            DevLog.Log("[Main Game] Avvio Animazione IsEndPause");
+            _pauseAnimator.ResetTrigger(IsPauseTrigger);
+            _pauseAnimator.SetTrigger(IsEndPauseTrigger);
+        }
+        else
+        {
+            DevLog.Log("[Main Game] Animator non disponibile, sblocco immediato.");
+            OnPauseOutAnimationComplete();
+        }
+    }
+
+    public void OnPauseOutAnimationComplete()
+    {
+        if (PauseController.Instance != null)
+        {
+            PauseController.Instance.FinalizeResume();
+        }
+
+        if (_pauseMenuRoot != null)
+        {
+            _pauseMenuRoot.SetActive(false);
+        }
+    }
+
+    public void Btn_ResumeGame()
+    {
+        if (PauseController.Instance != null && PauseController.Instance.IsPaused)
+        {
+            PauseController.Instance.RequestResume();
+        }
+    }
+
+    public void Btn_ReturnToMenu()
+    {
+        if (PauseController.Instance != null)
+        {
+            PauseController.Instance.FinalizeResume();
+        }
+        SceneManager.LoadScene(_menuScene);
+    }
+
+    //==============================================================
+    #endregion
+
     #endregion
 }
