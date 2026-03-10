@@ -33,7 +33,7 @@ public class MessageController : MonoBehaviour
     {
         if (_settings == null)
         {
-            Debug.LogError("Message Settings reference is missing in MessageController.");
+            DevLog.LogError("Message Settings reference is missing in MessageController.");
         }
     }
 

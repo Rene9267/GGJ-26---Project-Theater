@@ -49,7 +49,7 @@ public class WayPointNavigator : MonoBehaviour
     {
         if (Waypoints == null || Waypoints.Count == 0)
         {
-            Debug.LogWarning($"[{gameObject.name}] Nessun waypoint assegnato!");
+            DevLog.LogWarning($"[{gameObject.name}] Nessun waypoint assegnato!");
             return;
         }
 
@@ -76,6 +76,7 @@ public class WayPointNavigator : MonoBehaviour
 
         if (_animator != null) _animator.SetBool(_animIDWalking, false);
         OnPathCompleted?.Invoke();
+        await UniTask.CompletedTask;
     }
 
     #endregion

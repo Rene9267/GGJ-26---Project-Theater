@@ -108,7 +108,12 @@ public class GameController : MonoBehaviour
 
     private void Awake()
     {
-        playerInput.DeactivateInput();
+        // Disabilitiamo il componente anziché usare DeactivateInput per evitare errori di stato
+        playerInput.enabled = false;
+
+        // Blocchiamo il movimento all'avvio senza spegnere il GameObject
+        if (playerInput.TryGetComponent<PlayerController>(out var pc)) pc.CanMove = false;
+
         _remainingGuests = _settings.InitialPublic;
         _uiController.SetPeopleNumber(_remainingGuests);
     }
@@ -147,10 +152,15 @@ public class GameController : MonoBehaviour
     public async void StartGameplay()
     {
         FadeAudio(_theaterBackground, false, 0.5f, 0).Forget();
+        
         await _fakePlayer.StartNavigation();
         _fakePlayer.gameObject.SetActive(false);
+
+        // Riattiviamo l'input e il movimento invece di accendere bruscamente il GameObject
+        playerInput.enabled = true;
+        if (playerInput.TryGetComponent<PlayerController>(out var pc)) pc.CanMove = true;
         playerInput.gameObject.SetActive(true);
-        playerInput.ActivateInput();
+        
         _theaterBackground.clip = _act1;
         FadeAudio(_theaterBackground, true, 3, 1f).Forget();
         _actorController.StartAct();

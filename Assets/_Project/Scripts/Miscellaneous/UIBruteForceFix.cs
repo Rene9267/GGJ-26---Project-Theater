@@ -5,7 +5,7 @@ public class UIBruteForceFix : MonoBehaviour
 {
     private void OnEnable()
     {
-        Debug.Log("<color=magenta>[UI Brute Force]</color> Controllo e forzatura permessi UI in corso...");
+        DevLog.Log("<color=magenta>[UI Brute Force]</color> Controllo e forzatura permessi UI in corso...");
 
         // 1. Troviamo il Canvas genitore e assicuriamoci che abbia il Graphic Raycaster
         Canvas canvas = GetComponentInParent<Canvas>();
@@ -14,14 +14,14 @@ public class UIBruteForceFix : MonoBehaviour
             GraphicRaycaster raycaster = canvas.GetComponent<GraphicRaycaster>();
             if (raycaster == null)
             {
-                Debug.LogWarning("<color=magenta>[UI Brute Force]</color> MANCAVA IL GRAPHIC RAYCASTER sul Canvas! L'ho aggiunto io.");
+                DevLog.LogWarning("<color=magenta>[UI Brute Force]</color> MANCAVA IL GRAPHIC RAYCASTER sul Canvas! L'ho aggiunto io.");
                 raycaster = canvas.gameObject.AddComponent<GraphicRaycaster>();
             }
             raycaster.enabled = true;
         }
         else
         {
-            Debug.LogError("<color=red>[UI Brute Force]</color> Questo oggetto non è dentro un Canvas! La UI non funzionerà mai.");
+            DevLog.LogError("<color=red>[UI Brute Force]</color> Questo oggetto non è dentro un Canvas! La UI non funzionerà mai.");
         }
 
         // 2. Troviamo TUTTI i CanvasGroup e li forziamo ad essere interagibili

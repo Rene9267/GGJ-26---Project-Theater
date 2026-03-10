@@ -58,7 +58,7 @@ public class GuestController : MonoBehaviour
     {
         if (_settings == null || _settings.GuestsPool == null || _settings.GuestsPool.Count <= 0)
         {
-            Debug.LogWarning("[Guest Controller]: Impostazioni o Pool di elementi assente nell'Inspector.");
+            DevLog.LogWarning("[Guest Controller]: Impostazioni o Pool di elementi assente nell'Inspector.");
         }
     }
 
@@ -322,7 +322,7 @@ public class GuestController : MonoBehaviour
                 movement.LocalOffset = new Vector3(0, 1.2f, -1.8f);
             }
 
-            guests[i].gameObject.layer = _defaultGuestLayer;
+            SetLayerRecursively(guests[i].gameObject, _defaultGuestLayer);
         }
 
         _guestInteractionArea.ResetArea();
@@ -347,7 +347,7 @@ public class GuestController : MonoBehaviour
     {
         if (colorID == Color.clear)
         {
-            Debug.LogError("[Guest Controller]: Manca il Colore");
+            DevLog.LogError("[Guest Controller]: Manca il Colore");
             return;
         }
 
@@ -418,7 +418,7 @@ public class GuestController : MonoBehaviour
                 movement.LocalOffset = new Vector3(0, 1.2f, -1.8f);
             }
 
-            guest.gameObject.layer = _defaultGuestLayer;
+            SetLayerRecursively(guest.gameObject, _defaultGuestLayer);
 
             guest.SetUpTarget(null);
             guest.gameObject.SetActive(false);
@@ -568,7 +568,7 @@ public class GuestController : MonoBehaviour
 
         if (_runAwayAlignPoint == null || _runAwayExitPoint == null)
         {
-            Debug.LogError("[GuestController] Mancano i punti _runAwayAlignPoint o _runAwayExitPoint nell'inspector!");
+            DevLog.LogError("[GuestController] Mancano i punti _runAwayAlignPoint o _runAwayExitPoint nell'inspector!");
             return;
         }
 

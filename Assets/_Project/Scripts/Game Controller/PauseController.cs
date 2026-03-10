@@ -13,7 +13,6 @@ public class PauseController : MonoBehaviour
         if (Instance != null && Instance != this) { Destroy(this.gameObject); return; }
         Instance = this;
         Time.timeScale = 1f;
-        AudioListener.pause = false;
     }
 
     public void TogglePause()
@@ -28,14 +27,13 @@ public class PauseController : MonoBehaviour
     {
         IsPaused = true;
         Time.timeScale = 0f;
-        AudioListener.pause = true;
         OnPauseToggled?.Invoke(true);
-        Debug.Log("<color=yellow>[PauseController]</color> Stato: PAUSA");
+        DevLog.Log("<color=yellow>[PauseController]</color> Stato: PAUSA");
     }
 
     public void RequestResume()
     {
-        Debug.Log("<color=orange>[PauseController]</color> Richiesta ripresa inviata alla UI...");
+        DevLog.Log("<color=orange>[PauseController]</color> Richiesta ripresa inviata alla UI...");
         OnResumeRequested?.Invoke();
     }
 
@@ -43,13 +41,12 @@ public class PauseController : MonoBehaviour
     {
         IsPaused = false;
         Time.timeScale = 1f;
-        AudioListener.pause = false;
         OnPauseToggled?.Invoke(false);
-        Debug.Log("<color=green>[PauseController]</color> Stato: GIOCO RIPRESO");
+        DevLog.Log("<color=green>[PauseController]</color> Stato: GIOCO RIPRESO");
     }
 
     private void OnDestroy()
     {
-        if (Instance == this) { Time.timeScale = 1f; AudioListener.pause = false; Instance = null; }
+        if (Instance == this) { Time.timeScale = 1f; Instance = null; }
     }
 }

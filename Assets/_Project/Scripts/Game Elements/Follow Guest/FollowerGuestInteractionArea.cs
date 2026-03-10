@@ -28,7 +28,7 @@ public class FollowerGuestInteractionArea : MonoBehaviour, IInteractable
     {
         if (_areaImage == null)
         {
-            Debug.LogWarning("Area Image ref is missing");
+            DevLog.LogWarning("Area Image ref is missing");
         }
     }
 
@@ -66,12 +66,12 @@ public class FollowerGuestInteractionArea : MonoBehaviour, IInteractable
     {
         if (other.gameObject.TryGetComponent<PlayerController>(out var player))
         {
-            Debug.Log($"[FollowerGuestInteractionArea]: Qualcuno è entrato{other.name}");
+            DevLog.Log($"[FollowerGuestInteractionArea]: Qualcuno è entrato{other.name}");
             if (player.GuestFamilyColor == Color.clear)
             {
                 OnPlayerEntered?.Invoke();
                 player.OnInteractionAreaEnter(this);
-                Debug.Log("[FollowerGuestInteractionArea]: Player Entrato in me");
+                DevLog.Log("[FollowerGuestInteractionArea]: Player Entrato in me");
                 _playerElement = player;
             }
         }
@@ -90,7 +90,7 @@ public class FollowerGuestInteractionArea : MonoBehaviour, IInteractable
             player.OnInteractionAreaExit();
             OnPlayerExited?.Invoke();
             _playerElement = null;
-            Debug.Log("[FollowerGuestInteractionArea]: Player Uscito da me");
+            DevLog.Log("[FollowerGuestInteractionArea]: Player Uscito da me");
         }
     }
 

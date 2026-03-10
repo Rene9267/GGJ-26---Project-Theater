@@ -72,7 +72,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 1863440260747264
-    m_Localized: "Make sure everything goes smoothly, the theater needs the <color=#7B1A1A>king\u2019s
+    m_Localized: "\nMake sure everything goes smoothly, the theater needs the <color=#7B1A1A>king\u2019s
       applause</color>!\n\nDo you want to review your duties?"
     m_Metadata:
       m_Items:
@@ -101,7 +101,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 4015036423819264
-    m_Localized: Esci
+    m_Localized: Exit
     m_Metadata:
       m_Items: []
   - m_Id: 4019198591062016

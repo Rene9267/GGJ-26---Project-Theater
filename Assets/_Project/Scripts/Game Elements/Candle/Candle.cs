@@ -33,7 +33,7 @@ public class Candle : MonoBehaviour
     {
         if (_interactionArea == null)
         {
-            Debug.LogWarning("[Candle]: riferimento mancante al CandleInteractionArea");
+            DevLog.LogWarning("[Candle]: riferimento mancante al CandleInteractionArea");
         }
     }
 

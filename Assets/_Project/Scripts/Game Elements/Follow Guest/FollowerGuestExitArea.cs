@@ -47,7 +47,7 @@ public class FollowerGuestExitArea : MonoBehaviour, IInteractable
     {
         if (other.gameObject.TryGetComponent<PlayerController>(out var player))
         {
-            Debug.Log($"[FollowerGuestInteractionArea]: Qualcuno è entrato{other.name}");
+            DevLog.Log($"[FollowerGuestInteractionArea]: Qualcuno è entrato{other.name}");
             if (player.GuestFamilyColor == MyInteractionColor)
             {
                 OnPlayerEntered?.Invoke();

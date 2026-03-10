@@ -15,7 +15,7 @@ public class UIRaycastDebugger : MonoBehaviour
         {
             if (EventSystem.current == null)
             {
-                Debug.LogWarning("<color=red>[UI Debugger]</color> Nessun EventSystem trovato nella scena! I bottoni non funzioneranno mai senza di esso.");
+                DevLog.LogWarning("<color=red>[UI Debugger]</color> Nessun EventSystem trovato nella scena! I bottoni non funzioneranno mai senza di esso.");
                 return;
             }
 
@@ -31,17 +31,17 @@ public class UIRaycastDebugger : MonoBehaviour
 
             if (results.Count > 0)
             {
-                Debug.Log($"<color=cyan>[UI Debugger]</color> Click intercettato dal primo oggetto in alto: <b>{results[0].gameObject.name}</b>");
+                DevLog.Log($"<color=cyan>[UI Debugger]</color> Click intercettato dal primo oggetto in alto: <b>{results[0].gameObject.name}</b>");
 
                 // Stampiamo anche cosa c'è dietro, per capire la gerarchia
                 for (int i = 1; i < results.Count; i++)
                 {
-                    Debug.Log($"   <i>Dietro c'è: {results[i].gameObject.name}</i>");
+                    DevLog.Log($"   <i>Dietro c'è: {results[i].gameObject.name}</i>");
                 }
             }
             else
             {
-                Debug.Log("<color=orange>[UI Debugger]</color> Cliccato nel vuoto. Nessun oggetto UI con 'Raycast Target' attivo è stato colpito.");
+                DevLog.Log("<color=orange>[UI Debugger]</color> Cliccato nel vuoto. Nessun oggetto UI con 'Raycast Target' attivo è stato colpito.");
             }
         }
     }

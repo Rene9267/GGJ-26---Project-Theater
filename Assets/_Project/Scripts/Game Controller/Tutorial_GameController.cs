@@ -132,14 +132,14 @@ public class Tutorial_GameController : MonoBehaviour
     {
         if (_tutorialPauseAnimator != null && _tutorialPauseAnimator.isActiveAndEnabled)
         {
-            Debug.Log("[Tutorial] Avvio Animazione IsEndPause");
+            DevLog.Log("[Tutorial] Avvio Animazione IsEndPause");
             _tutorialPauseAnimator.ResetTrigger(IsPauseTrigger);
             _tutorialPauseAnimator.SetTrigger(IsEndPauseTrigger);
         }
         else
         {
             // FALLBACK: Se non c'è l'animator, sblocca subito il gioco
-            Debug.Log("[Tutorial] Animator non disponibile, sblocco immediato.");
+            DevLog.Log("[Tutorial] Animator non disponibile, sblocco immediato.");
             OnPauseOutAnimationComplete();
         }
     }
@@ -154,12 +154,12 @@ public class Tutorial_GameController : MonoBehaviour
 
             if (_tutorialPauseAnimator != null)
             {
-                Debug.Log("[Tutorial] Avvio Animazione IsPause");
+                DevLog.Log("[Tutorial] Avvio Animazione IsPause");
                 _tutorialPauseAnimator.SetTrigger(IsPauseTrigger);
             }
             else
             {
-                Debug.LogWarning("[Tutorial] Animator Pausa mancante! La UI apparirà ma senza animazione.");
+                DevLog.LogWarning("[Tutorial] Animator Pausa mancante! La UI apparirà ma senza animazione.");
             }
         }
     }

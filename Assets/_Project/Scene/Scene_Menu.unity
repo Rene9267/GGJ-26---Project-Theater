@@ -507,7 +507,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0, y: -400}
+  m_AnchoredPosition: {x: 0, y: -200}
   m_SizeDelta: {x: 700, y: 100}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &135722967
@@ -1633,7 +1633,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -12.391602, y: -537}
+  m_AnchoredPosition: {x: -12.390625, y: -537}
   m_SizeDelta: {x: 631, y: 83}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &465720797
@@ -2427,6 +2427,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Window Selector
       objectReference: {fileID: 0}
+    - target: {fileID: 5940468204781365519, guid: f4cf1833efb6d2b4aa7248b0d52e88a0, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5954158208891739879, guid: f4cf1833efb6d2b4aa7248b0d52e88a0, type: 3}
       propertyPath: _selections.Array.size
       value: 4
@@ -3197,7 +3201,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &658055962
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4321,7 +4325,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &988010441
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4702,7 +4706,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0, y: -600}
+  m_AnchoredPosition: {x: 0, y: -400}
   m_SizeDelta: {x: 700, y: 100}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1048295601
@@ -5108,7 +5112,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1084790172
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7808,7 +7812,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0, y: -600}
+  m_AnchoredPosition: {x: 0, y: -400}
   m_SizeDelta: {x: 700, y: 100}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1609301094
@@ -8235,7 +8239,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0, y: -400}
+  m_AnchoredPosition: {x: 0, y: -200}
   m_SizeDelta: {x: 700, y: 100}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1738887612
@@ -8900,7 +8904,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9113046014091596540, guid: 9fb79c9021df11c49b7d5a40f763909a, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -650
+      value: -450
       objectReference: {fileID: 0}
     - target: {fileID: 9113046014091596540, guid: 9fb79c9021df11c49b7d5a40f763909a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -9295,6 +9299,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AudioController
   mainMixer: {fileID: 24100000, guid: 8e5f3818f52e0624a973b6a6abbca020, type: 2}
+  _musicAudioSource: []
 --- !u!1 &1947276231
 GameObject:
   m_ObjectHideFlags: 0
@@ -10211,7 +10216,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9113046014091596540, guid: 9fb79c9021df11c49b7d5a40f763909a, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -450
+      value: -250
       objectReference: {fileID: 0}
     - target: {fileID: 9113046014091596540, guid: 9fb79c9021df11c49b7d5a40f763909a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

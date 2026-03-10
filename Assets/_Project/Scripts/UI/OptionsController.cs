@@ -21,13 +21,13 @@ public class OptionsController : MonoBehaviour
     void OnValidate()
     {
         if (_mainVolumeSlider == null)
-            DevLog.LogError($"[{this}]: Main Volume Slider null", this);
+            DevLog.LogWarning($"[{this}]: Main Volume Slider null", this);
         if (_fxVolumeSlider == null)
-            DevLog.LogError($"[{this}]: FX Volume Slider null", this);
+            DevLog.LogWarning($"[{this}]: FX Volume Slider null", this);
         if (_languageSelector == null)
-            DevLog.LogError($"[{this}]: Language selector null", this);
+            DevLog.LogWarning($"[{this}]: Language selector null", this);
         if (_windowModeSelector == null)
-            DevLog.LogError($"[{this}]: Window selector null", this);
+            DevLog.LogWarning($"[{this}]: Window selector null", this);
     }
 
     void Start()
@@ -61,8 +61,11 @@ public class OptionsController : MonoBehaviour
 
         _mainVolumeSlider.SetUpSliderValue(GameSettings.Instance.MusicVolume);
         _fxVolumeSlider.SetUpSliderValue(GameSettings.Instance.FXVolume);
-        _languageSelector.SelectPrecise(GameSettings.Instance.Language);
-        _windowModeSelector.SelectPrecise((int)GameSettings.Instance.WindowModeIndex);
+
+        if (_languageSelector != null)
+            _languageSelector.SelectPrecise(GameSettings.Instance.Language);
+        if (_windowModeSelector != null)
+            _windowModeSelector.SelectPrecise((int)GameSettings.Instance.WindowModeIndex);
     }
 
     public void OnMusicSliderChange()
@@ -73,6 +76,8 @@ public class OptionsController : MonoBehaviour
         if (AudioController.Instance != null)
         {
             AudioController.Instance.SetVolume("MusicParam", GameSettings.Instance.MusicVolume);
+            AudioController.Instance.SetVolume("RiverberParam", GameSettings.Instance.MusicVolume);
+
         }
 
         OnMusicVolumeChange?.Invoke();
