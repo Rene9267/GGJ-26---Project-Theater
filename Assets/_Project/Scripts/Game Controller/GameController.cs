@@ -19,6 +19,8 @@ public class GameController : MonoBehaviour
     [SerializeField] private MessageController _messageController;
     [SerializeField] private CrowdSpawner _crowdSpawner;
     [SerializeField] private GlobalUIController _uiController;
+    [SerializeField] private ScoreController _scoreController;
+    [SerializeField] private ScoreCanvas _scoreCanvas;
     [SerializeField] private Camera _mainCamera;
     [SerializeField] private Camera _cutSceneCamera;
     [SerializeField] private Transform _finalCameraPosition;
@@ -108,14 +110,24 @@ public class GameController : MonoBehaviour
 
     private void Awake()
     {
-        // Disabilitiamo il componente anziché usare DeactivateInput per evitare errori di stato
         playerInput.enabled = false;
 
-        // Blocchiamo il movimento all'avvio senza spegnere il GameObject
         if (playerInput.TryGetComponent<PlayerController>(out var pc)) pc.CanMove = false;
 
         _remainingGuests = _settings.InitialPublic;
         _uiController.SetPeopleNumber(_remainingGuests);
+
+        if (_scoreController != null)
+        {
+            playerInput.TryGetComponent<PlayerController>(out var player);
+            _scoreController.Connect(_guestController, _messageController, _candleController, player);
+            _scoreController.ResetStats(_settings.InitialPublic);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (_scoreController != null) _scoreController.Disconnect();
     }
 
     private void Start()
@@ -266,6 +278,8 @@ public class GameController : MonoBehaviour
         _uiController.FadeCanvas(true, 1).Forget();
         _uiController.GamePlayUI.SetActive(false);
 
+        var finalStats = _scoreController != null ? _scoreController.GetFinalStats() : new SessionStats();
+
         await CutsceneMiscellaneous.PlayCutscene(_endOperaCutscene, this.gameObject);
         await CutsceneMiscellaneous.PlayCutscene(_faceTheKingCutscene, this.gameObject);
         await UniTask.Delay(2000);
@@ -284,11 +298,13 @@ public class GameController : MonoBehaviour
         }
 
         await UniTask.Delay(2000);
-        await _uiController.FadeCanvas(true, 1);
 
-        await UniTask.Delay(500);
+        // Svela la scena e mostra la UI punteggio
+        await _uiController.FadeCanvas(false, 1);
+        if (_scoreCanvas != null) _scoreCanvas.Show(finalStats);
 
-        SceneManager.LoadScene(_menuScene);
+        // Congela tutto (le animazioni della UI usano unscaledDeltaTime)
+        Time.timeScale = 0f;
     }
 
     private void HandleGuestDrop(int guestDroppedDount)
@@ -301,7 +317,7 @@ public class GameController : MonoBehaviour
 
     private void HandleMessageFail()
     {
-        ChangeTotlaGuest(_settings.MessageFailTask);
+        ChangeTotlaGuest(-_settings.MessageFailTask);
     }
 
     public async UniTask FadeAudio(AudioSource source, bool isFadeIn, float duration, float volume = 0)
@@ -344,8 +360,8 @@ public class GameController : MonoBehaviour
 
     void HandleDarkRise()
     {
-        ChangeTotlaGuest(_settings.DarkIsRising);
-        DevLog.Log($"[{this.gameObject}]: Sto decrementando il valore degli spettatori di {1}, rimanenti: {_remainingGuests}");
+        ChangeTotlaGuest(-_settings.DarkIsRising);
+        DevLog.Log($"[{this.gameObject}]: Sto decrementando il valore degli spettatori di {_settings.DarkIsRising}, rimanenti: {_remainingGuests}");
     }
 
     private void StopAllGameplay()

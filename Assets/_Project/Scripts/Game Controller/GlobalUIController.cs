@@ -1,5 +1,4 @@
 using Cysharp.Threading.Tasks;
-using System;
 using System.Threading;
 using TMPro;
 using UnityEngine;
@@ -11,7 +10,7 @@ public class GlobalUIController : MonoBehaviour
     public CanvasGroup EndUI;
 
     [Header("Pause UI")]
-    public GameObject PauseMenuUI; // Riferimento al pannello del menu di pausa
+    public GameObject PauseMenuUI;
 
     [SerializeField] private TextMeshProUGUI _peopleNumber;
     [SerializeField] private CanvasGroup _fadeScreen;
@@ -25,7 +24,6 @@ public class GlobalUIController : MonoBehaviour
 
     private void Start()
     {
-        // Iscrizione all'evento della pausa
         if (PauseController.Instance != null)
         {
             PauseController.Instance.OnPauseToggled += HandlePauseState;
@@ -34,7 +32,6 @@ public class GlobalUIController : MonoBehaviour
 
     private void OnDestroy()
     {
-        // Disiscrizione per evitare memory leaks
         if (PauseController.Instance != null)
         {
             PauseController.Instance.OnPauseToggled -= HandlePauseState;
@@ -56,7 +53,6 @@ public class GlobalUIController : MonoBehaviour
 
     public void StartUp()
     {
-        // _anim.Play(FadeIn);
     }
 
     public void EndGame()
@@ -92,32 +88,32 @@ public class GlobalUIController : MonoBehaviour
         _fadeScreen.blocksRaycasts = isFadeIn;
     }
 
-    public async UniTask FadeCanvas(bool isFadeIn, float duration, CanvasGroup _fadeScreen)
+    public async UniTask FadeCanvas(bool isFadeIn, float duration, CanvasGroup targetCanvas)
     {
-        if (_fadeScreen == null) return;
+        if (targetCanvas == null) return;
 
         var cts = this.GetCancellationTokenOnDestroy();
 
-        float startAlpha = _fadeScreen.alpha;
+        float startAlpha = targetCanvas.alpha;
         float endAlpha = isFadeIn ? 1f : 0f;
         float elapsed = 0f;
 
-        if (isFadeIn) _fadeScreen.blocksRaycasts = true;
+        if (isFadeIn) targetCanvas.blocksRaycasts = true;
 
         while (elapsed < duration)
         {
             elapsed += Time.deltaTime;
             float progress = elapsed / duration;
 
-            _fadeScreen.alpha = Mathf.Lerp(startAlpha, endAlpha, progress);
+            targetCanvas.alpha = Mathf.Lerp(startAlpha, endAlpha, progress);
 
             await UniTask.Yield(PlayerLoopTiming.Update, cts);
         }
 
-        _fadeScreen.alpha = endAlpha;
+        targetCanvas.alpha = endAlpha;
 
-        _fadeScreen.interactable = isFadeIn;
-        _fadeScreen.blocksRaycasts = isFadeIn;
+        targetCanvas.interactable = isFadeIn;
+        targetCanvas.blocksRaycasts = isFadeIn;
     }
 
     public void UpdateTimerBar(float progress)

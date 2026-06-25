@@ -7,7 +7,8 @@ public class Candle : MonoBehaviour
     #region  Variables
 
     public event Action OnDarkEffect;
-    public event Action OnTurnOn;
+    public event Action<Candle> OnTurnOn;
+    public event Action<Candle> OnDarkStarted;
 
 
     [Header("Interaction")]
@@ -53,6 +54,7 @@ public class Candle : MonoBehaviour
         _source.PlayOneShot(_candleOffClip);
 
         _isDark = true;
+        OnDarkStarted?.Invoke(this);
 
         _darkGuestRunTimer = timeToRaiseTheDarkness;
 
@@ -82,7 +84,7 @@ public class Candle : MonoBehaviour
         _isDark = false;
         _animation.Play(_cancdleOn);
         _source.PlayOneShot(_candleOn);
-        OnTurnOn?.Invoke();
+        OnTurnOn?.Invoke(this);
         _interactionArea.OnCompleteInteract -= HandleCompleteInteraction;
     }
 

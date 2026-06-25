@@ -48,6 +48,7 @@ public class GuestController : MonoBehaviour
     private bool _isSpawnAreaFree = true;
     private List<FollowerGuest> _lastSpawnedGuests;
     public event Action<int> OnGuestDropped;
+    public int TotalGuestsSpawned { get; private set; }
     private CancellationTokenSource _cts;
     public event Action<int> OnTaskFailed;
 
@@ -268,6 +269,7 @@ public class GuestController : MonoBehaviour
             }
         }
 
+        TotalGuestsSpawned += actualSpawnedCount;
         _source.PlayOneShot(_spawnClip);
 
         if (actualSpawnedCount > 0)
