@@ -63,7 +63,6 @@ public class ScoreController : MonoBehaviour
         _totalDarkCandleTime = 0f;
         _candleDarkStartTimes.Clear();
         _initialCrowdCount = initialCrowdCount;
-        _finalCrowdCount = initialCrowdCount;
     }
 
     public SessionStats GetFinalStats()
