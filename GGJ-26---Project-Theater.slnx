@@ -1,6 +1,6 @@
 ﻿<Solution>
-  <Project Path="Unity.Timeline.csproj" />
   <Project Path="Unity.AI.Sound.csproj" />
+  <Project Path="Unity.Timeline.csproj" />
   <Project Path="Unity.AppUI.csproj" />
   <Project Path="Unity.Localization.csproj" />
   <Project Path="Unity.ScriptableBuildPipeline.Editor.csproj" />
@@ -19,9 +19,9 @@
   <Project Path="Unity.AI.Toolkit.Utility.csproj" />
   <Project Path="Unity.AI.Generators.Redux.csproj" />
   <Project Path="Unity.AppUI.Redux.csproj" />
+  <Project Path="Unity.AI.MCP.Editor.csproj" />
   <Project Path="Assembly-CSharp.csproj" />
   <Project Path="Unity.Burst.csproj" />
-  <Project Path="Unity.AI.MCP.Editor.csproj" />
   <Project Path="Unity.InferenceEngine.Editor.Visualizer.csproj" />
   <Project Path="Unity.VisualStudio.Editor.csproj" />
   <Project Path="Unity.InputSystem.csproj" />
@@ -51,8 +51,8 @@
   <Project Path="Unity.Burst.Editor.csproj" />
   <Project Path="Unity.AI.Image.csproj" />
   <Project Path="Unity.AI.Generators.UI.csproj" />
-  <Project Path="Unity.AutoGroupGenerator.Editor.csproj" />
   <Project Path="Unity.AI.Generators.IO.csproj" />
+  <Project Path="Unity.AutoGroupGenerator.Editor.csproj" />
   <Project Path="HFDownloader.csproj" />
   <Project Path="Unity.AI.Assistant.Integrations.Profiler.Editor.csproj" />
   <Project Path="Unity.AI.Search.Editor.csproj" />
