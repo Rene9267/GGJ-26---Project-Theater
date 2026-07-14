@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,6 +27,8 @@ public class StaticGuest_Public_Controller : MonoBehaviour
     protected MaterialPropertyBlock _sharedPropBlock;
     protected static readonly int _indexNextIdle = Animator.StringToHash("Static_Index");
     protected static readonly int _customIdle = Animator.StringToHash("NewIdle");
+    protected static readonly int _happyEndingHash = Animator.StringToHash("HappyEnding");
+    protected static readonly int _sadEndingHash = Animator.StringToHash("SadEnding");
 
     #endregion
 
@@ -53,11 +56,13 @@ public class StaticGuest_Public_Controller : MonoBehaviour
 
     void OnEnable()
     {
+        GameController.OnEndingAnimation += SetEndingAnimation;
         StartCoroutine(RandomIdleRoutine());
     }
 
     void OnDisable()
     {
+        GameController.OnEndingAnimation -= SetEndingAnimation;
         StopAllCoroutines();
     }
 
@@ -96,5 +101,13 @@ public class StaticGuest_Public_Controller : MonoBehaviour
             _animator.SetInteger(_indexNextIdle, randomIndex);
             _animator.SetTrigger(_customIdle);
         }
+    }
+
+    public void SetEndingAnimation(bool isHappy)
+    {
+        if (isHappy)
+            _animator.SetBool(_happyEndingHash, true);
+        else
+            _animator.SetBool(_sadEndingHash, true);
     }
 }

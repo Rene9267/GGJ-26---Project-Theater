@@ -14,11 +14,13 @@ public class StaticGuest_Controller : StaticGuest_Public_Controller
 
     void OnEnable()
     {
+        GameController.OnEndingAnimation += SetEndingAnimation;
         StartCoroutine(RandomIdleRoutine());
     }
 
     void OnDisable()
     {
+        GameController.OnEndingAnimation -= SetEndingAnimation;
         StopAllCoroutines();
     }
 

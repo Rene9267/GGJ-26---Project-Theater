@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -55,6 +56,8 @@ public class GameController : MonoBehaviour
     private bool _isOperaRunning;
     private float _guestTimer, _messageTimer, _lightTimer;
     private readonly string _menuScene = "Scene_Menu";
+
+    public static event Action<bool> OnEndingAnimation;
 
     [Header("Pause Settings")]
     [SerializeField] private GameObject _pauseMenuRoot;
@@ -289,12 +292,14 @@ public class GameController : MonoBehaviour
             _king.EndRate(KingState.Happy);
             await UniTask.Delay(2000);
             _audioSource.PlayOneShot(_kingApplause);
+            OnEndingAnimation?.Invoke(true);
         }
         else
         {
-            _king.EndRate(KingState.Ok);
+            _king.EndRate(KingState.Sad);
             await UniTask.Delay(2000);
             _audioSource.PlayOneShot(_kingBuu);
+            OnEndingAnimation?.Invoke(false);
         }
 
         await UniTask.Delay(2000);
@@ -351,6 +356,7 @@ public class GameController : MonoBehaviour
         {
             _remainingGuests += value;
             _uiController.SetPeopleNumber(_remainingGuests);
+            DevLog.Log($"[{this.gameObject}]: Sto decrementando il valore degli spettatori di {value}, rimanenti: {_remainingGuests}");
             if (_remainingGuests <= 0)
             {
                 EndOpera();
