@@ -1,5 +1,9 @@
+<<<<<<< Updated upstream
 using System;
 using System.Collections;
+=======
+﻿using System.Collections;
+>>>>>>> Stashed changes
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -146,7 +150,7 @@ public class GameController : MonoBehaviour
 
     private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
     {
-        DevLog.Log($"La scena {scene.name} è completamente caricata!");
+        DevLog.Log($"La scena {scene.name} ├¿ completamente caricata!");
         CutsceneStartOpera();
     }
 
@@ -292,14 +296,22 @@ public class GameController : MonoBehaviour
             _king.EndRate(KingState.Happy);
             await UniTask.Delay(2000);
             _audioSource.PlayOneShot(_kingApplause);
+<<<<<<< Updated upstream
             OnEndingAnimation?.Invoke(true);
+=======
+            BroadcastEndingToStaticGuests(true);
+>>>>>>> Stashed changes
         }
         else
         {
             _king.EndRate(KingState.Sad);
             await UniTask.Delay(2000);
             _audioSource.PlayOneShot(_kingBuu);
+<<<<<<< Updated upstream
             OnEndingAnimation?.Invoke(false);
+=======
+            BroadcastEndingToStaticGuests(false);
+>>>>>>> Stashed changes
         }
 
         await UniTask.Delay(2000);
@@ -379,6 +391,13 @@ public class GameController : MonoBehaviour
         if (_messageController != null) _messageController.StopAllMessages();
         if (_candleController != null) _candleController.StopAllCandles();
         if (_actorController != null) _actorController.StopAct();
+    }
+
+    private void BroadcastEndingToStaticGuests(bool isHappy)
+    {
+        var staticGuests = FindObjectsByType<StaticGuest_Public_Controller>(FindObjectsSortMode.None);
+        foreach (var guest in staticGuests)
+            guest.SetEndingAnimation(isHappy);
     }
     #endregion
 

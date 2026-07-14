@@ -8,8 +8,6 @@ public class CandleController : MonoBehaviour
     #region  Variables
 
     public event Action OnDarkRise;
-    public event Action<Candle> OnCandleDarkStart;
-    public event Action<Candle> OnCandleTurnedOn;
 
 
     [Header("Settings References")]
@@ -31,21 +29,21 @@ public class CandleController : MonoBehaviour
 
     void OnEnable()
     {
-        foreach (var candle in _allSceneCandle)
+        foreach (var candle in _availableCandle)
         {
             candle.OnDarkEffect += HandleDarkRaise;
-            candle.OnDarkStarted += HandleCandleDarkStart;
-            candle.OnTurnOn += HandleCandleTurnedOn;
         }
     }
 
     void OnDisable()
     {
-        foreach (var candle in _allSceneCandle)
+        foreach (var candle in _availableCandle)
         {
             candle.OnDarkEffect -= HandleDarkRaise;
-            candle.OnDarkStarted -= HandleCandleDarkStart;
-            candle.OnTurnOn -= HandleCandleTurnedOn;
+        }
+        foreach (var candle in _darkCandle)
+        {
+            candle.OnDarkEffect -= HandleDarkRaise;
         }
     }
     #endregion
@@ -74,16 +72,6 @@ public class CandleController : MonoBehaviour
     private void HandleDarkRaise()
     {
         OnDarkRise?.Invoke();
-    }
-
-    private void HandleCandleDarkStart(Candle candle)
-    {
-        OnCandleDarkStart?.Invoke(candle);
-    }
-
-    private void HandleCandleTurnedOn(Candle candle)
-    {
-        OnCandleTurnedOn?.Invoke(candle);
     }
 
     public void StopAllCandles()

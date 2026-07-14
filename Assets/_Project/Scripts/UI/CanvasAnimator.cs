@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public static class CanvasAnimator
 {
-    public enum Easing { Linear, SmoothStep, BounceOut }
+    public enum Easing { Linear, SmoothStep, BounceOut, EaseInOut }
 
     private static float ApplyEase(float t, Easing ease)
     {
@@ -12,6 +12,7 @@ public static class CanvasAnimator
         {
             Easing.SmoothStep => t * t * (3f - 2f * t),
             Easing.BounceOut => BounceOut(t),
+            Easing.EaseInOut => -(Mathf.Cos(t * Mathf.PI) - 1f) / 2f,
             _ => t
         };
     }
@@ -81,6 +82,19 @@ public static class CanvasAnimator
             await UniTask.Yield();
         }
         rt.localScale = Vector3.one * to;
+    }
+
+    public static async UniTask AnimateFloat(System.Action<float> onUpdate, float duration, Easing ease = Easing.Linear)
+    {
+        float elapsed = 0f;
+        while (elapsed < duration)
+        {
+            elapsed += Delta;
+            float t = ApplyEase(Mathf.Clamp01(elapsed / duration), ease);
+            onUpdate(t);
+            await UniTask.Yield();
+        }
+        onUpdate(1f);
     }
 
     public static async UniTask Counter(int targetValue, float duration, System.Action<string> onUpdate)

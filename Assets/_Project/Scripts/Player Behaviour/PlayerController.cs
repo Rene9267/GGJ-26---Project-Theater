@@ -22,7 +22,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private PlayerAudio_Controller _audioController;
 
     public bool CanMove = true;
-    public int CollisionCount { get; private set; }
 
     private CharacterController _controller;
     private Vector3 _moveDirection;
@@ -197,7 +196,7 @@ public class PlayerController : MonoBehaviour
     public void OnInteractionAreaEnter(IInteractable area) { _canInteract = true; _currentInteractable = area; }
     public void OnInteractionAreaExit() { _canInteract = false; _currentInteractable = null; }
 
-    public void SetStunState() { if (!_isStunned && !_isInvulnerable) { CollisionCount++; StartCoroutine(StunRoutine()); } }
+    public void SetStunState() { if (!_isStunned && !_isInvulnerable) StartCoroutine(StunRoutine()); }
     public void ResetMessageColor() => ActualMessage.MessageColor = Color.clear;
 
     private IEnumerator StunRoutine()

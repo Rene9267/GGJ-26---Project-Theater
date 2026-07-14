@@ -28,7 +28,7 @@ public class CandleTutorial : MonoBehaviour
         _candle.OnTurnOn += HandleTurnOn;
     }
 
-    private void HandleTurnOn(Candle candle)
+    private void HandleTurnOn()
     {
         _candle.OnTurnOn -= HandleTurnOn;
         OnCandleTutorialComplete?.Invoke();

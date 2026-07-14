@@ -1,5 +1,9 @@
+<<<<<<< Updated upstream
 using System;
 using System.Collections;
+=======
+﻿using System.Collections;
+>>>>>>> Stashed changes
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -110,4 +114,8 @@ public class StaticGuest_Public_Controller : MonoBehaviour
         else
             _animator.SetBool(_sadEndingHash, true);
     }
+<<<<<<< Updated upstream
 }
+=======
+}
+>>>>>>> Stashed changes
