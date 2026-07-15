@@ -49,6 +49,8 @@ public class PlayerController : MonoBehaviour
 
     private bool _isHeart;
     private CancellationTokenSource _iconCts;
+    private int _collisionCount;
+    public int CollisionCount => _collisionCount;
 
     private void OnValidate()
     {
@@ -190,6 +192,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
+        _collisionCount++;
         if (hit.gameObject.CompareTag(_playerSettings.StunGuestTag)) SetStunState();
     }
 

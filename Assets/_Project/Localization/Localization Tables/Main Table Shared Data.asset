@@ -27,6 +27,10 @@ MonoBehaviour:
     m_Key: Audience
     m_Metadata:
       m_Items: []
+  - m_Id: 47543337356185600
+    m_Key: Subtitle
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

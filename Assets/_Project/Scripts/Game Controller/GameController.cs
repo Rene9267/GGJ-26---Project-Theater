@@ -1,9 +1,5 @@
-<<<<<<< Updated upstream
 using System;
 using System.Collections;
-=======
-﻿using System.Collections;
->>>>>>> Stashed changes
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -296,22 +292,14 @@ public class GameController : MonoBehaviour
             _king.EndRate(KingState.Happy);
             await UniTask.Delay(2000);
             _audioSource.PlayOneShot(_kingApplause);
-<<<<<<< Updated upstream
             OnEndingAnimation?.Invoke(true);
-=======
-            BroadcastEndingToStaticGuests(true);
->>>>>>> Stashed changes
         }
         else
         {
             _king.EndRate(KingState.Sad);
             await UniTask.Delay(2000);
             _audioSource.PlayOneShot(_kingBuu);
-<<<<<<< Updated upstream
             OnEndingAnimation?.Invoke(false);
-=======
-            BroadcastEndingToStaticGuests(false);
->>>>>>> Stashed changes
         }
 
         await UniTask.Delay(2000);

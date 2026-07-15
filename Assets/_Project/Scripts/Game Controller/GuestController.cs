@@ -47,6 +47,8 @@ public class GuestController : MonoBehaviour
     private Vector2 _crowdMiddlePoint;
     private bool _isSpawnAreaFree = true;
     private List<FollowerGuest> _lastSpawnedGuests;
+    private int _totalGuestsSpawned;
+    public int TotalGuestsSpawned => _totalGuestsSpawned;
     public event Action<int> OnGuestDropped;
     private CancellationTokenSource _cts;
     public event Action<int> OnTaskFailed;
@@ -272,6 +274,7 @@ public class GuestController : MonoBehaviour
 
         if (actualSpawnedCount > 0)
         {
+            _totalGuestsSpawned += actualSpawnedCount;
             _isSpawnAreaFree = false;
             _crowdMiddlePoint /= actualSpawnedCount;
             _lastSpawnedGuests = new List<FollowerGuest>(_activeGuests[color]);
