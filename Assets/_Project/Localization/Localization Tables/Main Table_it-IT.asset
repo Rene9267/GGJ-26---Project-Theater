@@ -30,6 +30,29 @@ MonoBehaviour:
     m_Localized: Foglietto di Notizie ed Eventi di Sala
     m_Metadata:
       m_Items: []
+  - m_Id: 47825915850084352
+    m_Localized: 'Gradimento del Pubblico:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 47826199145959424
+    m_Localized: 'LE NOTIZIE DI IERI SEGUONO APPROFONDITE:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 47829743609663488
+    m_Localized: 'Spettatori Accomodati:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 47830079191732224
+    m_Localized: 'Spettatori Sfollati:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 47832878185009152
+    m_Localized: "La serata si \xE8 svolta secondo il consueto costume.\r\nSebbene
+      qualche candela abbia versato troppa cera e nei palrchetti si sia udito \r\nqualche
+      bisbiglio di troppo, l'augusto Spettacolo non ha sofferto interruzioni. \r\nIl
+      Re ha concesso un cenno di formale assenso. "
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

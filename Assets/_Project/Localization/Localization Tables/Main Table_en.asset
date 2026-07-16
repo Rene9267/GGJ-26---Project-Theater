@@ -26,6 +26,33 @@ MonoBehaviour:
     m_Localized: Audience
     m_Metadata:
       m_Items: []
+  - m_Id: 47543337356185600
+    m_Localized: Theater News and Events Bulletin
+    m_Metadata:
+      m_Items: []
+  - m_Id: 47825915850084352
+    m_Localized: 'Public Applause:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 47826199145959424
+    m_Localized: 'YESTERDAY''S NEWS FOLLOWED BY IN-DEPTH ANALYSIS:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 47829743609663488
+    m_Localized: 'Seated Spectators:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 47830079191732224
+    m_Localized: 'Departed Spectators:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 47832878185009152
+    m_Localized: "The evening proceeded according to the customary fashion. Although
+      a few candles shed too much wax and a bit too much whispering was heard in
+      the boxes, the august Spectacle suffered no interruption. \nThe King granted
+      a nod of formal assent."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

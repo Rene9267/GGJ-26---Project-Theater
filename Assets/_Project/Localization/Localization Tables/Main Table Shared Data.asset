@@ -31,6 +31,26 @@ MonoBehaviour:
     m_Key: Subtitle
     m_Metadata:
       m_Items: []
+  - m_Id: 47825915850084352
+    m_Key: Gradimento Generale
+    m_Metadata:
+      m_Items: []
+  - m_Id: 47826199145959424
+    m_Key: Stat Subtitle
+    m_Metadata:
+      m_Items: []
+  - m_Id: 47829743609663488
+    m_Key: Accompagnati
+    m_Metadata:
+      m_Items: []
+  - m_Id: 47830079191732224
+    m_Key: Spettatori usciti
+    m_Metadata:
+      m_Items: []
+  - m_Id: 47832878185009152
+    m_Key: Prefazione
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
