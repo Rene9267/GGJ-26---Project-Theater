@@ -316,7 +316,7 @@ public class GameController : MonoBehaviour
     {
         if (guestDroppedDount > 0)
         {
-            ChangeTotlaGuest(guestDroppedDount);
+            ChangeTotlaGuest(-guestDroppedDount);
         }
     }
 
