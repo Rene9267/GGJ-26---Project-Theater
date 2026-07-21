@@ -53,6 +53,58 @@ MonoBehaviour:
       a nod of formal assent."
     m_Metadata:
       m_Items: []
+  - m_Id: 50040626393993216
+    m_Localized: Dismal Silence
+    m_Metadata:
+      m_Items: []
+  - m_Id: 50040664541188096
+    m_Localized: Sparse Boxes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 50040696178823168
+    m_Localized: Grand Reception
+    m_Metadata:
+      m_Items: []
+  - m_Id: 50040744740474880
+    m_Localized: Memorable Turnout
+    m_Metadata:
+      m_Items: []
+  - m_Id: 50040776612990976
+    m_Localized: Mass Escape
+    m_Metadata:
+      m_Items: []
+  - m_Id: 50040810725265408
+    m_Localized: Decent Thinning
+    m_Metadata:
+      m_Items: []
+  - m_Id: 50040842476146688
+    m_Localized: Engrossed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 50040875296575488
+    m_Localized: Glued to the Seats
+    m_Metadata:
+      m_Items: []
+  - m_Id: 50040918598569984
+    m_Localized: Disappointing
+    m_Metadata:
+      m_Items: []
+  - m_Id: 50040944003469312
+    m_Localized: Sufficient
+    m_Metadata:
+      m_Items: []
+  - m_Id: 50040976224112640
+    m_Localized: Appreciable
+    m_Metadata:
+      m_Items: []
+  - m_Id: 50041007245185024
+    m_Localized: Thrilling
+    m_Metadata:
+      m_Items: []
+  - m_Id: 50066870640660480
+    m_Localized: 'Our rating is:'
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

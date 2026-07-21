@@ -53,6 +53,58 @@ MonoBehaviour:
       Re ha concesso un cenno di formale assenso. "
     m_Metadata:
       m_Items: []
+  - m_Id: 50040626393993216
+    m_Localized: Desolante Silenzio
+    m_Metadata:
+      m_Items: []
+  - m_Id: 50040664541188096
+    m_Localized: Palchetti Diradati
+    m_Metadata:
+      m_Items: []
+  - m_Id: 50040696178823168
+    m_Localized: Gran Ricevimento
+    m_Metadata:
+      m_Items: []
+  - m_Id: 50040744740474880
+    m_Localized: Concorso Memorabile
+    m_Metadata:
+      m_Items: []
+  - m_Id: 50040776612990976
+    m_Localized: Fuga Generale
+    m_Metadata:
+      m_Items: []
+  - m_Id: 50040810725265408
+    m_Localized: Discreto Sfoltimento
+    m_Metadata:
+      m_Items: []
+  - m_Id: 50040842476146688
+    m_Localized: Plateali e Avvinti
+    m_Metadata:
+      m_Items: []
+  - m_Id: 50040875296575488
+    m_Localized: Incollati ai Palchi
+    m_Metadata:
+      m_Items: []
+  - m_Id: 50040918598569984
+    m_Localized: Deludente
+    m_Metadata:
+      m_Items: []
+  - m_Id: 50040944003469312
+    m_Localized: Sufficiente
+    m_Metadata:
+      m_Items: []
+  - m_Id: 50040976224112640
+    m_Localized: Apprezzabile
+    m_Metadata:
+      m_Items: []
+  - m_Id: 50041007245185024
+    m_Localized: Entusiasmante
+    m_Metadata:
+      m_Items: []
+  - m_Id: 50066870640660480
+    m_Localized: "Il nostro voto \xE8: "
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

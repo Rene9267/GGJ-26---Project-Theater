@@ -39,6 +39,7 @@ public class ScoreCanvas : MonoBehaviour
     [SerializeField] private float _counterDuration = 0.8f;
     [SerializeField] private float _textRevealDelay = 1.0f;
     [SerializeField] private float _panelHiddenY = 1000f;
+    [SerializeField] private float _panelTargetY = -25f;
     [SerializeField] private float _buttonFadeDuration = 0.4f;
     [SerializeField] private float _bumpDuration = 0.3f;
     [SerializeField] private float _bumpScale = 1.2f;
@@ -66,7 +67,6 @@ public class ScoreCanvas : MonoBehaviour
             _background.color = bgColor;
         }
         _statPanel.anchoredPosition = new Vector2(_statPanel.anchoredPosition.x, _panelHiddenY);
-        _statPanel.localScale = Vector3.one;
 
         if (_continueButton != null)
             _continueButton.interactable = false;
@@ -90,7 +90,7 @@ public class ScoreCanvas : MonoBehaviour
 
         PlayDropSfx();
 
-        await CanvasAnimator.MoveY(_statPanel, _panelHiddenY, 0f, _panelSlideDuration, CanvasAnimator.Easing.EaseInOut);
+        await CanvasAnimator.MoveY(_statPanel, _panelHiddenY, _panelTargetY, _panelSlideDuration, CanvasAnimator.Easing.EaseInOut);
 
         var (gainedWord, lostWord, satisfactionWord) = await UniTask.WhenAll(
             LocalizationService.GetLocalizedStringAsync(LocalizationService.MainTable, stats.GainedWordKey),

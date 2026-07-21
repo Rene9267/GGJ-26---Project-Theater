@@ -19,10 +19,6 @@ MonoBehaviour:
     m_Key: Act
     m_Metadata:
       m_Items: []
-  - m_Id: 114983522304
-    m_Key: 
-    m_Metadata:
-      m_Items: []
   - m_Id: 828963115008
     m_Key: Audience
     m_Metadata:
@@ -49,6 +45,58 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 47832878185009152
     m_Key: Prefazione
+    m_Metadata:
+      m_Items: []
+  - m_Id: 50040626393993216
+    m_Key: Gained_Tier1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 50040664541188096
+    m_Key: Gained_Tier2
+    m_Metadata:
+      m_Items: []
+  - m_Id: 50040696178823168
+    m_Key: Gained_Tier3
+    m_Metadata:
+      m_Items: []
+  - m_Id: 50040744740474880
+    m_Key: Gained_Tier4
+    m_Metadata:
+      m_Items: []
+  - m_Id: 50040776612990976
+    m_Key: Lost_Tier1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 50040810725265408
+    m_Key: Lost_Tier2
+    m_Metadata:
+      m_Items: []
+  - m_Id: 50040842476146688
+    m_Key: Lost_Tier3
+    m_Metadata:
+      m_Items: []
+  - m_Id: 50040875296575488
+    m_Key: Lost_Tier4
+    m_Metadata:
+      m_Items: []
+  - m_Id: 50040918598569984
+    m_Key: Satisfaction_Tier1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 50040944003469312
+    m_Key: Satisfaction_Tier2
+    m_Metadata:
+      m_Items: []
+  - m_Id: 50040976224112640
+    m_Key: Satisfaction_Tier3
+    m_Metadata:
+      m_Items: []
+  - m_Id: 50041007245185024
+    m_Key: Satisfaction_Tier4
+    m_Metadata:
+      m_Items: []
+  - m_Id: 50066870640660480
+    m_Key: Vote
     m_Metadata:
       m_Items: []
   m_Metadata:
