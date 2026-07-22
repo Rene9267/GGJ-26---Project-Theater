@@ -45,8 +45,7 @@ public class ScoreCanvas : MonoBehaviour
     [SerializeField] private float _bumpScale = 1.2f;
 
     [Header("Transition")]
-    [SerializeField] private CanvasGroup _blackOverlay;
-    [SerializeField] private float _blackFadeDuration = 0.5f;
+    [SerializeField] private ScreenFade _screenFade;
 
     private SessionStats _currentStats;
 
@@ -78,11 +77,7 @@ public class ScoreCanvas : MonoBehaviour
             _continueButtonText.color = btnColor;
         }
 
-        if (_blackOverlay != null)
-        {
-            _blackOverlay.alpha = 0f;
-            _blackOverlay.blocksRaycasts = false;
-        }
+        _screenFade?.Hide();
 
         ClearTexts();
 
@@ -293,11 +288,8 @@ public class ScoreCanvas : MonoBehaviour
         if (_continueButton != null)
             _continueButton.interactable = false;
 
-        if (_blackOverlay != null)
-        {
-            _blackOverlay.blocksRaycasts = true;
-            await CanvasAnimator.FadeCanvasGroup(_blackOverlay, _blackOverlay.alpha, 1f, _blackFadeDuration);
-        }
+        if (_screenFade != null)
+            await _screenFade.FadeInAsync();
 
         Time.timeScale = 1f;
         UnityEngine.SceneManagement.SceneManager.LoadScene("Scene_Menu");
