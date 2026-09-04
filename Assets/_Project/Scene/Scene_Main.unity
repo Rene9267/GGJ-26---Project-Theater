@@ -2001,6 +2001,7 @@ MonoBehaviour:
   _uiController: {fileID: 703509205}
   _scoreController: {fileID: 1900856171}
   _scoreCanvas: {fileID: 1900856170}
+  _player: {fileID: 2066213263}
   _mainCamera: {fileID: 1552444626}
   _cutSceneCamera: {fileID: 235529952}
   _finalCameraPosition: {fileID: 1433499485}
@@ -8827,6 +8828,50 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 314516310}
   m_Mesh: {fileID: -5036402064815807103, guid: e7b6920a057abe2448028ae73532526a, type: 3}
+--- !u!1 &316154800
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 316154801}
+  - component: {fileID: 316154802}
+  m_Layer: 0
+  m_Name: StackTracer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &316154801
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 316154800}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 739419434}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &316154802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 316154800}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3541eccb7ad7c5e4f8baad7ed3aaae18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameStatsTracker
 --- !u!1 &317184536
 GameObject:
   m_ObjectHideFlags: 0
@@ -16156,6 +16201,13 @@ MonoBehaviour:
   _fadeScreen: {fileID: 21642873}
   _anim: {fileID: 703509206}
   _timerBarImage: {fileID: 1288234796}
+  _endScreenGroup: {fileID: 0}
+  _endTitleText: {fileID: 0}
+  _endGuestsSeatedText: {fileID: 0}
+  _endGuestsLeftText: {fileID: 0}
+  _endSatisfactionText: {fileID: 0}
+  _endScoreText: {fileID: 0}
+  _menuScene: MainMenu
 --- !u!111 &703509206
 Animation:
   m_ObjectHideFlags: 0
@@ -17025,6 +17077,7 @@ Transform:
   - {fileID: 1428188328}
   - {fileID: 581112689}
   - {fileID: 1445228634}
+  - {fileID: 316154801}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &739419435
@@ -42714,7 +42767,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 394.49997, y: -125}
+  m_AnchoredPosition: {x: 401.3, y: -125}
   m_SizeDelta: {x: 789, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2005246088

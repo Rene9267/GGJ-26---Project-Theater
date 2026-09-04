@@ -23,6 +23,8 @@ public class PlayerController : MonoBehaviour
 
     public bool CanMove = true;
 
+    public event Action OnStunned;
+
     private CharacterController _controller;
     private Vector3 _moveDirection;
 
@@ -149,9 +151,9 @@ public class PlayerController : MonoBehaviour
         if (_canInteract && _currentInteractable != null)
         {
             float interactionDelay = 0;
-            switch (_currentInteractable.InteactableType)
+            switch (_currentInteractable.InteractableType)
             {
-                case InteractType.MessageReciver:
+                case InteractType.MessageReceiver:
                     _animator.SetBool(_animIDInteract, true);
                     interactionDelay = _playerSettings.Interaction_ReleaseMessageDelat;
                     ActualMessage.MessageColor = Color.clear;
@@ -167,7 +169,7 @@ public class PlayerController : MonoBehaviour
                     interactionDelay = _playerSettings.Interaction_GetGuest;
                     GuestFamilyColor = _currentInteractable.MyInteractionColor;
                     break;
-                case InteractType.DrobGuest:
+                case InteractType.DropGuest:
                     interactionDelay = _playerSettings.Interaction_Dropguest;
                     GuestFamilyColor = Color.clear;
                     break;
@@ -199,7 +201,7 @@ public class PlayerController : MonoBehaviour
     public void OnInteractionAreaEnter(IInteractable area) { _canInteract = true; _currentInteractable = area; }
     public void OnInteractionAreaExit() { _canInteract = false; _currentInteractable = null; }
 
-    public void SetStunState() { if (!_isStunned && !_isInvulnerable) StartCoroutine(StunRoutine()); }
+    public void SetStunState() { if (!_isStunned && !_isInvulnerable) { OnStunned?.Invoke(); StartCoroutine(StunRoutine()); } }
     public void ResetMessageColor() => ActualMessage.MessageColor = Color.clear;
 
     private IEnumerator StunRoutine()
@@ -245,6 +247,6 @@ public class PlayerController : MonoBehaviour
         _iconCts = new CancellationTokenSource();
         _animation.Play(_getMessage);
         try { await UniTask.Delay(1000, cancellationToken: _iconCts.Token); _letter.SetActive(false); _heart.SetActive(false); }
-        catch (OperationCanceledException) { }
+        catch (OperationCanceledException) { DevLog.Log("[PlayerController] Icon head animation cancelled"); }
     }
 }

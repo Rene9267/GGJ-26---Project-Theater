@@ -28,14 +28,14 @@ public class CrowdTutorial : MonoBehaviour
         SimpleCrowd receiver = _crowds[1];
 
         _messageDelivered = false;
-        receiver.OnInteracionComplete += OnComplete;
+        receiver.OnInteractionComplete += OnComplete;
 
         sender.EnableSender(_circleColor, receiver);
-        receiver.EnableReciver(_circleColor);
+        receiver.EnableReceiver(_circleColor);
 
         await UniTask.WaitUntil(() => _messageDelivered);
 
-        receiver.OnInteracionComplete -= OnComplete;
+        receiver.OnInteractionComplete -= OnComplete;
 
         DevLog.Log("Tutorial dei Messaggi Superato!");
     }
@@ -50,7 +50,7 @@ public class CrowdTutorial : MonoBehaviour
     {
         if (_crowds.Count < 2) return;
         _crowds[0].EnableSender(_circleColor, _crowds[1]);
-        _crowds[1].EnableReciver(_circleColor);
+        _crowds[1].EnableReceiver(_circleColor);
     }
 
     #endregion

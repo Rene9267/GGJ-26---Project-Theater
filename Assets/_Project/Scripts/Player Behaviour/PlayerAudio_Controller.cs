@@ -14,12 +14,11 @@ public class PlayerAudio_Controller : MonoBehaviour
         _audioSource.Play();
     }
 
-    public void PlayOneShot(AudioClip newAudio, float volume, float pitch)
+    public void PlayOneShot(AudioClip newAudio, float volumeScale, float pitch)
     {
         _audioSource.pitch = pitch;
-        _audioSource.volume = volume;
 
-        _audioSource.PlayOneShot(newAudio);
+        _audioSource.PlayOneShot(newAudio, volumeScale);
     }
 
     public void PlayStep(AudioClip newAudio)

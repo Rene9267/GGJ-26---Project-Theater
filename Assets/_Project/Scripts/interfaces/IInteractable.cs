@@ -5,15 +5,15 @@ using UnityEngine;
 public enum InteractType
 {
     MessageSender,
-    MessageReciver,
+    MessageReceiver,
     Candle,
     TakeGuest,
-    DrobGuest,
+    DropGuest,
     None
 }
 public interface IInteractable
 {
-    public InteractType InteactableType { get; }
+    public InteractType InteractableType { get; }
 
     void Interact();
 

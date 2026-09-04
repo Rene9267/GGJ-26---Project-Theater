@@ -70,7 +70,7 @@ public class GuestController : MonoBehaviour
         {
             _guestInteractionArea.OnAreaExit -= HandlePlayerExitGrabArea;
             _guestInteractionArea.OnStartInteract -= HandlePlayerGrabGuests;
-            _guestInteractionArea.OnInteract -= HandleplayerStartInteract;
+            _guestInteractionArea.OnInteract -= HandlePlayerStartInteract;
             _guestInteractionArea.OnHurryUP -= HandleHurryUP;
         }
 
@@ -123,7 +123,7 @@ public class GuestController : MonoBehaviour
             exitArea.SetUpInteractionArea(ExitInfo.color, ExitInfo.direction, ExitInfo.background);
 
             _guestInteractionArea.OnStartInteract -= HandlePlayerGrabGuests;
-            _guestInteractionArea.OnInteract -= HandleplayerStartInteract;
+            _guestInteractionArea.OnInteract -= HandlePlayerStartInteract;
 
             exitArea.OnCompleteInteractWithExit += HandlePlayerDropGuest;
             exitArea.OnStartInteract += HandlePlayerStartDroppingGuest;
@@ -188,6 +188,8 @@ public class GuestController : MonoBehaviour
         _cts = new CancellationTokenSource();
         _guestInteractionArea.OnAreaExit -= HandlePlayerExitGrabArea;
         _guestInteractionArea.OnStartInteract -= HandlePlayerGrabGuests;
+        _guestInteractionArea.OnInteract -= HandlePlayerStartInteract;
+        _guestInteractionArea.OnHurryUP -= HandleHurryUP;
 
         int randomGuestFamilyColor = Random.Range(0, _availableGuestsColor.Count);
         var tmpColor = _availableGuestsColor[randomGuestFamilyColor];
@@ -203,7 +205,7 @@ public class GuestController : MonoBehaviour
 
         _guestInteractionArea.OnAreaExit += HandlePlayerExitGrabArea;
         _guestInteractionArea.OnStartInteract += HandlePlayerGrabGuests;
-        _guestInteractionArea.OnInteract += HandleplayerStartInteract;
+        _guestInteractionArea.OnInteract += HandlePlayerStartInteract;
         _guestInteractionArea.OnHurryUP -= HandleHurryUP;
         _guestInteractionArea.OnHurryUP += HandleHurryUP;
         GuestArriveTimerStart(_settings.TimeToExit, _cts.Token);
@@ -341,7 +343,7 @@ public class GuestController : MonoBehaviour
         }
     }
 
-    private void HandleplayerStartInteract()
+    private void HandlePlayerStartInteract()
     {
         CompleteGuestTask();
     }
@@ -483,9 +485,15 @@ public class GuestController : MonoBehaviour
 
     private void HandlePlayerStartDroppingGuest(Color colorID)
     {
-        if (colorID == null)
+        if (colorID == Color.clear)
         {
             DevLog.LogError("[Guest Controller]: Manca il Colore");
+            return;
+        }
+
+        if (!_activeGuests.ContainsKey(colorID))
+        {
+            DevLog.LogError("[Guest Controller]: Colore non presente tra gli attivi");
             return;
         }
 
@@ -531,7 +539,7 @@ public class GuestController : MonoBehaviour
         }
         catch (OperationCanceledException)
         {
-
+            DevLog.Log("[GuestController] Guest arrival timer cancelled");
         }
     }
 
@@ -641,7 +649,7 @@ public class GuestController : MonoBehaviour
             _guestInteractionArea.ResetArea();
             _guestInteractionArea.OnAreaExit -= HandlePlayerExitGrabArea;
             _guestInteractionArea.OnStartInteract -= HandlePlayerGrabGuests;
-            _guestInteractionArea.OnInteract -= HandleplayerStartInteract;
+            _guestInteractionArea.OnInteract -= HandlePlayerStartInteract;
             _guestInteractionArea.OnHurryUP -= HandleHurryUP;
         }
 

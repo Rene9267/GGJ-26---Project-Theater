@@ -59,7 +59,10 @@ public class Candle : MonoBehaviour
         _darkCoroutine ??= StartCoroutine(DarkIsComing());
 
         if (_interactionArea == null)
-            DevLog.LogWarning($"[Candle - {this.gameObject}]: {_interactionArea} risulta null");
+        {
+            DevLog.LogWarning($"[Candle - {this.gameObject}]: _interactionArea risulta null");
+            return;
+        }
 
         _interactionArea.SetUpInteractionArea();
 

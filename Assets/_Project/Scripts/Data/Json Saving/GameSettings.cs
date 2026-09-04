@@ -13,6 +13,12 @@ public class GameSettings : ScriptableObject
 
     private void OnEnable()
     {
-            Instance = this;
+        Instance = this;
+    }
+
+    private void OnDisable()
+    {
+        if (Instance == this)
+            Instance = null;
     }
 }

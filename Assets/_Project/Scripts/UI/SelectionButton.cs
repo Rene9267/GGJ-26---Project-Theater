@@ -89,7 +89,7 @@ public class SelectionButton : MonoBehaviour
 
     public void SelectPrecise(int index)
     {
-        if (index > _selections.Count)
+        if (index >= _selections.Count)
         {
             DevLog.LogError($"[{this}]: Indice iniettato troppo grande: {index}", this);
             return;

@@ -32,7 +32,6 @@ public class StartMenuController : MonoBehaviour
     private OptionsController _optionsController;
 
     private int _animFadeInMainStart;
-    private int _animFadeOutStart;
     private int _animFadeInSettings;
     private int _animFadeOutSettings;
     private int _animFICredits;
@@ -86,7 +85,6 @@ public class StartMenuController : MonoBehaviour
 
 
         _animFadeInMainStart = Animator.StringToHash("FadeInStart");
-        _animFadeOutStart = Animator.StringToHash("FadeOutMain");
         _animFadeInSettings = Animator.StringToHash("FadeInSettings");
         _animFadeOutSettings = Animator.StringToHash("FadeOutSettings");
         _animFICredits = Animator.StringToHash("FadeInCredits");
@@ -139,7 +137,7 @@ public class StartMenuController : MonoBehaviour
     {
         _animator.SetTrigger(_animPlay);
         await UniTask.Delay(500);
-        _ = FadeAudio(_audio, false, 1, 0);
+        FadeAudio(_audio, false, 1, 0).Forget();
         await UniTask.Delay(1200);
 
         SceneManager.LoadScene(_gamePlayScene);

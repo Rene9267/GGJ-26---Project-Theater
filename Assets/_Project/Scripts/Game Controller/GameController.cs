@@ -22,6 +22,7 @@ public class GameController : MonoBehaviour
     [SerializeField] private GlobalUIController _uiController;
     [SerializeField] private ScoreController _scoreController;
     [SerializeField] private ScoreCanvas _scoreCanvas;
+    [SerializeField] private PlayerController _player;
     [SerializeField] private Camera _mainCamera;
     [SerializeField] private Camera _cutSceneCamera;
     [SerializeField] private Transform _finalCameraPosition;
@@ -91,18 +92,22 @@ public class GameController : MonoBehaviour
     {
         _guestController.OnGuestDropped += HandleGuestDrop;
         _messageController.OnTaskFailed += HandleMessageFail;
+        _messageController.OnMessageDelivered += HandleMessageDelivered;
         _candleController.OnDarkRise += HandleDarkRise;
         _guestController.OnTaskFailed += HandleGuestTaskFailed;
         SceneManager.sceneLoaded += OnLevelFinishedLoading;
+        if (_player != null) _player.OnStunned += HandlePlayerStun;
     }
 
     private void OnDisable()
     {
         _guestController.OnGuestDropped -= HandleGuestDrop;
         _messageController.OnTaskFailed -= HandleMessageFail;
+        _messageController.OnMessageDelivered -= HandleMessageDelivered;
         _candleController.OnDarkRise -= HandleDarkRise;
         _guestController.OnTaskFailed -= HandleGuestTaskFailed;
         SceneManager.sceneLoaded -= OnLevelFinishedLoading;
+        if (_player != null) _player.OnStunned -= HandlePlayerStun;
 
         if (PauseController.Instance != null)
         {
@@ -122,7 +127,7 @@ public class GameController : MonoBehaviour
 
         if (_scoreController != null)
         {
-            playerInput.TryGetComponent<PlayerController>(out var player);
+            var player = _player != null ? _player : playerInput.GetComponent<PlayerController>();
             _scoreController.Connect(_guestController, _messageController, _candleController, player);
             _scoreController.ResetStats(_settings.InitialPublic);
         }
@@ -287,7 +292,9 @@ public class GameController : MonoBehaviour
         await CutsceneMiscellaneous.PlayCutscene(_faceTheKingCutscene, this.gameObject);
         await UniTask.Delay(2000);
 
-        if (_remainingGuests > 20)
+        bool isVictory = _remainingGuests > 0;
+
+        if (isVictory)
         {
             _king.EndRate(KingState.Happy);
             await UniTask.Delay(2000);
@@ -320,9 +327,17 @@ public class GameController : MonoBehaviour
         }
     }
 
+    private void HandleMessageDelivered()
+    {
+    }
+
     private void HandleMessageFail()
     {
         ChangeTotlaGuest(-_settings.MessageFailTask);
+    }
+
+    private void HandlePlayerStun()
+    {
     }
 
     public async UniTask FadeAudio(AudioSource source, bool isFadeIn, float duration, float volume = 0)

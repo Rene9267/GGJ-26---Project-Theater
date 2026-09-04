@@ -17,7 +17,7 @@ public class CrowdInteractionArea : MonoBehaviour, IInteractable
 
     public AudioSource MessageSource;
 
-    public InteractType InteactableType { get; private set; }
+    public InteractType InteractableType { get; private set; }
     public event Action OnHurryUp;
     public event Action OnPlayerEntered;
     public event Action OnPlayerExited;
@@ -52,7 +52,7 @@ public class CrowdInteractionArea : MonoBehaviour, IInteractable
     #region Class Methods
     public void ResetArea()
     {
-        InteactableType = InteractType.None;
+        InteractableType = InteractType.None;
         MyInteractionColor = Color.clear;
 
         if (_areaImage != null)
@@ -66,15 +66,15 @@ public class CrowdInteractionArea : MonoBehaviour, IInteractable
         // --- FINE MODIFICHE ---
     }
 
-    public void SetUPInteractionArea(Color color, InteractType type)
+    public void SetUpInteractionArea(Color color, InteractType type)
     {
-        InteactableType = type;
+        InteractableType = type;
         _areaImage.color = color;
         MyInteractionColor = color;
         _areaImage.gameObject.SetActive(true);
         if (type == InteractType.MessageSender)
         {
-            IconController.SetUpIcon(InteactableType);
+            IconController.SetUpIcon(InteractableType);
             if (IconController.iconIndex == 0)
             {
                 MessageSource.PlayOneShot(LetterSpawn);
@@ -107,14 +107,14 @@ public class CrowdInteractionArea : MonoBehaviour, IInteractable
         if (other.gameObject.TryGetComponent<PlayerController>(out var player))
         {
             DevLog.Log($"[Crowd Interaction Area]: Qualcuno è entrato{other.name}");
-            if (InteactableType == InteractType.MessageReciver && player.ActualMessage.MessageColor == MyInteractionColor
-            || InteactableType == InteractType.MessageSender && player.ActualMessage.MessageColor == Color.clear)
+            if (InteractableType == InteractType.MessageReceiver && player.ActualMessage.MessageColor == MyInteractionColor
+            || InteractableType == InteractType.MessageSender && player.ActualMessage.MessageColor == Color.clear)
             {
                 OnPlayerEntered?.Invoke();
                 player.OnInteractionAreaEnter(this);
                 DevLog.Log("[Crowd Interaction Area]: Player Entrato in me");
 
-                if (InteactableType == InteractType.MessageSender)
+                if (InteractableType == InteractType.MessageSender)
                 {
                     bool isHeart = false;
                     if (IconController.iconIndex == 1) isHeart = true;
@@ -136,7 +136,7 @@ public class CrowdInteractionArea : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        if (InteactableType == InteractType.MessageSender)
+        if (InteractableType == InteractType.MessageSender)
         {
             OnMessageTake?.Invoke();
         }
@@ -144,11 +144,11 @@ public class CrowdInteractionArea : MonoBehaviour, IInteractable
 
     public void CompleteInteraction()
     {
-        if (InteactableType == InteractType.MessageReciver)
+        if (InteractableType == InteractType.MessageReceiver)
         {
             OnCompleteInteract?.Invoke();
         }
-        if (InteactableType == InteractType.MessageSender)
+        if (InteractableType == InteractType.MessageSender)
         {
             IconController.gameObject.SetActive(false);
             this.gameObject.SetActive(false);

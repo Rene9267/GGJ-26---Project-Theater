@@ -11,7 +11,7 @@ public class FollowerGuestInteractionArea : MonoBehaviour, IInteractable
     [SerializeField] private Image _areaImage;
     [SerializeField] private GameObject _HurryUpIcon;
 
-    public InteractType InteactableType { get; set; }
+    public InteractType InteractableType { get; set; }
     public Color MyInteractionColor { get; private set; }
     public event Action OnPlayerEntered;
     public event Action OnPlayerExited;
@@ -34,7 +34,7 @@ public class FollowerGuestInteractionArea : MonoBehaviour, IInteractable
 
     public void SetUpInteractionArea(Color color, float rotationSpeed, bool clockwise = true)
     {
-        InteactableType = InteractType.TakeGuest;
+        InteractableType = InteractType.TakeGuest;
         MyInteractionColor = color;
         _areaImage.color = MyInteractionColor;
         _areaImage.gameObject.SetActive(true);

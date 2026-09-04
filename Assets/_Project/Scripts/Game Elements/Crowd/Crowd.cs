@@ -20,11 +20,11 @@ public class Crowd : MonoBehaviour
     public AudioClip TaskSuccessClip;
     public AudioSource MessageSource;
 
-    private bool IsReciverOrSender = false;
+    private bool IsReceiverOrSender = false;
     private readonly List<StaticGuest_Controller> _crowdMembers = new();
     private Coroutine _uiRotationCoroutine;
     private Vector2 _crowdMiddlePoint;
-    public event Action<Color> OnInteracionComplete;
+    public event Action<Color> OnInteractionComplete;
     public event Action<Color> OnTaskFailed;
 
     private Color _myColor;
@@ -32,7 +32,7 @@ public class Crowd : MonoBehaviour
     private readonly string _letterSpawnName = "AC_LetterSpawn";
     private readonly string _letterTaskFail = "AC_MessageFail";
     private readonly string _letterTaskGet = "AC_GetMessage";
-    private Crowd _myReciver;
+    private Crowd _myReceiver;
 
     #endregion
 
@@ -63,7 +63,7 @@ public class Crowd : MonoBehaviour
         _crowdInteractionArea.gameObject.SetActive(false);
         _crowdInteractionArea.IconController.gameObject.SetActive(false);
 
-        OnInteracionComplete?.Invoke(_myColor);
+        OnInteractionComplete?.Invoke(_myColor);
     }
 
     public void ResetCrowd()
@@ -94,8 +94,8 @@ public class Crowd : MonoBehaviour
         // --- FINE MODIFICHE ---
 
         _myColor = Color.clear;
-        IsReciverOrSender = false;
-        _myReciver = null;
+        IsReceiverOrSender = false;
+        _myReceiver = null;
 
         if (_crowdInteractionArea != null)
         {
@@ -155,19 +155,22 @@ public class Crowd : MonoBehaviour
             }
         }
 
-        _crowdMiddlePoint /= actualCrowd;
-        _crowdInteractionArea.transform.position = new Vector3(_crowdMiddlePoint.x, _crowdInteractionArea.transform.position.y, _crowdMiddlePoint.y);
+        if (actualCrowd > 0)
+        {
+            _crowdMiddlePoint /= actualCrowd;
+            _crowdInteractionArea.transform.position = new Vector3(_crowdMiddlePoint.x, _crowdInteractionArea.transform.position.y, _crowdMiddlePoint.y);
+        }
     }
 
-    public void EnableSender(Color CircleColor, Crowd myReciver)
+    public void EnableSender(Color CircleColor, Crowd myReceiver)
     {
         _cts = new CancellationTokenSource();
-        _myReciver = myReciver;
+        _myReceiver = myReceiver;
 
         _myAnimation.Play(_letterSpawnName);
 
         _crowdInteractionArea.gameObject.SetActive(true);
-        _crowdInteractionArea.SetUPInteractionArea(CircleColor, InteractType.MessageSender);
+        _crowdInteractionArea.SetUpInteractionArea(CircleColor, InteractType.MessageSender);
         _myColor = CircleColor;
 
         if (_uiRotationCoroutine != null)
@@ -198,7 +201,7 @@ public class Crowd : MonoBehaviour
         }
     }
 
-    public void EnableReciver(Color CircleColor)
+    public void EnableReceiver(Color CircleColor)
     {
         _crowdInteractionArea.gameObject.SetActive(false);
 
@@ -221,7 +224,7 @@ public class Crowd : MonoBehaviour
         }
         catch (OperationCanceledException)
         {
-
+            DevLog.Log("[Crowd] Message timer cancelled");
         }
     }
 
@@ -231,15 +234,15 @@ public class Crowd : MonoBehaviour
         _myAnimation.Play(_letterTaskFail);
 
         OnTaskFailed?.Invoke(_myColor);
-        _myReciver = null;
+        _myReceiver = null;
         StopInteraction();
     }
 
-    public void ActivateReciverIcon(Crowd Sender)
+    public void ActivateReceiverIcon(Crowd Sender)
     {
         _crowdInteractionArea.gameObject.SetActive(true);
 
-        _crowdInteractionArea.SetUPInteractionArea(_myColor, InteractType.MessageReciver);
+        _crowdInteractionArea.SetUpInteractionArea(_myColor, InteractType.MessageReceiver);
 
         if (_uiRotationCoroutine != null)
         {
@@ -248,7 +251,7 @@ public class Crowd : MonoBehaviour
         }
         _uiRotationCoroutine = StartCoroutine(_crowdInteractionArea.AreaImageRotate(_crowdSettings.RotationSpeed, _crowdSettings.Clockwise));
 
-        _crowdInteractionArea.IconController.SelectReciverIcon(Sender._crowdInteractionArea.IconController.iconIndex);
+        _crowdInteractionArea.IconController.SelectReceiverIcon(Sender._crowdInteractionArea.IconController.iconIndex);
         _myAnimation.Play(_letterSpawnName);
     }
 
@@ -260,7 +263,7 @@ public class Crowd : MonoBehaviour
 
         _crowdInteractionArea.gameObject.SetActive(false);
 
-        _myReciver.ActivateReciverIcon(this);
+        _myReceiver.ActivateReceiverIcon(this);
         foreach (var obj in _crowdMembers)
         {
             obj.StopHurry();

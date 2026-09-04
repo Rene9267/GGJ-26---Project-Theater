@@ -19,7 +19,7 @@ public class FollowerGuestExitArea : MonoBehaviour, IInteractable
     public event Action OnPlayerExited;
     public event Action<Color> OnStartInteract;
 
-    public InteractType InteactableType { get; set; }
+    public InteractType InteractableType { get; set; }
 
     public Color MyInteractionColor { get; private set; }
 
@@ -34,7 +34,7 @@ public class FollowerGuestExitArea : MonoBehaviour, IInteractable
         _directionIcon.ChangableImage.sprite = directionIcon;
         _areaIcon.ChangableImage.sprite = baseIcon;
 
-        InteactableType = InteractType.DrobGuest;
+        InteractableType = InteractType.DropGuest;
     }
 
     public void EnableDirectionIcon()

@@ -24,6 +24,7 @@ public class MessageController : MonoBehaviour
 
     //Ascoltato da GameContrller
     public event Action OnTaskFailed;
+    public event Action OnMessageDelivered;
 
     #endregion
 
@@ -80,7 +81,7 @@ public class MessageController : MonoBehaviour
 
         sender.EnableSender(circleColor, receiver);
 
-        receiver.EnableReciver(circleColor);
+        receiver.EnableReceiver(circleColor);
 
         _crowdLinks.Add(circleColor, new CrowdLink
         {
@@ -89,7 +90,7 @@ public class MessageController : MonoBehaviour
             CircleColor = circleColor
         });
 
-        receiver.OnInteracionComplete += HandleMessageTaskCompleted;
+        receiver.OnInteractionComplete += HandleMessageTaskCompleted;
         sender.OnTaskFailed += HandleMessageTaskFailed;
     }
 
@@ -99,7 +100,7 @@ public class MessageController : MonoBehaviour
         {
             var link = _crowdLinks[color];
             if (link.Receiver != null)
-                link.Receiver.OnInteracionComplete -= HandleMessageTaskCompleted;
+                link.Receiver.OnInteractionComplete -= HandleMessageTaskCompleted;
             if (link.Sender != null)
                 link.Sender.OnTaskFailed -= HandleMessageTaskFailed;
 
@@ -110,6 +111,8 @@ public class MessageController : MonoBehaviour
             if (!_availableCrowds.Contains(link.Sender)) _availableCrowds.Add(link.Sender);
             if (!_availableColors.Contains(link.CircleColor)) _availableColors.Add(link.CircleColor);
             _crowdLinks.Remove(color);
+
+            OnMessageDelivered?.Invoke();
         }
     }
 
@@ -126,7 +129,7 @@ public class MessageController : MonoBehaviour
         {
             if (link.Receiver != null)
             {
-                link.Receiver.OnInteracionComplete -= HandleMessageTaskCompleted;
+                link.Receiver.OnInteractionComplete -= HandleMessageTaskCompleted;
                 link.Receiver.ResetCrowd(); 
             }
 

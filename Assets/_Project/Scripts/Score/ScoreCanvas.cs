@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
@@ -48,6 +49,7 @@ public class ScoreCanvas : MonoBehaviour
     [SerializeField] private ScreenFade _screenFade;
 
     private SessionStats _currentStats;
+    private readonly Dictionary<TextMeshProUGUI, float> _baseFontSizes = new();
 
     public void Show(SessionStats stats)
     {
@@ -94,15 +96,15 @@ public class ScoreCanvas : MonoBehaviour
         );
 
         await AnimateWordReveal(_peopleGainedText, gainedWord);
-        await BumpScale(_peopleGainedText.rectTransform);
+        await BumpScale(_peopleGainedText);
         await UniTask.Delay(Mathf.RoundToInt(_textRevealDelay * 1000), DelayType.UnscaledDeltaTime);
 
         await AnimateWordReveal(_peopleLostText, lostWord);
-        await BumpScale(_peopleLostText.rectTransform);
+        await BumpScale(_peopleLostText);
         await UniTask.Delay(Mathf.RoundToInt(_textRevealDelay * 1000), DelayType.UnscaledDeltaTime);
 
         await AnimateWordReveal(_satisfactionText, satisfactionWord);
-        await BumpScale(_satisfactionText.rectTransform);
+        await BumpScale(_satisfactionText);
         await UniTask.Delay(Mathf.RoundToInt(_textRevealDelay * 1000), DelayType.UnscaledDeltaTime);
 
         await AnimateGrade(_finalVoteText, stats.Grade);
@@ -118,15 +120,18 @@ public class ScoreCanvas : MonoBehaviour
     {
         if (text == null) return;
 
-        text.text = "";
         text.gameObject.SetActive(true);
+        text.rectTransform.localScale = Vector3.one;
+        text.text = word;
+        text.ForceMeshUpdate();
 
+        float baseFontSize = GetBaseFontSize(text);
         float elapsed = 0f;
         float duration = _counterDuration * 0.5f;
         Color textColor = text.color;
         textColor.a = 0f;
         text.color = textColor;
-        text.rectTransform.localScale = Vector3.one * 0.5f;
+        text.fontSize = baseFontSize * 0.5f;
 
         while (elapsed < duration)
         {
@@ -134,14 +139,13 @@ public class ScoreCanvas : MonoBehaviour
             float t = Mathf.Clamp01(elapsed / duration);
             textColor.a = t;
             text.color = textColor;
-            text.rectTransform.localScale = Vector3.one * Mathf.Lerp(0.5f, 1f, t);
+            text.fontSize = baseFontSize * Mathf.Lerp(0.5f, 1f, t);
             await UniTask.Yield();
         }
 
         textColor.a = 1f;
         text.color = textColor;
-        text.rectTransform.localScale = Vector3.one;
-        text.text = word;
+        text.fontSize = baseFontSize;
     }
 
     private async UniTask AnimateGrade(TextMeshProUGUI text, string grade)
@@ -208,10 +212,11 @@ public class ScoreCanvas : MonoBehaviour
             _sfxSource.PlayOneShot(_panelDropClip);
     }
 
-    private async UniTask BumpScale(RectTransform rt)
+    private async UniTask BumpScale(TextMeshProUGUI text)
     {
-        if (rt == null) return;
+        if (text == null) return;
 
+        float baseFontSize = GetBaseFontSize(text);
         float half = _bumpDuration * 0.5f;
         float elapsed = 0f;
 
@@ -219,7 +224,7 @@ public class ScoreCanvas : MonoBehaviour
         {
             elapsed += Time.unscaledDeltaTime;
             float t = Mathf.Clamp01(elapsed / half);
-            rt.localScale = Vector3.one * Mathf.Lerp(1f, _bumpScale, t);
+            text.fontSize = baseFontSize * Mathf.Lerp(1f, _bumpScale, t);
             await UniTask.Yield();
         }
 
@@ -228,11 +233,11 @@ public class ScoreCanvas : MonoBehaviour
         {
             elapsed += Time.unscaledDeltaTime;
             float t = Mathf.Clamp01(elapsed / half);
-            rt.localScale = Vector3.one * Mathf.Lerp(_bumpScale, 1f, t);
+            text.fontSize = baseFontSize * Mathf.Lerp(_bumpScale, 1f, t);
             await UniTask.Yield();
         }
 
-        rt.localScale = Vector3.one;
+        text.fontSize = baseFontSize;
     }
 
     private async UniTask FadeInButton()
@@ -241,12 +246,32 @@ public class ScoreCanvas : MonoBehaviour
             await CanvasAnimator.FadeGraphic(_continueButtonText, 0f, 1f, _buttonFadeDuration, CanvasAnimator.Easing.EaseInOut);
     }
 
+    private float GetBaseFontSize(TextMeshProUGUI text)
+    {
+        if (!_baseFontSizes.TryGetValue(text, out float baseSize))
+        {
+            baseSize = text.fontSize;
+            _baseFontSizes[text] = baseSize;
+        }
+
+        return baseSize;
+    }
+
+    private void ResetTextVisual(TextMeshProUGUI text)
+    {
+        if (text == null) return;
+
+        text.rectTransform.localScale = Vector3.one;
+        if (_baseFontSizes.TryGetValue(text, out float baseSize))
+            text.fontSize = baseSize;
+    }
+
     private void ClearTexts()
     {
-        if (_peopleGainedText != null) { _peopleGainedText.text = ""; _peopleGainedText.gameObject.SetActive(false); }
-        if (_peopleLostText != null) { _peopleLostText.text = ""; _peopleLostText.gameObject.SetActive(false); }
-        if (_satisfactionText != null) { _satisfactionText.text = ""; _satisfactionText.gameObject.SetActive(false); }
-        if (_finalVoteText != null) { _finalVoteText.text = ""; _finalVoteText.gameObject.SetActive(false); }
+        if (_peopleGainedText != null) { ResetTextVisual(_peopleGainedText); _peopleGainedText.text = ""; _peopleGainedText.gameObject.SetActive(false); }
+        if (_peopleLostText != null) { ResetTextVisual(_peopleLostText); _peopleLostText.text = ""; _peopleLostText.gameObject.SetActive(false); }
+        if (_satisfactionText != null) { ResetTextVisual(_satisfactionText); _satisfactionText.text = ""; _satisfactionText.gameObject.SetActive(false); }
+        if (_finalVoteText != null) { ResetTextVisual(_finalVoteText); _finalVoteText.text = ""; _finalVoteText.gameObject.SetActive(false); }
     }
 
     private void OnEnable()

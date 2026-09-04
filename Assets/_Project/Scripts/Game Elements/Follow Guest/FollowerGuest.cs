@@ -95,7 +95,7 @@ public class FollowerGuest : MonoBehaviour
         }
         catch (OperationCanceledException)
         {
-
+            DevLog.Log("[FollowerGuest] Drop timer cancelled");
         }
     }
 

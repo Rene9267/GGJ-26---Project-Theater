@@ -4,7 +4,7 @@ using UnityEngine;
 public class LetterIcon_Controller : MonoBehaviour
 {
     [SerializeField] private List<GameObject> _messageSenderIcon;
-    [SerializeField] private List<GameObject> _messageReciverIcon;
+    [SerializeField] private List<GameObject> _messageReceiverIcon;
     public GameObject MyIcon { get; private set; }
 
     public int iconIndex = -1;
@@ -35,9 +35,9 @@ public class LetterIcon_Controller : MonoBehaviour
         }
     }
 
-    public void SelectReciverIcon(int index)
+    public void SelectReceiverIcon(int index)
     {
-        MyIcon = _messageReciverIcon[index];
+        MyIcon = _messageReceiverIcon[index];
         MyIcon.SetActive(true);
     }
 
@@ -50,10 +50,10 @@ public class LetterIcon_Controller : MonoBehaviour
             int randomIndex = Random.Range(0, _messageSenderIcon.Count);
             MyIcon = _messageSenderIcon[randomIndex];
         }
-        else if (type == InteractType.MessageReciver)
+        else if (type == InteractType.MessageReceiver)
         {
-            int randomIndex = Random.Range(0, _messageReciverIcon.Count);
-            MyIcon = _messageReciverIcon[randomIndex];
+            int randomIndex = Random.Range(0, _messageReceiverIcon.Count);
+            MyIcon = _messageReceiverIcon[randomIndex];
         }
 
         if (MyIcon != null) MyIcon.SetActive(true);
@@ -62,7 +62,7 @@ public class LetterIcon_Controller : MonoBehaviour
     public void HideAllIcons()
     {
         _messageSenderIcon.ForEach(x => x.SetActive(false));
-        _messageReciverIcon.ForEach(x => x.SetActive(false));
+        _messageReceiverIcon.ForEach(x => x.SetActive(false));
         MyIcon = null;
     }
 

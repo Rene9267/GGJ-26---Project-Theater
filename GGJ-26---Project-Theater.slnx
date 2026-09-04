@@ -1,6 +1,7 @@
 ﻿<Solution>
   <Project Path="Unity.AI.Sound.csproj" />
   <Project Path="Unity.Timeline.csproj" />
+  <Project Path="Unity.InputSystem.csproj" />
   <Project Path="Unity.AppUI.csproj" />
   <Project Path="Unity.Localization.csproj" />
   <Project Path="Unity.ScriptableBuildPipeline.Editor.csproj" />
@@ -23,7 +24,6 @@
   <Project Path="Unity.Burst.csproj" />
   <Project Path="Unity.InferenceEngine.Editor.Visualizer.csproj" />
   <Project Path="Unity.VisualStudio.Editor.csproj" />
-  <Project Path="Unity.InputSystem.csproj" />
   <Project Path="Unity.InferenceEngine.csproj" />
   <Project Path="Unity.AI.Mesh.csproj" />
   <Project Path="UniTask.csproj" />
@@ -41,6 +41,7 @@
   <Project Path="Unity.PerformanceTesting.csproj" />
   <Project Path="Unity.AI.ModelSelector.csproj" />
   <Project Path="Unity.AI.Animate.csproj" />
+  <Project Path="Unity.InputSystem.ForUI.csproj" />
   <Project Path="Unity.AI.Assistant.Tools.Editor.csproj" />
   <Project Path="Unity.InternalAPIEngineBridge.013.csproj" />
   <Project Path="Unity.TextMeshPro.csproj" />
@@ -68,7 +69,6 @@
   <Project Path="Unity.Multiplayer.Center.Common.csproj" />
   <Project Path="Unity.AI.Generators.UI.AIDropdownIntegrations.csproj" />
   <Project Path="Unity.AppUI.Navigation.csproj" />
-  <Project Path="Unity.InputSystem.ForUI.csproj" />
   <Project Path="Unity.AI.Generators.Asset.csproj" />
   <Project Path="Unity.AI.Toolkit.Asset.csproj" />
   <Project Path="Unity.Collections.CodeGen.csproj" />
@@ -86,6 +86,7 @@
   <Project Path="Unity.AI.Pbr.Srp.csproj" />
   <Project Path="Unity.Profiling.Core.csproj" />
   <Project Path="Unity.AppUI.Undo.csproj" />
+  <Project Path="Unity.InputSystem.ForUI.Editor.csproj" />
   <Project Path="Unity.AI.Toolkit.Async.csproj" />
   <Project Path="Unity.AI.Assistant.Bridge.Editor.csproj" />
   <Project Path="UniTask.Editor.csproj" />

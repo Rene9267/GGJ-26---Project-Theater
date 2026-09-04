@@ -24,12 +24,12 @@ public class SimpleCrowd : MonoBehaviour
     private readonly List<StaticGuest_Controller> _crowdMembers = new();
     private Coroutine _uiRotationCoroutine;
     private Vector2 _crowdMiddlePoint;
-    public event Action OnInteracionComplete; 
+    public event Action OnInteractionComplete; 
 
     private Color _myColor;
     private readonly string _letterSpawnName = "AC_LetterSpawn";
     private readonly string _letterTaskGet = "AC_GetMessage";
-    private SimpleCrowd _myReciver;
+    private SimpleCrowd _myReceiver;
 
     #endregion
 
@@ -81,13 +81,13 @@ public class SimpleCrowd : MonoBehaviour
         }
     }
 
-    public void EnableSender(Color circleColor, SimpleCrowd myReciver)
+    public void EnableSender(Color circleColor, SimpleCrowd myReceiver)
     {
-        _myReciver = myReciver;
+        _myReceiver = myReceiver;
         _myAnimation.Play(_letterSpawnName);
 
         _crowdInteractionArea.gameObject.SetActive(true);
-        _crowdInteractionArea.SetUPInteractionArea(circleColor, InteractType.MessageSender);
+        _crowdInteractionArea.SetUpInteractionArea(circleColor, InteractType.MessageSender);
         _myColor = circleColor;
 
         if (_uiRotationCoroutine != null) StopCoroutine(_uiRotationCoroutine);
@@ -103,10 +103,10 @@ public class SimpleCrowd : MonoBehaviour
         _myAnimation.Play(_letterTaskGet);
         _crowdInteractionArea.gameObject.SetActive(false); 
 
-        _myReciver.ActivateReciverIcon(this);
+        _myReceiver.ActivateReceiverIcon(this);
     }
 
-    public void EnableReciver(Color circleColor)
+    public void EnableReceiver(Color circleColor)
     {
         _crowdInteractionArea.gameObject.SetActive(false);
         _myColor = circleColor;
@@ -115,16 +115,16 @@ public class SimpleCrowd : MonoBehaviour
         _crowdInteractionArea.OnCompleteInteract += HandleInteraction;
     }
 
-    public void ActivateReciverIcon(SimpleCrowd sender)
+    public void ActivateReceiverIcon(SimpleCrowd sender)
     {
         _crowdInteractionArea.gameObject.SetActive(true);
 
-        _crowdInteractionArea.SetUPInteractionArea(_myColor, InteractType.MessageReciver);
+        _crowdInteractionArea.SetUpInteractionArea(_myColor, InteractType.MessageReceiver);
 
         if (_uiRotationCoroutine != null) StopCoroutine(_uiRotationCoroutine);
         _uiRotationCoroutine = StartCoroutine(_crowdInteractionArea.AreaImageRotate(_crowdSettings.RotationSpeed, _crowdSettings.Clockwise));
 
-        _crowdInteractionArea.IconController.SelectReciverIcon(sender._crowdInteractionArea.IconController.iconIndex);
+        _crowdInteractionArea.IconController.SelectReceiverIcon(sender._crowdInteractionArea.IconController.iconIndex);
         _myAnimation.Play(_letterSpawnName);
     }
 
@@ -136,7 +136,7 @@ public class SimpleCrowd : MonoBehaviour
         _crowdInteractionArea.gameObject.SetActive(false);
         _crowdInteractionArea.IconController.gameObject.SetActive(false);
 
-        OnInteracionComplete?.Invoke();
+        OnInteractionComplete?.Invoke();
     }
     
     #endregion

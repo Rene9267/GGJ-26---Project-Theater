@@ -50,9 +50,9 @@ public class BaseButton : MonoBehaviour
 
     public void PlayClickAudioClip()
     {
-        if (_audioSource == null || _hoverAudioClip == null)
+        if (_audioSource == null || _clickAudioClip == null)
         {
-            DevLog.LogWarning($"[{this}], Hover clip or audio Source is null", this);
+            DevLog.LogWarning($"[{this}], Click clip or audio Source is null", this);
             return;
         }
 

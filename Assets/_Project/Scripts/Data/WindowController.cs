@@ -1,6 +1,6 @@
 using UnityEngine;
 
-class WindowController : MonoBehaviour
+public class WindowController : MonoBehaviour
 {
     #region Unity Standard Methods
 

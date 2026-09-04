@@ -19,7 +19,7 @@ public class CandleInteractionArea : MonoBehaviour, IInteractable
 
     // ===== ==== =====
 
-    public InteractType InteactableType { get; private set; }
+    public InteractType InteractableType { get; private set; }
     public Color MyInteractionColor => Color.clear;
 
     #endregion
@@ -49,12 +49,12 @@ public class CandleInteractionArea : MonoBehaviour, IInteractable
 
     void Awake()
     {
-        InteactableType = InteractType.Candle;
+        InteractableType = InteractType.Candle;
     }
     
     public void SetUpInteractionArea()
     {
-        InteactableType = InteractType.Candle;
+        InteractableType = InteractType.Candle;
         _areaImage.gameObject.SetActive(true);
         _rotationCoroutine ??= StartCoroutine(AreaImageRotate(100, true));
         //_directionIcon.gameObject.SetActive(true);
