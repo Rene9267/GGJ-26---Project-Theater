@@ -15,10 +15,16 @@ public class ScoreCanvas : MonoBehaviour
     [SerializeField] private RectTransform _statPanel;
 
     [Header("Stat Texts")]
+    [SerializeField] private TextMeshProUGUI _peopleGainedLabel;
+    [SerializeField] private TextMeshProUGUI _peopleLostLabel;
+    [SerializeField] private TextMeshProUGUI _satisfactionLabel;
     [SerializeField] private TextMeshProUGUI _peopleGainedText;
     [SerializeField] private TextMeshProUGUI _peopleLostText;
     [SerializeField] private TextMeshProUGUI _satisfactionText;
     [SerializeField] private TextMeshProUGUI _finalVoteText;
+
+    private const float StatValueColumnGap = 16f;
+    private const float FallbackLabelColumnWidth = 320f;
 
     [Header("Continue Button")]
     [SerializeField] private Button _continueButton;
@@ -50,6 +56,12 @@ public class ScoreCanvas : MonoBehaviour
 
     private SessionStats _currentStats;
     private readonly Dictionary<TextMeshProUGUI, float> _baseFontSizes = new();
+
+    private void Awake()
+    {
+        PrepareStatTexts();
+        AlignStatValues();
+    }
 
     public void Show(SessionStats stats)
     {
@@ -94,6 +106,8 @@ public class ScoreCanvas : MonoBehaviour
             LocalizationService.GetLocalizedStringAsync(LocalizationService.MainTable, stats.LostWordKey),
             LocalizationService.GetLocalizedStringAsync(LocalizationService.MainTable, stats.GeneralSatisfactionWordKey)
         );
+
+        AlignStatValues();
 
         await AnimateWordReveal(_peopleGainedText, gainedWord);
         await BumpScale(_peopleGainedText);
@@ -301,6 +315,96 @@ public class ScoreCanvas : MonoBehaviour
         if (_peopleGainedText != null) _peopleGainedText.text = gained;
         if (_peopleLostText != null) _peopleLostText.text = lost;
         if (_satisfactionText != null) _satisfactionText.text = satisfaction;
+
+        AlignStatValues();
+    }
+
+    private void PrepareStatTexts()
+    {
+        foreach (var text in new[]
+        {
+            _peopleGainedLabel, _peopleLostLabel, _satisfactionLabel,
+            _peopleGainedText, _peopleLostText, _satisfactionText
+        })
+        {
+            if (text == null) continue;
+            text.textWrappingMode = TextWrappingModes.NoWrap;
+        }
+    }
+
+    private void AlignStatValues()
+    {
+        RectTransform parent = GetStatRowParent();
+        if (parent == null) return;
+
+        float parentWidth = parent.rect.width;
+
+        AlignStatRow(_peopleGainedLabel, _peopleGainedText, -25f, parentWidth);
+        AlignStatRow(_peopleLostLabel, _peopleLostText, -75f, parentWidth);
+        AlignStatRow(_satisfactionLabel, _satisfactionText, -125f, parentWidth);
+    }
+
+    private void AlignStatRow(TextMeshProUGUI label, TextMeshProUGUI value, float anchoredY, float parentWidth)
+    {
+        float labelWidth = MeasureLabelWidth(label);
+        float valueColumnX = labelWidth + StatValueColumnGap;
+        float valueColumnWidth = Mathf.Max(parentWidth - valueColumnX, 100f);
+
+        ConfigureLabelColumn(label, labelWidth, anchoredY);
+        ConfigureValueColumn(value, valueColumnX, valueColumnWidth, anchoredY);
+    }
+
+    private static float MeasureLabelWidth(TextMeshProUGUI label)
+    {
+        if (label == null) return FallbackLabelColumnWidth;
+
+        label.textWrappingMode = TextWrappingModes.NoWrap;
+        label.ForceMeshUpdate();
+        float width = label.GetPreferredValues(label.text, 10000f, 10000f).x;
+        return width > 0f ? width : FallbackLabelColumnWidth;
+    }
+
+    private RectTransform GetStatRowParent()
+    {
+        if (_peopleGainedLabel != null)
+            return _peopleGainedLabel.rectTransform.parent as RectTransform;
+
+        if (_peopleGainedText != null)
+            return _peopleGainedText.rectTransform.parent as RectTransform;
+
+        return null;
+    }
+
+    private static void ConfigureLabelColumn(TextMeshProUGUI label, float width, float anchoredY)
+    {
+        if (label == null) return;
+
+        RectTransform rect = label.rectTransform;
+        rect.pivot = new Vector2(0f, 0.5f);
+        rect.anchorMin = new Vector2(0f, 1f);
+        rect.anchorMax = new Vector2(0f, 1f);
+        rect.anchoredPosition = new Vector2(0f, anchoredY);
+        rect.sizeDelta = new Vector2(width, rect.sizeDelta.y);
+
+        Vector4 margin = label.margin;
+        margin.x = 0f;
+        label.margin = margin;
+    }
+
+    private static void ConfigureValueColumn(TextMeshProUGUI value, float columnX, float width, float anchoredY)
+    {
+        if (value == null) return;
+
+        RectTransform rect = value.rectTransform;
+        rect.pivot = new Vector2(0f, 0.5f);
+        rect.anchorMin = new Vector2(0f, 1f);
+        rect.anchorMax = new Vector2(0f, 1f);
+        rect.anchoredPosition = new Vector2(columnX, anchoredY);
+        rect.sizeDelta = new Vector2(width, rect.sizeDelta.y);
+
+        Vector4 margin = value.margin;
+        margin.x = 0f;
+        value.margin = margin;
     }
 
     public void Btn_ContinueToMenu()

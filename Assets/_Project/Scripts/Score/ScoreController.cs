@@ -101,12 +101,12 @@ public class ScoreController : MonoBehaviour
     private void OnMessageTaskFailed()
     {
         _failedMessageCount++;
-        if (_settings != null) _peopleLost += _settings.MessageFailTask;
+        if (_settings != null) _peopleLost += Mathf.Abs(_settings.MessageFailTask);
     }
 
     private void OnDarkRise()
     {
-        if (_settings != null) _peopleLost += _settings.DarkIsRising;
+        if (_settings != null) _peopleLost += Mathf.Abs(_settings.DarkIsRising);
     }
 
     private void OnCandleDarkStart(Candle candle)

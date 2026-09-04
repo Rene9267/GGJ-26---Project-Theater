@@ -323,7 +323,7 @@ public class GameController : MonoBehaviour
     {
         if (guestDroppedDount > 0)
         {
-            ChangeTotlaGuest(-guestDroppedDount);
+            ChangeTotlaGuest(guestDroppedDount);
         }
     }
 
@@ -333,7 +333,7 @@ public class GameController : MonoBehaviour
 
     private void HandleMessageFail()
     {
-        ChangeTotlaGuest(-_settings.MessageFailTask);
+        ChangeTotlaGuest(-Mathf.Abs(_settings.MessageFailTask));
     }
 
     private void HandlePlayerStun()
@@ -370,8 +370,9 @@ public class GameController : MonoBehaviour
         if (value != 0)
         {
             _remainingGuests += value;
+            _remainingGuests = Mathf.Max(0, _remainingGuests);
             _uiController.SetPeopleNumber(_remainingGuests);
-            DevLog.Log($"[{this.gameObject}]: Sto decrementando il valore degli spettatori di {value}, rimanenti: {_remainingGuests}");
+            DevLog.Log($"[{this.gameObject}]: Modifico gli spettatori di {value}, rimanenti: {_remainingGuests}");
             if (_remainingGuests <= 0)
             {
                 EndOpera();
@@ -381,8 +382,9 @@ public class GameController : MonoBehaviour
 
     void HandleDarkRise()
     {
-        ChangeTotlaGuest(-_settings.DarkIsRising);
-        DevLog.Log($"[{this.gameObject}]: Sto decrementando il valore degli spettatori di {_settings.DarkIsRising}, rimanenti: {_remainingGuests}");
+        int penalty = Mathf.Abs(_settings.DarkIsRising);
+        ChangeTotlaGuest(-penalty);
+        DevLog.Log($"[{this.gameObject}]: Sto decrementando il valore degli spettatori di {penalty}, rimanenti: {_remainingGuests}");
     }
 
     private void StopAllGameplay()
